@@ -2,16 +2,8 @@ import Vue from "vue";
 import App from "./App.vue";
 import VueAxios from "vue-axios";
 import axios from "axios";
-
 import routes from "./routes";
 import VueRouter from "vue-router";
-
-import { state as store_state, actions as store_actions } from "./store";
-
-const state = Vue.observable(store_state)
-const actions = Vue.observable(store_actions)
-const store = { state: state, actions: actions }
-
 Vue.use(VueRouter);
 const router = new VueRouter({
   routes
@@ -78,7 +70,7 @@ Vue.config.productionTip = false;
 const shared_data = {
   // username: localStorage.username,
   username: undefined,
-  // username: "hilla",
+  username: "hilla",
   login(username) {
     localStorage.setItem("username", username);
     this.username = username;
@@ -91,7 +83,7 @@ const shared_data = {
   }
 };
 console.log(shared_data);
-Vue.prototype.$store = store;
+// Vue.prototype.$root.store = shared_data;
 
 new Vue({
   router,
