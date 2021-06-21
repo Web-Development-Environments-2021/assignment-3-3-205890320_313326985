@@ -94,7 +94,7 @@ export default {
     async Login() {
       try {
         const response = await this.axios.post(
-          "https://localhost:3000/user/Login",
+          "https://localhost:3000/api/Login",
           {
             username: this.form.username,
             password: this.form.password

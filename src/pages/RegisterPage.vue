@@ -24,6 +24,32 @@
           Username alpha
         </b-form-invalid-feedback>
       </b-form-group>
+      <b-form-group
+        id="input-group-firstname"
+        label-cols-sm="3"
+        label="Firstname:"
+        label-for="firstname"
+      >
+        <b-form-input
+          id="firstname"
+          v-model="$v.form.firstname.$model"
+          type="text"
+          :state="validateState('firstname')"
+        ></b-form-input>
+      </b-form-group>
+      <b-form-group
+        id="input-group-lastname"
+        label-cols-sm="3"
+        label="Lastname:"
+        label-for="lastname"
+      >
+        <b-form-input
+          id="lastname"
+          v-model="$v.form.lastname.$model"
+          type="text"
+          :state="validateState('lastname')"
+        ></b-form-input>
+      </b-form-group>
 
       <b-form-group
         id="input-group-country"
@@ -136,8 +162,8 @@ export default {
     return {
       form: {
         username: "",
-        firstName: "",
-        lastName: "",
+        firstname: "",
+        lastname: "",
         country: null,
         password: "",
         confirmedPassword: "",
@@ -154,6 +180,12 @@ export default {
       username: {
         required,
         length: (u) => minLength(3)(u) && maxLength(8)(u),
+        alpha
+      },
+      firstname: {
+        alpha
+      },
+      lastname: {
         alpha
       },
       country: {
@@ -182,10 +214,15 @@ export default {
     async Register() {
       try {
         const response = await this.axios.post(
-          "https://test-for-3-2.herokuapp.com/user/Register",
+          "https://localhost:3000/api/Register",
           {
             username: this.form.username,
-            password: this.form.password
+            firstname: this.form.firstname,
+            lastname: this.form.lastname,
+            country: this.form.country,
+            password: this.form.password,
+            email: this.form.email,
+            image_url: this.form.image_url,
           }
         );
         this.$router.push("/login");
