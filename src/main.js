@@ -70,16 +70,27 @@ Vue.config.productionTip = false;
 const shared_data = {
   // username: localStorage.username,
   username: undefined,
-  // username: "hilla",
   login(username) {
     localStorage.setItem("username", username);
     this.username = username;
     console.log("login", this.username);
   },
-  logout() {
+  async logout() {
     console.log("logout");
-    localStorage.removeItem("username");
-    this.username = undefined;
+    // logout from Azure Server
+    try {
+      axios.defaults.withCredentials = true;
+      await axios.post(
+        "http://localhost:3000/logout",
+      );
+      axios.defaults.withCredentials = false;
+      localStorage.removeItem("username");
+      this.username = undefined;
+    }
+    catch (error) {
+    console.log("error in update log out")
+    console.log(error);
+    }
   }
 };
 console.log(shared_data);
