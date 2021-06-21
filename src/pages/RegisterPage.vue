@@ -36,6 +36,9 @@
           type="text"
           :state="validateState('firstname')"
         ></b-form-input>
+        <b-form-invalid-feedback v-if="!$v.form.firstname.alpha">
+          First name consists only of letters
+        </b-form-invalid-feedback>
       </b-form-group>
       <b-form-group
         id="input-group-lastname"
@@ -49,6 +52,9 @@
           type="text"
           :state="validateState('lastname')"
         ></b-form-input>
+         <b-form-invalid-feedback v-if="!$v.form.lastname.alpha">
+          Last name consists only of letters
+        </b-form-invalid-feedback>
       </b-form-group>
 
       <b-form-group
