@@ -22,11 +22,7 @@ const routes = [
     name: "search",
     component: () => import("./pages/SearchPage")
   },
-  {
-    path: "/leagueManage",
-    name: "leagueManage",
-    component: () => import("./pages/LeagueManagePage")
-  },
+
   {
     path: "/about",
     name: "about",
@@ -41,6 +37,11 @@ const routes = [
     path: "/favoriteMatches",
     name: "favoriteMatches",
     component: () => import("./pages/FavoriteMatchesPage")
+  },
+  {
+    path: "/UnionAgent/leagueManage",
+    name: "leagueManage",
+    component: () => import("./pages/UnionAgentPages/LeagueManagePage")
   },
   {
     path: "/addMatch",
