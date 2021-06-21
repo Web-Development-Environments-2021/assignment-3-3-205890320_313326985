@@ -1,16 +1,14 @@
 <template>
   <div class="match-preview">
-    <div :title="id" class="match-title">
-      <b>Match Id:</b> {{ id }}
+    <div :title="match_id" class="match-title">
+      <b>Match Id:</b> {{ match_id }}
     </div>
     <ul class="match-content">
-      <li> Local Team Name: {{ hostTeam }}</li>
-      <li> Visitor Team Name: {{ guestTeam }}</li>
-      <li> Venue Name: {{venueName}}</li>
       <li> Date And Time: {{ date_time }}</li>
+      <li> Local Team Name: {{ local_team_name }}</li>
+      <li> Visitor Team Name: {{ visitor_team_name }}</li>
+      <li> Venue Name: {{venue_name}}</li>
       <li> Referee Id: {{referee_id}}</li>
-      <li> Local Goals: {{localGoals}}</li>
-      <li> Visitor Goals: {{visitorGoals}}</li>
     </ul>
   </div>
 </template>
@@ -19,36 +17,28 @@
 export default {
   name: "MatchPreview",
   props: {
-      id: {
+      match_id: {
         type: Number,
-        required: true
-      },
-      hostTeam: {
-        type: String,
-        required: true
-      },
-      venueName: {
-        type: String,
-        required: true
-      },
-      guestTeam: {
-        type: String,
         required: true
       },
       date_time: {
         type: String,
         required: true
       },
-      referee_id: {
+      local_team_name: {
         type: String,
         required: true
       },
-      localGoals: {
-        type: Number,
+      visitor_team_name: {
+        type: String,
         required: true
       },
-      visitorGoals: {
-        type: Number,
+      venue_name: {
+        type: String,
+        required: true
+      },
+      referee_id: {
+        type: String,
         required: true
       }
   }, 

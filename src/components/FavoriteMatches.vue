@@ -2,20 +2,23 @@
   <div>
     <FutureMatchPreview
       v-for="m in futureMatches"
-      :id="m.id" 
-      :hostTeam="m.hostTeam" 
-      :guestTeam="m.guestTeam" 
-      :venueName="m.venueName" 
-      :date_time="m.date_time" 
-      :referee_id="m.referee_id"
-      :key="m.id"></FutureMatchPreview>
+        :match_id="m.match_id"
+        :date_time="m.date_time"
+        :local_team_id="m.local_team_id"
+        :local_team_name="m.local_team_name"
+        :visitor_team_id ="m.visitor_team_id"
+        :visitor_team_name ="m.visitor_team_name"
+        :venue_id ="m.venue_id"
+        :venue_name ="m.venue_name"
+        :referee_id ="m.referee_id"
+      :key="m.match_id"></FutureMatchPreview>
   </div>
 </template>
 
 <script>
 import FutureMatchPreview from "./FutureMatchPreview.vue";
 export default {
-  name: "FavoriteGames",
+  name: "FavoriteMatches",
   components: {
     FutureMatchPreview
   }, 
@@ -46,7 +49,7 @@ export default {
       console.log("response");
       try {
         const response = await this.axios.get(
-          "http://localhost:3000/api/users/favoriteMatches",
+          "http://localhost:3000/users/favoriteMatches",
         );
         const games = response.data.games;
         this.games = [];

@@ -4,9 +4,9 @@
       <b>Event Type:</b> {{ type }}
     </div>
     <ul class="matchEvent-content">
-      <li> Description: {{ description }}</li>
       <li> Date And Time Happend: {{ date_and_time_happend }}</li>
       <li> Minute: {{minute}}</li>
+      <li> Description: {{ description }}</li>
     </ul>
   </div>
 </template>
@@ -19,7 +19,7 @@ export default {
         type: String,
         required: true
       },
-      description: {
+      date_and_time_happend: {
         type: String,
         required: true
       },
@@ -27,10 +27,11 @@ export default {
         type: Number,
         required: true
       },
-      date_and_time_happend: {
+      description: {
         type: String,
         required: true
       }
+      
   }, 
   mounted(){
     console.log("match event preview mounted")
