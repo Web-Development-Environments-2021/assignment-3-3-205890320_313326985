@@ -1,5 +1,6 @@
 <template>
-  <div class="match-preview">
+<div class="match-preview">
+  <div class="pastMatch-preview">
     <div :title="match_id" class="match-title">
       <b>Match Id:</b> {{ match_id }}
     </div>
@@ -11,12 +12,25 @@
       <li> Referee Id: {{referee_id}}</li>
     </ul>
   </div>
+  <div class="matchEvent-preview">
+    <div :title="type" class="matchEvent-title">
+      <b>Event Type:</b> {{ type }}
+    </div>
+    <ul class="matchEvent-content">
+      <li> Date And Time Happend: {{ date_and_time_happend }}</li>
+      <li> Minute: {{minute}}</li>
+      <li> Description: {{ description }}</li>
+    </ul>
+  </div>
+</div>
+  
 </template>
 
 <script>
 export default {
   name: "MatchPreview",
   props: {
+    
       match_id: {
         type: Number,
         required: true
@@ -38,6 +52,24 @@ export default {
         required: true
       },
       referee_id: {
+        type: String,
+        required: true
+      },
+
+
+       type: {
+        type: String,
+        required: true
+      },
+      date_and_time_happend: {
+        type: String,
+        required: true
+      },
+      minute: {
+        type: Number,
+        required: true
+      },
+      description: {
         type: String,
         required: true
       }
