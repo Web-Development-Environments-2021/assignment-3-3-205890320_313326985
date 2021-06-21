@@ -30,7 +30,7 @@
             User
           </template>
           <b-dropdown-item href="#/favoriteMatches">Favorites</b-dropdown-item>
-          <b-dropdown-item href="#">Log Out</b-dropdown-item>
+          <b-dropdown-item href="#" @click="Logout()">Log Out</b-dropdown-item>
         </b-nav-item-dropdown>
 
         </b-navbar-nav>
