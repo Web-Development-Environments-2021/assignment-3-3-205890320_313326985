@@ -43,6 +43,26 @@ const routes = [
     component: () => import("./pages/FavoriteMatchesPage")
   },
   {
+    path: "/addMatch",
+    name: "addMatch",
+    component: () => import("./pages/UnionAgentPages/AddMatchesPage")
+  },
+  {
+    path: "/addEventsLog",
+    name: "addEventsLog",
+    component: () => import("./pages/UnionAgentPages/AddEventsLogPage")
+  },
+  {
+    path: "/updateMatchResults",
+    name: "updateMatchResults",
+    component: () => import("./pages/UnionAgentPages/UpdateMatchResultsPage")
+  },
+  {
+    path: "/updateMatchReferee",
+    name: "updateMatchReferee",
+    component: () => import("./pages/UnionAgentPages/UpdateMatchRefereePage")
+  },
+  {
     path: "*",
     name: "notFound",
     component: NotFound

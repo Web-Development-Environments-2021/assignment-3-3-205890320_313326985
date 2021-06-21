@@ -17,11 +17,22 @@
         <b-navbar-nav class="ml-auto" v-else>
         <b-nav-item-dropdown right>
           <template #button-content>
+            UnionAgent
+          </template>
+          <b-dropdown-item href="#/addMatch">Add new match</b-dropdown-item>
+          <b-dropdown-item href="#/addEventsLog">Add Events-Log to match</b-dropdown-item>
+          <b-dropdown-item href="#/updateMatchResults">Update match results </b-dropdown-item>
+          <b-dropdown-item href="#/updateMatchReferee">Update match referee</b-dropdown-item>
+        </b-nav-item-dropdown>
+
+        <b-nav-item-dropdown right>
+          <template #button-content>
             User
           </template>
           <b-dropdown-item href="#/favoriteMatches">Favorites</b-dropdown-item>
           <b-dropdown-item href="#">Log Out</b-dropdown-item>
         </b-nav-item-dropdown>
+
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
