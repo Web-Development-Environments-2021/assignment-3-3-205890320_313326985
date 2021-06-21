@@ -1,14 +1,14 @@
 <template>
   <div>
     <FutureMatchPreview
-      v-for="m in futureMatches"
+      v-for="m in matches"
         :match_id="m.match_id"
         :date_time="m.date_time"
         :local_team_id="m.local_team_id"
         :local_team_name="m.local_team_name"
-        :visitor_team_id ="m.visitor_team_id"
+        :visitor_team_id="m.visitor_team_id"
         :visitor_team_name ="m.visitor_team_name"
-        :venue_id ="m.venue_id"
+        :venue_id="m.venue_id"
         :venue_name ="m.venue_name"
         :referee_id ="m.referee_id"
       :key="m.match_id"></FutureMatchPreview>
@@ -24,24 +24,7 @@ export default {
   }, 
   data() {
     return {
-      futureMatches: [
-      //   {
-      //     id:25,
-      //     hostTeam: "Maccabi Tel-Aviv",
-      //     guestTeam: "Hapoel Beer-Sheva",
-      //     venueName:"Teddy",
-      //     date_time: "27/5/21 20:00",
-      //     referee_id: "3"
-      //   },
-      //   {
-      //     id:39,
-      //     hostTeam: "Hapoel Tel-Aviv",
-      //     guestTeam: "Maccabi Haifa",
-      //     venueName:"Sammy Ofer",
-      //     date_time: "29/5/21 19:00",
-      //     referee_id: "2"
-      //   }
-      ]
+      matches:[]
     };
   },
   methods: {
@@ -49,14 +32,13 @@ export default {
       console.log("response");
       try {
         this.axios.defaults.withCredentials = true;
-        const response = await this.axios.get(
+        const futureMatches = await this.axios.get(
           "http://localhost:3000/users/favoriteMatches",
         );
-        // const matches = response.data.matches;
+        this.axios.defaults.withCredentials = false;
         this.matches = [];
-        // this.futureMatches.push(...matches);
-        this.futureMatches.push(...response);
-        console.log(response);
+        this.matches.push(...futureMatches.data);
+        console.log(futureMatches.status);
       } catch (error) {
         console.log("error in update favorite matches")
         console.log(error);
@@ -65,7 +47,7 @@ export default {
   }, 
   mounted(){
     console.log("favorite games mounted");
-    this.response = this.updateFavoriteMatches(); 
+    this.updateFavoriteMatches(); 
   }
 };
 </script>

@@ -5,8 +5,11 @@
     </div>
     <ul class="match-content">
       <li> Date And Time: {{ date_time }}</li>
+      <li> Local Team Id: {{ local_team_id }}</li>
       <li> Local Team Name: {{ local_team_name }}</li>
+      <li> Visitor Team Id: {{ visitor_team_id }}</li>
       <li> Visitor Team Name: {{ visitor_team_name }}</li>
+      <li> Venue Id: {{venue_id}}</li>
       <li> Venue Name: {{venue_name}}</li>
       <li> Referee Id: {{referee_id}}</li>
     </ul>
@@ -15,7 +18,7 @@
 
 <script>
 export default {
-  name: "MatchPreview",
+  name: "FutureMatchPreview",
   props: {
       match_id: {
         type: Number,
@@ -25,12 +28,24 @@ export default {
         type: String,
         required: true
       },
+      local_team_id: {
+        type: Number,
+        required: true
+      },
       local_team_name: {
         type: String,
         required: true
       },
+      visitor_team_id: {
+        type: Number,
+        required: true
+      },
       visitor_team_name: {
         type: String,
+        required: true
+      },
+      venue_id: {
+        type: Number,
         required: true
       },
       venue_name: {
@@ -38,7 +53,7 @@ export default {
         required: true
       },
       referee_id: {
-        type: String,
+        type: Number,
         required: true
       }
   }, 
