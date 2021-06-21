@@ -6,6 +6,9 @@
         <b-navbar-nav>
 
         <b-nav-item :to="{ name: 'search' }">Search</b-nav-item>
+        <b-nav-item :to="{ name: 'about' }">About</b-nav-item>
+        <b-nav-item :to="{ name: 'seasonMatches' }">Season's Matches</b-nav-item>
+        <b-nav-item :to="{ name: 'leagueManage' }">League Management</b-nav-item>
         </b-navbar-nav>
         <b-navbar-nav class="ml-auto" v-if="!$root.store.username">
           <b-nav-item :to="{ name: 'login' }">Login</b-nav-item>
@@ -16,7 +19,7 @@
           <template #button-content>
             User
           </template>
-          <b-dropdown-item href="#">Favorites</b-dropdown-item>
+          <b-dropdown-item href="#/favoriteMatches">Favorites</b-dropdown-item>
           <b-dropdown-item href="#">Log Out</b-dropdown-item>
         </b-nav-item-dropdown>
         </b-navbar-nav>

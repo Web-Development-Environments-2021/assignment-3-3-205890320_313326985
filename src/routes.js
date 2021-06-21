@@ -23,6 +23,26 @@ const routes = [
     component: () => import("./pages/SearchPage")
   },
   {
+    path: "/leagueManage",
+    name: "leagueManage",
+    component: () => import("./pages/LeagueManagePage")
+  },
+  {
+    path: "/about",
+    name: "about",
+    component: () => import("./pages/AboutPage")
+  },
+  {
+    path: "/seasonMatches",
+    name: "seasonMatches",
+    component: () => import("./pages/SeasonMatchesPage")
+  },
+  {
+    path: "/favoriteMatches",
+    name: "favoriteMatches",
+    component: () => import("./pages/FavoriteMatchesPage")
+  },
+  {
     path: "*",
     name: "notFound",
     component: NotFound
