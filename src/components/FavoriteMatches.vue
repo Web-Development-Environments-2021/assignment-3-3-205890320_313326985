@@ -40,7 +40,6 @@ export default {
         // console.log(futureMatches.data)
         this.matches = [];
         this.matches.push(...(futureMatches.data));
-        // console.log(futureMatches.status);
       } catch (error) {
         console.log("error in update favorite matches")
         console.log(error);
