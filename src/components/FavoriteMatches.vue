@@ -25,22 +25,22 @@ export default {
   data() {
     return {
       futureMatches: [
-        {
-          id:25,
-          hostTeam: "Maccabi Tel-Aviv",
-          guestTeam: "Hapoel Beer-Sheva",
-          venueName:"Teddy",
-          date_time: "27/5/21 20:00",
-          referee_id: "3"
-        },
-        {
-          id:39,
-          hostTeam: "Hapoel Tel-Aviv",
-          guestTeam: "Maccabi Haifa",
-          venueName:"Sammy Ofer",
-          date_time: "29/5/21 19:00",
-          referee_id: "2"
-        }
+      //   {
+      //     id:25,
+      //     hostTeam: "Maccabi Tel-Aviv",
+      //     guestTeam: "Hapoel Beer-Sheva",
+      //     venueName:"Teddy",
+      //     date_time: "27/5/21 20:00",
+      //     referee_id: "3"
+      //   },
+      //   {
+      //     id:39,
+      //     hostTeam: "Hapoel Tel-Aviv",
+      //     guestTeam: "Maccabi Haifa",
+      //     venueName:"Sammy Ofer",
+      //     date_time: "29/5/21 19:00",
+      //     referee_id: "2"
+      //   }
       ]
     };
   },
@@ -48,12 +48,14 @@ export default {
     async updateFavoriteMatches(){
       console.log("response");
       try {
+        this.axios.defaults.withCredentials = true;
         const response = await this.axios.get(
           "http://localhost:3000/users/favoriteMatches",
         );
-        const games = response.data.games;
-        this.games = [];
-        this.games.push(...games);
+        // const matches = response.data.matches;
+        this.matches = [];
+        // this.futureMatches.push(...matches);
+        this.futureMatches.push(...response);
         console.log(response);
       } catch (error) {
         console.log("error in update favorite matches")
@@ -63,7 +65,7 @@ export default {
   }, 
   mounted(){
     console.log("favorite games mounted");
-    this.updateFavoriteGames(); 
+    this.response = this.updateFavoriteMatches(); 
   }
 };
 </script>
