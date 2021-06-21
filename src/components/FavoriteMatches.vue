@@ -2,16 +2,16 @@
   <div>
     <FutureMatchPreview
       v-for="m in matches"
-        :match_id="m.match_id"
-        :date_time="m.date_time"
-        :local_team_id="m.local_team_id"
-        :local_team_name="m.local_team_name"
-        :visitor_team_id="m.visitor_team_id"
-        :visitor_team_name ="m.visitor_team_name"
-        :venue_id="m.venue_id"
-        :venue_name ="m.venue_name"
-        :referee_id ="m.referee_id"
-      :key="m.match_id"></FutureMatchPreview>
+        :match_id="m[0].match_id"
+        :date_time="(m[0].date_time.replace('T',' ').replace('Z',' ')).substr(0,19)" 
+        :local_team_id="m[0].local_team_id"
+        :local_team_name="m[0].local_team_name"
+        :visitor_team_id="m[0].visitor_team_id"
+        :visitor_team_name ="m[0].visitor_team_name"
+        :venue_id="m[0].venue_id"
+        :venue_name ="m[0].venue_name"
+        :referee_id ="m[0].referee_id"
+      :key="m[0].match_id"></FutureMatchPreview>
   </div>
 </template>
 
@@ -36,8 +36,10 @@ export default {
           "http://localhost:3000/users/favoriteMatches",
         );
         this.axios.defaults.withCredentials = false;
+        console.log(futureMatches)
+        console.log((futureMatches.data)[0])
         this.matches = [];
-        this.matches.push(...futureMatches.data);
+        this.matches.push(...(futureMatches.data));
         console.log(futureMatches.status);
       } catch (error) {
         console.log("error in update favorite matches")
