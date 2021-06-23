@@ -1,6 +1,6 @@
 <template>
   <div>
-    <FutureMatchPreview
+    <future-match-preview
       v-for="m in matches"
         :match_id="m[0].match_id"
         :date_time="(m[0].date_time.replace('T',' ').replace('Z',' ')).substr(0,19)" 
@@ -11,7 +11,7 @@
         :venue_id="m[0].venue_id"
         :venue_name ="m[0].venue_name"
         :referee_id ="m[0].referee_id"
-      :key="m[0].match_id"></FutureMatchPreview>
+      :key="m[0].match_id"></future-match-preview>
   </div>
 </template>
 
