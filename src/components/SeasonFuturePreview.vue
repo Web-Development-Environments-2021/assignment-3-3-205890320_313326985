@@ -4,8 +4,8 @@
     <table class="table table-striped table-hover">
       <thead>
         <tr>
-          <th scope="col">#id </th>
-          <th scope="col">Date </th>
+          <th scope="col">#MatchId </th>
+          <th scope="col">Date</th>
           <th scope="col">Time</th>
           <th scope="col">Local Team </th>
           <th scope="col">Visitor Team </th>
@@ -13,6 +13,11 @@
           <th scope="col">Referee</th>
           <th scope="col">Local Goals</th>
           <th scope="col">Visitor Goals</th>
+          <th scope="col">#EventId </th>
+          <th scope="col">Time Happend</th>
+          <th scope="col">Minute</th>
+          <th scope="col">Type</th>
+          <th scope="col">Description</th>
           <th scope="col"></th>
           <th scope="col"></th>
           <th scope="col"></th>

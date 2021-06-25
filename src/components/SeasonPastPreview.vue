@@ -29,7 +29,7 @@
           <td> {{match.referee_id}} </td>
           <td> {{match.home_goals}} </td>
           <td> {{match.away_goals}} </td>
-          <td> <button :disabled="disableEvents(match.match_id)" type="button" class="btn btn-outline-secondary btn-sm">add to favorites</button> </td>
+          <td> <button :disabled="FavorMatch(match.match_id)" type="button" class="btn btn-outline-secondary btn-sm">add to favorites</button> </td>
         </tr>
 
       </tbody>
@@ -54,12 +54,12 @@ export default {
     }
   },
   methods: {
-    async sortBy(sort_type){
+    async updateMatches(){
       console.log("response");
       try {
         this.axios.defaults.withCredentials = true;
         const response = await this.axios.get(
-          "http://localhost:3000/UnionAgent", {params:{sort: sort_type}}
+          "http://localhost:3000/matches/pastMatches",
         );
         this.axios.defaults.withCredentials = false;
         const matches = response.data
@@ -72,7 +72,7 @@ export default {
         console.log(error);
       }
     },
-    async disableEvents(match_id){
+    async FavorMatch(match_id){
       if(this.matchesEvents.find((element) => element.match_id == match_id)){
         return false;
       }
@@ -83,8 +83,9 @@ export default {
 
 
   },
-  mounted(){
-    console.log("matches preview mounted")
+  async mounted(){
+    console.log("past matches preview mounted");
+    await updateMatches();
   }
 
 };

@@ -3,10 +3,14 @@
     <h1 class="title">Season Matches</h1>
     <login-page v-if="!$root.store.username"></login-page>
     <div class="season-matches" v-else>
-        <div class="match-prev">
+      <button id="toggle" @click="display_flag=!display_flag">
+      </button>
+        <div id="future" class="match-prev" v-if="display_flag">
+          <h2> Future Matches </h2>
         <season-future-preview></season-future-preview >
         </div>
-        <div class="match-prev">
+        <div id="past" class="match-prev" v-if="!display_flag">
+          <h2> Past Matches </h2>
         <season-past-preview></season-past-preview >
         </div>
     </div>
@@ -23,6 +27,11 @@ export default {
         SeasonPastPreview,
         SeasonFuturePreview,
         LoginPage
+    },
+    data(){
+      return{
+        display_flag:true
+      }
     }
 };
 </script>
