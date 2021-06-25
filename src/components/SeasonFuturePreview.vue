@@ -4,20 +4,13 @@
     <table class="table table-striped table-hover">
       <thead>
         <tr>
-          <th scope="col">#MatchId </th>
-          <th scope="col">Date</th>
+          <th scope="col">#id </th>
+          <th scope="col">Date </th>
           <th scope="col">Time</th>
           <th scope="col">Local Team </th>
           <th scope="col">Visitor Team </th>
           <th scope="col">Venue</th>
           <th scope="col">Referee</th>
-          <th scope="col">Local Goals</th>
-          <th scope="col">Visitor Goals</th>
-          <th scope="col">#EventId </th>
-          <th scope="col">Time Happend</th>
-          <th scope="col">Minute</th>
-          <th scope="col">Type</th>
-          <th scope="col">Description</th>
           <th scope="col"></th>
           <th scope="col"></th>
           <th scope="col"></th>
@@ -32,9 +25,7 @@
           <td> {{match.visitor_team_name}} </td>
           <td> {{match.venue_name}} </td>
           <td> {{match.referee_id}} </td>
-          <td> {{match.home_goals}} </td>
-          <td> {{match.away_goals}} </td>
-          <td> <button :disabled="disableEvents(match.match_id)" type="button" class="btn btn-outline-secondary btn-sm">add to favorites</button> </td>
+          <!-- <td> <button :disabled="FavorMatch(match.match_id)" type="button" class="btn btn-outline-secondary btn-sm">add to favorites</button> </td> -->
         </tr>
 
       </tbody>
@@ -48,23 +39,15 @@ export default {
     leagueMatches: {
       type: Array,
       required: true
-    },
-    matchesResults:{
-      type: Array,
-      required: true
-    },
-    matchesEvents:{
-      type: Array,
-      required: true
     }
   },
   methods: {
-    async sortBy(sort_type){
+    async updateMatches(){
       console.log("response");
       try {
         this.axios.defaults.withCredentials = true;
         const response = await this.axios.get(
-          "http://localhost:3000/UnionAgent", {params:{sort: sort_type}}
+          "http://localhost:3000/matches/futureMatches"
         );
         this.axios.defaults.withCredentials = false;
         const matches = response.data
@@ -77,7 +60,7 @@ export default {
         console.log(error);
       }
     },
-    async disableEvents(match_id){
+    async FavorMatch(match_id){
       if(this.matchesEvents.find((element) => element.match_id == match_id)){
         return false;
       }
@@ -88,8 +71,9 @@ export default {
 
 
   },
-  mounted(){
-    console.log("matches preview mounted")
+  async mounted(){
+    console.log("past matches preview mounted");
+    await this.updateMatches();
   }
 
 };
