@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <h1 class="title">Favorite Matches Page</h1>
-    <LoginPage v-if="!$root.store.username"></LoginPage>
-    <FavoriteMatches v-else></FavoriteMatches>
+    <login-page v-if="!$root.store.username"></login-page>
+    <favorite-matches v-else></favorite-matches>
   </div>
 </template>
 
