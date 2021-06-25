@@ -43,10 +43,14 @@ Vue.use(Vuelidate);
 axios.interceptors.request.use(
   function(config) {
     // Do something before request is sent
+    console.log("a")
+
     return config;
   },
   function(error) {
     // Do something with request error
+    console.log("b")
+
     return Promise.reject(error);
   }
 );
@@ -54,11 +58,14 @@ axios.interceptors.request.use(
 // Add a response interceptor
 axios.interceptors.response.use(
   function(response) {
+    console.log("c")
     // Do something with response data
     return response;
   },
   function(error) {
     // Do something with response error
+    console.log("d")
+
     return Promise.reject(error);
   }
 );

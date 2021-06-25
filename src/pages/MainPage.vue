@@ -2,10 +2,11 @@
   <div class="container">
     <h1 class="title">Main Page</h1>
     <div class="login">
-    <LoginPage v-if="!$root.store.username"></LoginPage>
+    <login-page v-if="!$root.store.username"></login-page>
     </div>
     <div>
-    <LeagueInfo v-if="$root.store.username"></LeagueInfo>
+    <league-info></league-info>
+    <!-- <LeagueInfo v-if="$root.store.username"></LeagueInfo> -->
     </div>
   </div>
 </template>
@@ -22,9 +23,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.RandomRecipes {
-  margin: 10px 0 10px;
-}
 .login{
   float: right;
 }
@@ -32,7 +30,7 @@ export default {
   -webkit-filter: blur(5px); /* Safari 6.0 - 9.0 */
   filter: blur(2px);
 }
-::v-deep .blur .recipe-preview {
+::v-deep .blur{
   pointer-events: none;
   cursor: default;
 }

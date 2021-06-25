@@ -67,7 +67,7 @@ export default {
 .match-preview {
   display: inline-block;
   width: 250px;
-  height: 200px;
+  height: 300px;
   position: relative;
   margin: 10px 10px;
   border-style: solid;

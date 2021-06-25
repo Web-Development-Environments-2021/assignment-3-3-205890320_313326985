@@ -1,7 +1,7 @@
 <template>
 <div>
-  <div class="matches-preview">
-  <favorite-matches-for-league-info v-bind = matches></favorite-matches-for-league-info>
+  <div class="matches-preview" v-if="$root.store.username">
+  <favorite-matches-for-league-info></favorite-matches-for-league-info>
   </div>
     <div class="league-preview">
       <b-card
@@ -15,9 +15,25 @@
         Season: {{ season }}
         <br/>
         Stage: {{ stage }}
+        <br/>
       </b-card-text>
-      <b-button href="#" variant="primary">Go somewhere</b-button>
     </b-card>
+    </div>
+    <div class="next-match-preview">
+    <div class="next-match-title">
+      <b>Next match planned:</b>
+    </div>
+    <ul class="next-match-content">
+      <li> Match Id: {{next_match_planned.match_id}}</li>
+      <li> Date And Time: {{ next_match_planned.date_time }}</li>
+      <li> Local Team Id: {{ next_match_planned.local_team_id }}</li>
+      <li> Local Team Name: {{ next_match_planned.local_team_name }}</li>
+      <li> Visitor Team Id: {{ next_match_planned.visitor_team_id }}</li>
+      <li> Visitor Team Name: {{ next_match_planned.visitor_team_name }}</li>
+      <li> Venue Id: {{next_match_planned.venue_id}}</li>
+      <li> Venue Name: {{next_match_planned.venue_name}}</li>
+      <li> Referee Id: {{next_match_planned.referee_id}}</li>
+    </ul>
     </div>
 </div>
 </template>
@@ -29,6 +45,11 @@ export default {
  components: {
     FavoriteMatchesForLeagueInfo
  },
+ async mounted(){
+    console.log("mounted");
+    await this.updateLeagueDetailsAndNextMatchPlanned(); 
+    console.log("league details updated");
+ },
  data() {
     return {
       leagueName:this.leagueName , 
@@ -39,7 +60,6 @@ export default {
   },
   methods: {
     async updateLeagueDetailsAndNextMatchPlanned(){
-      console.log("response");
       try {
         this.axios.defaults.withCredentials = true;
         const response = await this.axios.get(
@@ -47,33 +67,22 @@ export default {
         );
         this.axios.defaults.withCredentials = false;
 
-        console.log(response.data.leaguePreview);
-        console.log(response.data.leaguePreview.next_match_planned);
-        console.log(response.data.favoriteMatches);
-        
         const leagueDetails = response.data.leaguePreview;
         const NextMatchPlanned = leagueDetails.next_match_planned;
-        const favoriteMatchesPreview = response.data.favoriteMatches;
-
-        this.matches = [];
-        this.matches.push(favoriteMatchesPreview)
 
         this.leagueName = leagueDetails.league_name;
         this.season = leagueDetails.current_season_name;
-        this.stage = leagueDetails.current_stage_name;
+        this.stage = leagueDetails.current_stage_name || "None";
 
-        this.next_match_planned = NextMatchPlanned
+        this.next_match_planned = NextMatchPlanned || "No future matches"
 
       } catch (error) {
         console.log("error in update league info")
         console.log(error);
       }
     }
-  }, 
-  mounted(){
-    console.log("favorite games mounted");
-    this.updateLeagueDetailsAndNextMatchPlanned(); 
   }
+  
 }
 </script>
 
@@ -105,5 +114,29 @@ export default {
   width: 100%;
   overflow: hidden;
 }
+
+.next-match-preview {
+  display: inline-block;
+  width: 250px;
+  height: 300px;
+  position: relative;
+  margin: 10px 10px;
+  border-style: solid;
+  border-radius: 10px;
+  border-width: 5px;
+  border-color:cadetblue;
+}
+
+.next-match-preview .next-match-title {
+  text-align: center;
+  text-transform: uppercase;
+  color:  rgb(80, 11, 230);
+}
+
+.next-match-preview .next-match-content {
+  width: 100%;
+  overflow: hidden;
+}
+
 
 </style>
