@@ -1,8 +1,12 @@
 <template>
   <div class="container">
     <h1 class="title">Main Page</h1>
+    <div class="login">
     <LoginPage v-if="!$root.store.username"></LoginPage>
-    <LeagueInfo v-else></LeagueInfo>
+    </div>
+    <div>
+    <LeagueInfo v-if="$root.store.username"></LeagueInfo>
+    </div>
   </div>
 </template>
 
@@ -20,6 +24,9 @@ export default {
 <style lang="scss" scoped>
 .RandomRecipes {
   margin: 10px 0 10px;
+}
+.login{
+  float: right;
 }
 .blur {
   -webkit-filter: blur(5px); /* Safari 6.0 - 9.0 */

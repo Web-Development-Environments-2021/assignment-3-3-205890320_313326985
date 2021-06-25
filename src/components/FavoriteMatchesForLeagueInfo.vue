@@ -19,7 +19,7 @@
 <script>
 import FutureMatchPreview from "./FutureMatchPreview.vue";
 export default {
-  name: "FavoriteMatches",
+  name: "FavoriteMatchesForLeagueInfo",
   components: {
     FutureMatchPreview
   }, 
@@ -29,27 +29,29 @@ export default {
     };
   },
   methods: {
-    async updateFavoriteMatches(){
+    async updateFavoriteMatchesforLeagueInfo(){
       console.log("response");
       try {
         this.axios.defaults.withCredentials = true;
-        const futureMatches = await this.axios.get(
-          "http://localhost:3000/users/favoriteMatches",
+        const response = await this.axios.get(
+          "http://localhost:3000/league/getDetails",
         );
         this.axios.defaults.withCredentials = false;
-        console.log(futureMatches)
-        // console.log(futureMatches.data)
+        
+        const favoriteMatchesPreview = response.data.favoriteMatches;
+
         this.matches = [];
-        this.matches.push(...(futureMatches.data));
+        this.matches.push(...favoriteMatchesPreview)
+
       } catch (error) {
-        console.log("error in update favorite matches")
+        console.log("error in update favorite matches for league info")
         console.log(error);
       }
     }
   }, 
   mounted(){
     console.log("favorite games mounted");
-    this.updateFavoriteMatches(); 
+    this.updateFavoriteMatchesforLeagueInfo(); 
   }
 };
 </script>
