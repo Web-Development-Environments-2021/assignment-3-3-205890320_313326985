@@ -3,7 +3,8 @@
     <h1 class="title">Season Matches</h1>
     <login-page v-if="!$root.store.username"></login-page>
     <div class="season-matches" v-else>
-      <button id="toggle" @click="display_flag=!display_flag">
+      <button class="btn  btn-lg btn-dark btn-outline-info" data-toggle="button" @click="display_flag=!display_flag">
+        Change Matches Table Between Past & Future
       </button>
         <div id="future" class="match-prev" v-if="display_flag">
           <h2> Future Matches </h2>
@@ -38,7 +39,7 @@ export default {
 
 <style>
 
-* {
+/* * {
   box-sizing: border-box;
 }
 
@@ -54,6 +55,6 @@ export default {
 .match-prev {
   flex: 50%;
   padding: 5px;
-}
+} */
 
 </style>
