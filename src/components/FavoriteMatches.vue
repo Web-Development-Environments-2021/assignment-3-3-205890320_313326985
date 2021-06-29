@@ -30,17 +30,15 @@ export default {
   },
   methods: {
     async updateFavoriteMatches(){
-      console.log("response");
       try {
         this.axios.defaults.withCredentials = true;
         const futureMatches = await this.axios.get(
           "http://localhost:3000/users/favoriteMatches",
         );
         this.axios.defaults.withCredentials = false;
-        console.log(futureMatches)
-        // console.log(futureMatches.data)
         this.matches = [];
         this.matches.push(...(futureMatches.data));
+        return this.matches;
       } catch (error) {
         console.log("error in update favorite matches")
         console.log(error);

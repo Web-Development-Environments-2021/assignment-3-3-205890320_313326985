@@ -24,7 +24,7 @@
           <td> {{match.visitor_team_name}} </td>
           <td> {{match.venue_name}} </td>
           <td> {{match.referee_id}} </td>
-          <!-- <td> <button :disabled="FavorMatch(match.match_id)" type="button" class="btn btn-outline-secondary btn-sm">add to favorites</button> </td> -->
+          <td> <button :disabled="FavorMatch(match.match_id)" type="button" class="btn btn-outline-secondary btn-sm">add to favorites</button> </td>
         </tr>
 
       </tbody>
@@ -42,7 +42,6 @@ export default {
   },
   methods: {
     async updateMatches(){
-      console.log("response");
       try {
         this.axios.defaults.withCredentials = true;
         const response = await this.axios.get(
@@ -51,7 +50,6 @@ export default {
         this.axios.defaults.withCredentials = false;
         const matches = response.data
         this.leagueMatches = [];
-        console.log(matches);
         this.leagueMatches.push(...matches);
         console.log(this.leagueMatches);
       } catch (error) {
@@ -59,20 +57,41 @@ export default {
         console.log(error);
       }
     },
-    async FavorMatch(match_id){
-      if(this.matchesEvents.find((element) => element.match_id == match_id)){
-        return false;
+    async getFavoriteMatches(){
+      try {
+        this.axios.defaults.withCredentials = true;
+        const futureMatches = await this.axios.get(
+          "http://localhost:3000/users/favoriteMatches",
+        );
+        this.axios.defaults.withCredentials = false;
+        this.favMatches = [];
+        this.favMatches.push(...(futureMatches.data));
+      } catch (error) {
+        console.log("error in update favorite matches")
+        console.log(error);
       }
-      else{
+    }
+    ,
+    async FavorMatch(match_id){
+      console.log(this.favMatches);
+      if(this.favMatches.find((element) => (element[0]).match_id == match_id)){
         return true;
       }
+      else{
+        return false;
+      }
     },
-
+    favorTest(match_id){
+      return false;
+    }
 
   },
   async mounted(){
     console.log("past matches preview mounted");
+    await this.getFavoriteMatches();
     await this.updateMatches();
+    console.log("fire emit")
+    
   }
 
 };
