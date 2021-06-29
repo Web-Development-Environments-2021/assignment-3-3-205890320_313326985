@@ -4,15 +4,15 @@
     <login-page v-if="!$root.store.username"></login-page>
     <div class="season-matches" v-else>
       <button class="btn  btn-lg btn-dark btn-outline-info" data-toggle="button" @click="display_flag=!display_flag">
-        Change Matches Table Between Past & Future
+        Change between Past and Future matches
       </button>
-        <div id="future" class="match-prev" v-if="display_flag">
-          <h2> Future Matches </h2>
-        <season-future-preview></season-future-preview >
-        </div>
-        <div id="past" class="match-prev" v-if="!display_flag">
+        <div id="past" class="match-prev" v-if="display_flag">
           <h2> Past Matches </h2>
         <season-past-preview></season-past-preview >
+        </div>
+        <div id="future" class="match-prev" v-if="!display_flag">
+          <h2> Future Matches </h2>
+        <season-future-preview></season-future-preview >
         </div>
     </div>
   </div>

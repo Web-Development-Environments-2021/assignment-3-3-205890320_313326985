@@ -1,6 +1,5 @@
 <template >
   <div>
-    
     <table class="table table-striped table-hover">
       <thead>
         <tr>

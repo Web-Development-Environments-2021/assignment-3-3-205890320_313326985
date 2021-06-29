@@ -1,6 +1,5 @@
 <template >
   <div>
-    
     <table class="table table-striped table-hover">
       <thead>
         <tr>
@@ -13,11 +12,7 @@
           <th scope="col">Referee</th>
           <th scope="col">Local Goals</th>
           <th scope="col">Visitor Goals</th>
-          <th scope="col">#EventId </th>
-          <th scope="col">Time Happend</th>
-          <th scope="col">Minute</th>
-          <th scope="col">Type</th>
-          <th scope="col">Description</th>
+          <th scope="col">Events</th>
           <th scope="col"></th>
           <th scope="col"></th>
           <th scope="col"></th>
@@ -34,13 +29,30 @@
           <td> {{match.MatchDetails.referee_id}} </td>
           <td> {{match.MatchDetails.home_goals}} </td>
           <td> {{match.MatchDetails.away_goals}} </td>
-          <!-- <td> {{match.MatchEvents.away_goals}} </td>
-          <td> {{match.MatchEvents.away_goals}} </td>
-          <td> {{match.MatchEvents.away_goals}} </td>
-          <td> {{match.MatchEvents.away_goals}} </td>
-          <td> {{match.MatchEvents.away_goals}} </td> -->
+          <td>
+                <table class="table table-striped table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col">When Happend</th>
+                      <th scope="col">Minute</th>
+                      <th scope="col">Type</th>
+                      <th scope="col">Description</th>
+                      <th scope="col"></th>
+                      <th scope="col"></th>
+                      <th scope="col"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="event in match.MatchEvents" :key="event.date_and_time_happend">
+                      <th scope="row">{{event.date_and_time_happend.slice(11,16)}}</th>
+                      <td> {{event.minute}} </td>
+                      <td> {{event.type}} </td>
+                      <td> {{event.description}} </td>
+                  </tr>
+                  </tbody>
+              </table>
+          </td>
         </tr>
-
       </tbody>
     </table>
   </div>
@@ -48,6 +60,12 @@
 
 <script>
 export default {
+  props: {
+    leagueMatches: {
+      type: Array,
+      required: true
+    }
+  },
   methods: {
     async updateMatches(){
       console.log("response");
