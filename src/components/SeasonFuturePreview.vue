@@ -86,7 +86,6 @@ export default {
       }
     },
     FavorMatch(match_id){
-      console.log(this.favMatches);
       if(this.favMatches.find((element) => (element[0]).match_id == match_id)){
         return true;
       }
