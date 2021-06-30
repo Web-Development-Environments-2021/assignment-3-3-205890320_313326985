@@ -1,6 +1,6 @@
 <template>
     <div>
-        <matches-preview :leaugeMatches="matches" :matchesResults="matchesResults" :matchesEvents="matchesEvents"></matches-preview>
+        <matches-preview :matchesResults="matchesResults" :matchesEvents="matchesEvents"></matches-preview>
         <b-button :to="{name: 'addMatch'}" class="btn btn-secondary btn-lg">Add New Match</b-button>
 
     </div>
@@ -15,30 +15,11 @@ export default {
   },
     data() {
     return {
-      matches: [],
       matchesResults: [],
       matchesEvents: []
     };
   },
   methods: {
-    async updateMatches(){
-      console.log("response");
-      try {
-        this.axios.defaults.withCredentials = true;
-        const response = await this.axios.get(
-          "http://localhost:3000/UnionAgent", {params:{sort: "none"}}
-        );
-        this.axios.defaults.withCredentials = false;
-        const matches = response.data
-        this.matches = [];
-        console.log(matches);
-        this.matches.push(...matches);
-        console.log(this.matches);
-      } catch (error) {
-        console.log("error in update matches")
-        console.log(error);
-      }
-    },
     async updateMatchesResults(){
       console.log("response");
       try {
@@ -78,7 +59,6 @@ export default {
   }, 
   mounted(){
     console.log("league manage mounted");
-    this.updateMatches();
     this.updateMatchesResults();
     this.updateMatchesEvents();
   }
