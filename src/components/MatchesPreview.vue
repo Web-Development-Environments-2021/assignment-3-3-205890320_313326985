@@ -76,6 +76,7 @@ export default {
     },
     async disableResults(match_id){
       if(this.matchesResults.find((element) => element.match_id == match_id)){
+        console.log("i am here")
         return false;
       }
       else{

@@ -1,7 +1,7 @@
 <template>
     <div>
-        <MatchesPreview :leaugeMatches="matches" :matchesResults="matchesResults" :matchesEvents="matchesEvents"></MatchesPreview>
-        <button type="button" class="btn btn-secondary btn-lg">Add New Match</button>
+        <matches-preview :leaugeMatches="matches" :matchesResults="matchesResults" :matchesEvents="matchesEvents"></matches-preview>
+        <b-button :to="{name: 'addMatch'}" class="btn btn-secondary btn-lg">Add New Match</b-button>
 
     </div>
   
@@ -47,10 +47,10 @@ export default {
           "http://localhost:3000/UnionAgent/UpdateResultsMatch"
         );
         this.axios.defaults.withCredentials = false;
-        const matches = response.data
+        const results = response.data
         this.matchesResults = [];
-        console.log(matches);
-        this.matchesResults.push(...matches);
+        console.log(results);
+        this.matchesResults.push(...results);
         console.log(this.matchesResults);
       } catch (error) {
         console.log("error in update matches results")
@@ -65,10 +65,10 @@ export default {
           "http://localhost:3000/UnionAgent/addEventsLog"
         );
         this.axios.defaults.withCredentials = false;
-        const matches = response.data
+        const events = response.data
         this.matchesEvents = [];
-        console.log(matches);
-        this.matchesEvents.push(...matches);
+        console.log(events);
+        this.matchesEvents.push(...events);
         console.log(this.matchesEvents);
       } catch (error) {
         console.log("error in update matches events")
