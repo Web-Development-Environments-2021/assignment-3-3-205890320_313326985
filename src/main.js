@@ -24,7 +24,9 @@ import {
   ToastPlugin,
   LayoutPlugin, 
   InputGroupPlugin,
-  TablePlugin
+  TablePlugin,
+  PaginationPlugin,
+  PaginationNavPlugin
 } from "bootstrap-vue";
 [
   FormGroupPlugin,
@@ -38,15 +40,12 @@ import {
   ToastPlugin,
   LayoutPlugin, 
   InputGroupPlugin,
-  TablePlugin
+  TablePlugin,
+  PaginationPlugin,
+  PaginationNavPlugin,
 ].forEach((x) => Vue.use(x));
 Vue.use(Vuelidate);
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { faSort } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
-library.add(faSort)
-Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 axios.interceptors.request.use(
   function(config) {
