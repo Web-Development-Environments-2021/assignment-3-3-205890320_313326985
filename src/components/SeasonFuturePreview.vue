@@ -70,8 +70,21 @@ export default {
         console.log("error in update favorite matches")
         console.log(error);
       }
-    }
-    ,
+    },
+    async addMatchToFavorites(match_id){
+      try {
+        this.axios.defaults.withCredentials = true;
+        const error = await this.axios.post(
+          "http://localhost:3000/users/favoriteMatches",
+        );
+        this.axios.defaults.withCredentials = false;
+        // this.favMatches = [];
+        // this.favMatches.push(...(futureMatches.data));
+      } catch (error) {
+        console.log("error in update favorite matches")
+        console.log(error);
+      }
+    },
     FavorMatch(match_id){
       console.log(this.favMatches);
       if(this.favMatches.find((element) => (element[0]).match_id == match_id)){
