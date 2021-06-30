@@ -6,7 +6,6 @@
     </div>
     <div>
     <league-info></league-info>
-    <!-- <LeagueInfo v-if="$root.store.username"></LeagueInfo> -->
     </div>
   </div>
 </template>

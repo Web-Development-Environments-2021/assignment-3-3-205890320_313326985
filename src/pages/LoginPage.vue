@@ -104,8 +104,9 @@ export default {
         this.axios.defaults.withCredentials = false;
         // this.$root.loggedIn = true;
         console.log(this.$root.store.login);
+        //TODO: row below was not in comment
         // this.$root.store.login(this.form.username);
-        this.$root.store.login(response);
+        this.$root.store.login({username:this.form.username,response:response.data});
         //TODO: row below was not in comment
         this.$router.push("/");
       } catch (err) {

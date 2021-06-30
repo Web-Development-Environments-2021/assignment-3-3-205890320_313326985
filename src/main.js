@@ -80,12 +80,15 @@ Vue.config.productionTip = false;
 const shared_data = {
   // username: localStorage.username,
   username: undefined,
-  login(username) {
-    console.log("liad prints");
-    console.log(username);
+  login(loginDetails) {
+    let username = loginDetails.username;
+    let unionAgent = loginDetails.response.union_agent;
     localStorage.setItem("username", username);
+    localStorage.setItem("unionAgent", unionAgent);
+    this.unionAgent = unionAgent;
     this.username = username;
     console.log("login", this.username);
+    console.log("Is user union agent? ", this.unionAgent)
   },
   async logout() {
     console.log("logout");
@@ -97,7 +100,9 @@ const shared_data = {
       );
       axios.defaults.withCredentials = false;
       localStorage.removeItem("username");
+      localStorage.removeItem("unionAgent");
       this.username = undefined;
+      this.unionAgent = undefined;
     }
     catch (error) {
     console.log("error in update log out")
