@@ -72,7 +72,7 @@ export default {
       }
     }
     ,
-    async FavorMatch(match_id){
+    FavorMatch(match_id){
       console.log(this.favMatches);
       if(this.favMatches.find((element) => (element[0]).match_id == match_id)){
         return true;
@@ -80,11 +80,7 @@ export default {
       else{
         return false;
       }
-    },
-    favorTest(match_id){
-      return false;
     }
-
   },
   async mounted(){
     console.log("past matches preview mounted");
