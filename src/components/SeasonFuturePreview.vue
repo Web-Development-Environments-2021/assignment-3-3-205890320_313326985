@@ -24,7 +24,7 @@
           <td> {{match.visitor_team_name}} </td>
           <td> {{match.venue_name}} </td>
           <td> {{match.referee_id}} </td>
-          <td> <button :disabled="FavorMatch(match.match_id)" type="button" class="btn btn-outline-secondary btn-sm">add to favorites</button> </td>
+          <td> <button :disabled="FavorMatch(match.match_id)" @click="addMatchToFavorites(match.match_id)" type="button" class="btn btn-outline-secondary btn-sm">add to favorites</button> </td>
         </tr>
 
       </tbody>
@@ -74,12 +74,15 @@ export default {
     async addMatchToFavorites(match_id){
       try {
         this.axios.defaults.withCredentials = true;
-        const error = await this.axios.post(
+        await this.axios.post(
           "http://localhost:3000/users/favoriteMatches",
+          {
+           "match_id": match_id
+          }
         );
         this.axios.defaults.withCredentials = false;
-        // this.favMatches = [];
-        // this.favMatches.push(...(futureMatches.data));
+        //TODO: try to call mounted function
+        // await this.mounted();
       } catch (error) {
         console.log("error in update favorite matches")
         console.log(error);
@@ -98,8 +101,6 @@ export default {
     console.log("past matches preview mounted");
     await this.getFavoriteMatches();
     await this.updateMatches();
-    console.log("fire emit")
-    
   }
 
 };

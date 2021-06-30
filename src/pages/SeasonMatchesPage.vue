@@ -39,22 +39,4 @@ export default {
 
 <style>
 
-/* * {
-  box-sizing: border-box;
-}
-
-.season-matches{
-  display: flex;
-  margin-left:-180px;
-}
-
-.title{
-  margin-left:-180px;
-}
-
-.match-prev {
-  flex: 50%;
-  padding: 5px;
-} */
-
 </style>
