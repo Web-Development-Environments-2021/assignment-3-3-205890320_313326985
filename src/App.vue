@@ -1,18 +1,21 @@
 <template>
   <div id="app">
     <b-navbar toggleable="lg" type="dark" variant="info">
-      <b-navbar-brand :to="{ name: 'main' }">Superliga Vue</b-navbar-brand>
+      <b-navbar-brand :to="{ name: 'main' }">Superliga System</b-navbar-brand>
       <b-collapse id="nav-collapse" is-nav>
-        <b-navbar-nav>
 
+        <b-navbar-nav>
         <b-nav-item :to="{ name: 'search' }">Search</b-nav-item>
         <b-nav-item :to="{ name: 'about' }">About</b-nav-item>
         <b-nav-item :to="{ name: 'seasonMatches' }">Season's Matches</b-nav-item>
         </b-navbar-nav>
+        
         <b-navbar-nav class="ml-auto" v-if="!$root.store.username">
+        <b-nav-text id=helloguest>Hello, guest</b-nav-text>
         <b-nav-item :to="{ name: 'login' }">Login</b-nav-item>
         <b-nav-item :to="{ name: 'register' }">Register</b-nav-item>
         </b-navbar-nav>
+
         <b-navbar-nav class="ml-auto" v-else>
         <b-nav-item-dropdown right v-if="$root.store.unionAgent">
           <template #button-content>
@@ -26,13 +29,14 @@
 
         <b-nav-item-dropdown right>
           <template #button-content>
-            {{$root.store.username}}
+            Hello, {{$root.store.username}}
           </template>
           <b-dropdown-item href="#/favoriteMatches">Favorites</b-dropdown-item>
           <b-dropdown-item href="#" @click="Logout()">Log Out</b-dropdown-item>
         </b-nav-item-dropdown>
 
         </b-navbar-nav>
+
       </b-collapse>
     </b-navbar>
     <router-view />
@@ -77,5 +81,9 @@ export default {
 
 #nav a.router-link-exact-active {
   color: #42b983;
+}
+
+#helloguest{
+  padding-right:10px;
 }
 </style>
