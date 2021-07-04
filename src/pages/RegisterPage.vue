@@ -238,6 +238,7 @@ export default {
   methods: {
     validateState(param) {
       const { $dirty, $error } = this.$v.form[param];
+      console.log($dirty ? !$error : null);
       return $dirty ? !$error : null;
     },
     async Register() {

@@ -1,14 +1,14 @@
 <template>
-  <div @submit.prevent="onRegister" @reset.prevent="onReset">
+  <div @submit.prevent="checkSearch()" @reset.prevent="onReset()">
     <h1 class="title">Search Page</h1>
+
+
     <div class="search-input">
-      <b-input-group prepend="Search Query:" id="searchquery">
-        <b-form-input v-model="searchQuery">
-          :state="validateState('searchquery')"
+      <b-input-group prepend="Search Query:" >
+        <b-form-input  id="searchQuery"
+        v-model="$v.searchQuery.$model"
+         :state="validateState('searchQuery')" >
         </b-form-input>
-        <!-- <b-input-group-append>
-        <button type="button" class="btn btn-outline-primary">Search</button>
-        </b-input-group-append> -->
         <b-form-invalid-feedback v-if="!$v.searchQuery.required">
           Search Query is required
         </b-form-invalid-feedback>
@@ -17,7 +17,6 @@
         </b-form-invalid-feedback>
       </b-input-group>
         <br/>
-        Your search Query: {{ searchQuery }}
     </div>
     
     <div class="search-input">
@@ -29,7 +28,6 @@
         ></b-form-select>
       </b-form-group>
         <br/>
-        Your searchByObject: {{ searchByObject }}
     </div>
 
     <div v-if="searchByObject === 'Players'" class="search-input">
@@ -45,47 +43,61 @@
     </div>
 
     <div v-if="filterByAttribue != 'None' && filterByAttribue">
-        <b-input-group prepend="Filter Query:" class="search-input" id="filterquery">
-          <b-form-input v-model="filterQuery"></b-form-input>
-          <!-- <b-input-group-append>
-          <button type="button" class="btn btn-outline-primary">Search</button>
-          </b-input-group-append> -->
+        <b-input-group prepend="Filter Query:" class="search-input">
+
+          <div v-if="filterByAttribue === 'Team name'">
+              <b-form-input id="filterQueryByTeamName" v-model="$v.filterQueryByTeamName.$model"
+              :state="validateState('filterQueryByTeamName')"></b-form-input>
+              <b-form-invalid-feedback v-if="!$v.filterQueryByTeamName.required">
+                Filter Query is required
+              </b-form-invalid-feedback>
+               <b-form-invalid-feedback v-if="filterByAttribue === 'Team name' && !$v.filterQueryByTeamName.alpha">
+                Filter Query consists only of letters
+              </b-form-invalid-feedback>
+          </div>
+          <div v-if="filterByAttribue != 'Team name'">
+              <b-form-input id="filterQueryByPosId" v-model="$v.filterQueryByPosId.$model"
+              :state="validateState('filterQueryByPosId')"></b-form-input>
+              <b-form-invalid-feedback v-if="!$v.filterQueryByPosId.required">
+                Filter Query is required
+              </b-form-invalid-feedback>
+              <b-form-invalid-feedback v-else-if="filterByAttribue != 'Team name' && !$v.filterQueryByPosId.integer">
+                Filter Query consists only of numbers
+              </b-form-invalid-feedback>
+          </div>
+
         </b-input-group>
           <br/>
-          Your filter Query: {{ filterQuery }}
     </div>
 
-  <b-button type="reset" variant="danger">Reset</b-button>
+
+  <b-button id="reset" type="reset" variant="danger">Reset</b-button>
   <b-button
         type="submit"
         variant="primary"
         style="width:250px;"
-        class="ml-5 w-75"
-        >Search</b-button
-      >
-
-  <b-alert 
-      class="mt-2"
-      v-if="submitError"
-      variant="warning"
-      dismissible
-      show
-    >
-      Search failed: {{ submitError }}
-    </b-alert>
-
+        class="ml-5 w-25"
+>Search</b-button>
 
   </div>
-
 </template>
 
 <script>
 import {
   required,
   alpha,
+  integer
 } from "vuelidate/lib/validators";
 
+import PlayerSearchDisplay from "../components/PlayerSearchDisplay";
+import TeamSearchDisplay from "../components/TeamSearchDisplay";
+
 export default {
+ name: "SearchPage",
+ components:{
+  //  PlayerSearchDisplay,
+  //  TeamSearchDisplay
+ },
  data() {
     return {
       validated: false,
@@ -94,7 +106,8 @@ export default {
       searchQuery:"",
       searchByObject: "",
       filterByAttribue: "",
-      filterQuery:"",
+      filterQueryByTeamName:"",
+      filterQueryByPosId:"",
       searchingObjects:["Teams","Players"],
       filterAttributes:["Player's position","Team name","None"]
     };
@@ -104,21 +117,78 @@ validations:{
     required,
     alpha
   },
+  filterQueryByTeamName:{
+    required,
+    alpha
+  },
+  filterQueryByPosId:{
+    required,
+    integer
+  }
 
 },
 methods:{
   validateState(param) {
-      const { $dirty, $error } = this.$v.form[param];
+      const { $dirty, $error } = this.$v[param];
       return $dirty ? !$error : null;
   },
   onReset(){
     searchQuery="";
+    searchByObject= "";
     filterByObject= "";
     filterByAttribue= "";
-    filterQuery="";
+    filterQueryByTeamName="";
+    filterQueryByPosId="";
     this.$nextTick(() => {
         this.$v.$reset();
     });
+  },
+  async searchTeams(){
+    try {
+        const res = await this.axios.get(
+          "http://localhost:3000/search/Teams",null,
+          {params:{
+            "query":searchQuery,
+            "sort":filterByObject
+          }}
+          
+        );
+        this.teamRes = [];
+        this.teamRes.push(...(res.data));
+      } catch (error) {
+        console.log("error in searching teams")
+        console.log(error);
+      }
+  },
+  async searchPlayers(){
+       try {
+        const res = await this.axios.get(
+          "http://localhost:3000/search/Players",null,
+          {params:{
+            "query":searchQuery,
+            "sort":filterByObject,
+            "filter":filterByAttribue,
+            "filter query":filterQuery
+          }}
+          
+        );
+        this.teamRes = [];
+        this.teamRes.push(...(res.data));
+      } catch (error) {
+        console.log("error in searching players")
+        console.log(error);
+      }
+  },
+  async onSearch(){
+    if(searchByObject == "Teams"){
+      await this.searchTeams();
+    }
+    else if(searchByObject == "Players"){
+      await this.searchPlayers();
+    }
+  },
+  async checkSearch(){
+    console.log("liad checks");
   }
 }
 }
@@ -130,6 +200,9 @@ methods:{
   margin-left: 20px; 
   width: 400px; 
   
+}
+#reset{
+  margin-left: 20px; 
 }
 
 #search{
