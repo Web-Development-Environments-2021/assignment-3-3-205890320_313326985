@@ -184,7 +184,7 @@ import {
 } from "vuelidate/lib/validators";
 
 export default {
-  name: "Register",
+  name: "Register", 
   data() {
     return {
       form: {
