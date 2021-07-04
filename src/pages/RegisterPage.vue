@@ -152,7 +152,7 @@
         >Register</b-button
       >
       <div class="mt-2">
-        You have an account already?
+        Already have an account?
         <router-link to="login"> Log in here</router-link>
       </div>
     </b-form>
@@ -165,10 +165,6 @@
     >
       Register failed: {{ form.submitError }}
     </b-alert>
-    <!-- <b-card class="mt-3 md-3" header="Form Data Result">
-      <pre class="m-0"><strong>form:</strong> {{ form }}</pre>
-      <pre class="m-0"><strong>$v.form:</strong> {{ $v.form }}</pre>
-    </b-card> -->
   </div>
 </template>
 
@@ -238,7 +234,6 @@ export default {
   methods: {
     validateState(param) {
       const { $dirty, $error } = this.$v.form[param];
-      console.log($dirty ? !$error : null);
       return $dirty ? !$error : null;
     },
     async Register() {
