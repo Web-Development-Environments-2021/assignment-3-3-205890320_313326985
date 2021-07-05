@@ -28,22 +28,29 @@
     
     <div class="search-input">
     <h3 class="title">Search for..</h3>
-    <b-form-group id="searchobjects">
-        <b-form-select 
-        v-model="searchByObject"
+    <b-form-group id="searchByObject">
+        <b-form-select v-model="$v.searchByObject.$model"
+         :state="validateState('searchByObject')"
         :options="searchingObjects"
+        @change=emptyValuesOfHidden()
         ></b-form-select>
+        <b-form-invalid-feedback v-if="!$v.searchByObject.required">
+          It is required to search by Teams or by Players
+        </b-form-invalid-feedback>
       </b-form-group>
         <br/>
     </div>
 
     <div v-if="searchByObject === 'Players'" class="search-input">
       <h3 class="title">Filter your search results?</h3>
-      <b-form-group id="filterattributes">
-          <b-form-select 
-          v-model="filterByAttribue"
+      <b-form-group id="filterByAttribue">
+          <b-form-select v-model="$v.filterByAttribue.$model"
+          :state="validateState('filterByAttribue')"
           :options="filterAttributes"
           ></b-form-select>
+          <b-form-invalid-feedback v-if="!$v.filterByAttribue.required">
+          Please choose whether you want to filter or not
+        </b-form-invalid-feedback>
         </b-form-group>
           <br/>
     </div>
@@ -54,7 +61,7 @@
           <div v-if="filterByAttribue === 'Team name'">
               <b-form-input id="filterQueryByTeamName" v-model="$v.filterQueryByTeamName.$model"
               :state="validateState('filterQueryByTeamName')"></b-form-input>
-              <b-form-invalid-feedback v-if="!$v.filterQueryByTeamName.required && !$v.filterQueryByTeamName.length">
+              <b-form-invalid-feedback v-if="!$v.filterQueryByTeamName.required">
                 Filter Query cannot be empty
               </b-form-invalid-feedback>
                <b-form-invalid-feedback v-if="filterByAttribue === 'Team name' && !$v.filterQueryByTeamName.alpha">
@@ -64,7 +71,7 @@
           <div v-if="filterByAttribue != 'Team name'">
               <b-form-input id="filterQueryByPosId" v-model="$v.filterQueryByPosId.$model"
               :state="validateState('filterQueryByPosId')"></b-form-input>
-              <b-form-invalid-feedback v-if="!$v.filterQueryByPosId.required && !$v.filterQueryByPosId.length">
+              <b-form-invalid-feedback v-if="!$v.filterQueryByPosId.required">
                 Filter Query cannot be empty
               </b-form-invalid-feedback>
               <b-form-invalid-feedback v-else-if="filterByAttribue != 'Team name' && !$v.filterQueryByPosId.integer">
@@ -117,8 +124,8 @@ export default {
       searchQuery:"",
       searchByObject: "",
       filterByAttribue: "",
-      filterQueryByTeamName:"TeamName",
-      filterQueryByPosId:"1",
+      filterQueryByTeamName:"",
+      filterQueryByPosId:"",
       searchingObjects:["Teams","Players"],
       filterAttributes:["Player's position","Team name","None"],
       teamFlag:false,
@@ -154,7 +161,19 @@ validations:{
 methods:{  
   validateState(param) {
       const { $dirty, $error } = this.$v[param];
-      return $dirty ? !$error : null;
+      return $dirty ? !$error : null; 
+  },
+  emptyValuesOfHidden(){
+    if (this.searchByObject == "Teams"){
+        this.filterByAttribue = "None";
+        this.filterQueryByTeamName = "TeamName";
+        this.filterQueryByPosId = "1";
+    }
+    else{
+        this.filterByAttribue = "";
+        this.filterQueryByTeamName = "";
+        this.filterQueryByPosId = "";
+    }
   },
   onReset(){
     this.searchQuery="";
@@ -168,6 +187,7 @@ methods:{
     });
   },
   async searchTeams(){
+    console.log("search teams");
     // try {
     //   console.log("activated api call");
     //     const res = await this.axios.get(
@@ -201,6 +221,7 @@ methods:{
     //   }
   },
   async searchPlayers(){
+        console.log("search players");
       //  try {
       //   const res = await this.axios.get(
       //     "http://localhost:3000/search/Players",
@@ -222,13 +243,17 @@ methods:{
   async onSearch(){
 
     this.$v.searchQuery.$touch();
+    this.$v.searchByObject.$touch();
+    this.$v.filterByAttribue.$touch();
     this.$v.filterQueryByTeamName.$touch();
     this.$v.filterQueryByPosId.$touch();
 
     if (
     this.$v.searchQuery.$anyError || 
+    this.$v.searchByObject.$anyError ||
+    this.$v.filterByAttribue.$anyError ||
     this.$v.filterQueryByTeamName.$anyError ||
-    this.$v.filterQueryByPosId.$anyError
+    this.$v.filterQueryByPosId.$anyError 
     ) {
         return;
     }
