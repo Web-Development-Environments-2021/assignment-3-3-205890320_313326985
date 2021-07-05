@@ -32,7 +32,7 @@
         <b-form-select v-model="$v.searchByObject.$model"
          :state="validateState('searchByObject')"
         :options="searchingObjects"
-        @change=emptyValuesOfHidden()
+        
         ></b-form-select>
         <b-form-invalid-feedback v-if="!$v.searchByObject.required">
           It is required to search by Teams or by Players
@@ -47,6 +47,7 @@
           <b-form-select v-model="$v.filterByAttribue.$model"
           :state="validateState('filterByAttribue')"
           :options="filterAttributes"
+          @change=emptyValuesOfHiddenAfterFilter()
           ></b-form-select>
           <b-form-invalid-feedback v-if="!$v.filterByAttribue.required">
           Please choose whether you want to filter or not
@@ -55,26 +56,26 @@
           <br/>
     </div>
 
-    <div v-if="filterByAttribue != 'None' && filterByAttribue">
+    <div v-if="filterByAttribue != 'none' && filterByAttribue">
         <b-input-group prepend="Filter Query:" class="search-input">
 
-          <div v-if="filterByAttribue === 'Team name'">
+          <div v-if="filterByAttribue === 'team name'">
               <b-form-input id="filterQueryByTeamName" v-model="$v.filterQueryByTeamName.$model"
               :state="validateState('filterQueryByTeamName')"></b-form-input>
               <b-form-invalid-feedback v-if="!$v.filterQueryByTeamName.required">
                 Filter Query cannot be empty
               </b-form-invalid-feedback>
-               <b-form-invalid-feedback v-if="filterByAttribue === 'Team name' && !$v.filterQueryByTeamName.alpha">
+               <b-form-invalid-feedback v-if="filterByAttribue === 'team name' && !$v.filterQueryByTeamName.alpha">
                 Filter Query consists only of letters
               </b-form-invalid-feedback>
           </div>
-          <div v-if="filterByAttribue != 'Team name'">
+          <div v-if="filterByAttribue != 'team name'">
               <b-form-input id="filterQueryByPosId" v-model="$v.filterQueryByPosId.$model"
               :state="validateState('filterQueryByPosId')"></b-form-input>
               <b-form-invalid-feedback v-if="!$v.filterQueryByPosId.required">
                 Filter Query cannot be empty
               </b-form-invalid-feedback>
-              <b-form-invalid-feedback v-else-if="filterByAttribue != 'Team name' && !$v.filterQueryByPosId.integer">
+              <b-form-invalid-feedback v-else-if="filterByAttribue != 'team name' && !$v.filterQueryByPosId.integer">
                 Filter Query consists only of numbers
               </b-form-invalid-feedback>
           </div>
@@ -123,11 +124,11 @@ export default {
     return {
       searchQuery:"",
       searchByObject: "",
-      filterByAttribue: "",
-      filterQueryByTeamName:"",
-      filterQueryByPosId:"",
+      filterByAttribue: "none",
+      filterQueryByTeamName:"TeamName",
+      filterQueryByPosId:"1",
       searchingObjects:["Teams","Players"],
-      filterAttributes:["Player's position","Team name","None"],
+      filterAttributes:["player's position","team name","none"],
       teamFlag:false,
       playerFlag: false,
       teamRes:[],
@@ -163,15 +164,27 @@ methods:{
       const { $dirty, $error } = this.$v[param];
       return $dirty ? !$error : null; 
   },
-  emptyValuesOfHidden(){
-    if (this.searchByObject == "Teams"){
-        this.filterByAttribue = "None";
+  // emptyValuesOfHiddenBeforeFilter(){
+  //   if (this.searchByObject == "Teams"){
+  //       this.filterQueryByTeamName = "TeamName";
+  //       this.filterQueryByPosId = "1";
+  //   }
+  //   else{
+  //       this.filterQueryByTeamName = "";
+  //       this.filterQueryByPosId = "";
+  //   }
+  // },
+  emptyValuesOfHiddenAfterFilter(){
+    if (this.filterByAttribue == "none"){
         this.filterQueryByTeamName = "TeamName";
         this.filterQueryByPosId = "1";
     }
-    else{
-        this.filterByAttribue = "";
+    else if(this.filterByAttribue == "team name"){
         this.filterQueryByTeamName = "";
+        this.filterQueryByPosId = "1";
+    }
+    else{
+        this.filterQueryByTeamName = "TeamName";
         this.filterQueryByPosId = "";
     }
   },
@@ -180,8 +193,8 @@ methods:{
     this.searchByObject= "";
     this.filterByObject= "";
     this.filterByAttribue= "";
-    this.filterQueryByTeamName="";
-    this.filterQueryByPosId="";
+    this.filterQueryByTeamName="TeamName";
+    this.filterQueryByPosId="1";
     this.$nextTick(() => {
         this.$v.$reset();
     });
@@ -221,27 +234,34 @@ methods:{
     //   }
   },
   async searchPlayers(){
-        console.log("search players");
-      //  try {
-      //   const res = await this.axios.get(
-      //     "http://localhost:3000/search/Players",
-      //     {params:{
-      //       "query":this.searchQuery,
-      //       "sort":"none",
-      //       "filter":this.filterByAttribue,
-      //       "filter query":this.filterQuery
-      //     }}
+      console.log("search players");
+      var filterQuery="";
+      if(this.filterByAttribue == "team name"){
+        filterQuery = this.filterQueryByTeamName;
+      }
+      else if(this.filterByAttribue == "player's position"){
+        filterQuery = this.filterQueryByPosId;
+      }
+       try {
+        const res = await this.axios.get(
+          "http://localhost:3000/search/Players",
+          {params:{
+            "query":this.searchQuery,
+            "sort":"none",
+            "filter":this.filterByAttribue,
+            "filter query":filterQuery
+          }}
           
-      //   );
-      //   this.playerRes = [];
-      //   this.playerRes.push(...(res.data));
-      // } catch (error) {
-      //   console.log("error in searching players")
-      //   console.log(error);
-      // }
+        );
+        console.log(res);
+        this.playerRes = [];
+        this.playerRes.push(...(res.data));
+      } catch (error) {
+        console.log("error in searching players")
+        console.log(error);
+      }
   },
   async onSearch(){
-
     this.$v.searchQuery.$touch();
     this.$v.searchByObject.$touch();
     this.$v.filterByAttribue.$touch();
