@@ -26,7 +26,11 @@ import {
   InputGroupPlugin,
   TablePlugin,
   PaginationPlugin,
-  PaginationNavPlugin
+  PaginationNavPlugin,
+  FormRadioPlugin,
+  FormDatepickerPlugin,
+  FormTimepickerPlugin,
+  ModalPlugin 
 } from "bootstrap-vue";
 [
   FormGroupPlugin,
@@ -43,6 +47,10 @@ import {
   TablePlugin,
   PaginationPlugin,
   PaginationNavPlugin,
+  FormRadioPlugin,
+  FormDatepickerPlugin,
+  FormTimepickerPlugin,
+  ModalPlugin 
 ].forEach((x) => Vue.use(x));
 Vue.use(Vuelidate);
 

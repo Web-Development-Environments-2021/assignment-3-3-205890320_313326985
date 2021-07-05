@@ -1,7 +1,7 @@
 <template>
     <div>
         <matches-preview :matchesResults="matchesResults" :matchesEvents="matchesEvents"></matches-preview>
-        <b-button :to="{name: 'addMatch'}" class="btn btn-secondary btn-lg">Add New Match</b-button>
+        <b-button :to="{name: 'addMatch'}" class="btn btn-secondary btn-lg" >Add New Match</b-button>
 
     </div>
   
