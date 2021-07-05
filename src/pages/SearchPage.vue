@@ -146,12 +146,12 @@ methods:{
       return $dirty ? !$error : null;
   },
   onReset(){
-    searchQuery="";
-    searchByObject= "";
-    filterByObject= "";
-    filterByAttribue= "";
-    filterQueryByTeamName="";
-    filterQueryByPosId="";
+    this.searchQuery="";
+    this.searchByObject= "";
+    this.filterByObject= "";
+    this.filterByAttribue= "";
+    this.filterQueryByTeamName="";
+    this.filterQueryByPosId="";
     this.$nextTick(() => {
         this.$v.$reset();
     });
@@ -208,10 +208,8 @@ methods:{
     this.$v.filterQueryByTeamName.$anyError ||
     this.$v.filterQueryByPosId.$anyError
     ) {
-        console.log("l");
         return;
     }
-    console.log("liad checks");
   }
 }
 }
