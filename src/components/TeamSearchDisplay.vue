@@ -11,9 +11,9 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="team in teamResults" :key="team.myTextOptions['team name']">
-          <th scope="row">{{team.myTextOptions['team name']}}</th>
-          <td> {{team.myTextOptions['logo path']}} </td>
+        <tr v-for="team in teamResults" :key="team['team name']">
+          <th scope="row">{{team['team name']}}</th>
+          <td > <img :src="team['logo path']" height="100px" width="100px"><img/> </td>
         </tr>
       </tbody>
     </table>
@@ -23,17 +23,23 @@
 <script>
 export default {
     name:"TeamSearchDisplay",
+    data(){
+      return{
+      }
+    },
     props: {
     teamResults: {
       type: Array,
       required: true
+      
     }
   },
   methods: {
   },
   async mounted(){
     console.log("team search display mounted")
-  }
+  },
+  
 };
 </script>
 

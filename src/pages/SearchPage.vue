@@ -1,7 +1,7 @@
 <template>
   <div class="search-page">
   <div class="container-search">
-    <b-form @submit.prevent="checkSearch" @reset.prevent="onReset">
+    <b-form @submit.prevent="onSearch" @reset.prevent="onReset">
     <h1 class="title">Search Page</h1>
     <h2 class="title">Search</h2>
 
@@ -89,7 +89,7 @@
   </div>
   <div class="container-results">
     <h2 class="subtitle">Results</h2>
-
+    <team-search-display v-if="searchFlag" :teamResults =teamRes></team-search-display>
   </div>
   </div>
 </template>
@@ -102,14 +102,14 @@ import {
   integer
 } from "vuelidate/lib/validators";
 
-import PlayerSearchDisplay from "../components/PlayerSearchDisplay";
+// import PlayerSearchDisplay from "../components/PlayerSearchDisplay";
 import TeamSearchDisplay from "../components/TeamSearchDisplay";
 
 export default {
  name: "SearchPage",
  components:{
   //  PlayerSearchDisplay,
-  //  TeamSearchDisplay
+   TeamSearchDisplay
  },
  data() {
     return {
@@ -119,7 +119,8 @@ export default {
       filterQueryByTeamName:"TeamName",
       filterQueryByPosId:"1",
       searchingObjects:["Teams","Players"],
-      filterAttributes:["Player's position","Team name","None"]
+      filterAttributes:["Player's position","Team name","None"],
+      searchFlag:false
     };
 },
 validations:{
@@ -140,7 +141,7 @@ validations:{
   }
 
 },
-methods:{
+methods:{  
   validateState(param) {
       const { $dirty, $error } = this.$v[param];
       return $dirty ? !$error : null;
@@ -158,16 +159,48 @@ methods:{
   },
   async searchTeams(){
     try {
-        const res = await this.axios.get(
-          "http://localhost:3000/search/Teams",null,
-          {params:{
-            "query":searchQuery,
-            "sort":filterByObject
-          }}
-        );
-        console.log(res);
+      console.log("activated api call");
+        // const res = await this.axios.get(
+        //   "http://localhost:3000/search/Teams",
+        //   {params:{
+        //     "query":this.searchQuery,
+        //     "sort":"none"
+        //   }}
+        // );
+        // console.log(res);
+
+        const not_real_res = {
+          data:[
+            {
+    "team name": "København",
+    "logo path": "https://cdn.sportmonks.com/images//soccer/teams/21/85.png"
+            },
+            {
+    "team name": "Midtjylland",
+    "logo path": "https://cdn.sportmonks.com/images//soccer/teams/11/939.png"
+            },
+            {
+    "team name": "AaB",
+    "logo path": "https://cdn.sportmonks.com/images//soccer/teams/28/1020.png"
+            },
+            {
+    "team name": "Randers",
+    "logo path": "https://cdn.sportmonks.com/images//soccer/teams/20/2356.png"
+            },
+            { 
+    "team name": "Nordsjælland",
+    "logo path": "https://cdn.sportmonks.com/images//soccer/teams/26/2394.png"
+            },
+            {
+    "team name": "AGF",
+    "logo path": "https://cdn.sportmonks.com/images//soccer/teams/25/2905.png"
+            }
+          ]
+        };
         this.teamRes = [];
-        this.teamRes.push(...(res.data));
+        // this.teamRes.push(...(res.data));
+        this.teamRes.push(...(not_real_res.data));
+
       } catch (error) {
         console.log("error in searching teams")
         console.log(error);
@@ -179,12 +212,13 @@ methods:{
           "http://localhost:3000/search/Players",null,
           {params:{
             "query":searchQuery,
-            "sort":filterByObject,
+            "sort":"none",
             "filter":filterByAttribue,
             "filter query":filterQuery
           }}
           
         );
+        console.log(not_real_res);
         this.teamRes = [];
         this.teamRes.push(...(res.data));
       } catch (error) {
@@ -193,22 +227,27 @@ methods:{
       }
   },
   async onSearch(){
-    if(searchByObject == "Teams"){
-      await this.searchTeams();
-    }
-    else if(searchByObject == "Players"){
-      await this.searchPlayers();
-    }
-  },
-  async checkSearch(){
+
     this.$v.searchQuery.$touch();
     this.$v.filterQueryByTeamName.$touch();
     this.$v.filterQueryByPosId.$touch();
-    if (this.$v.searchQuery.$anyError || 
+
+    if (
+    this.$v.searchQuery.$anyError || 
     this.$v.filterQueryByTeamName.$anyError ||
     this.$v.filterQueryByPosId.$anyError
     ) {
         return;
+    }
+
+    if(this.searchByObject == "Teams"){
+      await this.searchTeams();
+      this.searchFlag = true;
+      
+    }
+    else if(this.searchByObject == "Players"){
+      await this.searchPlayers();
+      this.searchFlag = true;
     }
   }
 }
