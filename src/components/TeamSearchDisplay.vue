@@ -1,13 +1,13 @@
 <template >
   <div>
-    <!-- <b-pagination
+    <b-pagination
       v-model="currentPage"
       :total-rows="rows"
       :per-page="perPage"
       aria-controls="my-table"
-    ></b-pagination> -->
+    ></b-pagination>
 
-    <!-- <p class="mt-3">Current Page: {{ currentPage }}</p> -->
+    <p class="mt-3">Current Page: {{ currentPage }}</p>
 
     <!-- <b-table
       id="my-table"
@@ -24,15 +24,41 @@
     </b-table> -->
 
 
+    <b-container fluid>
+    <b-table 
+      striped
+      hover
+      :items="teamResults"
+      :fields="fields"
+      :current-page="currentPage"
+      :per-page="perPage"
+      :filter-included-fields="filterOn"
+      :sort-by.sync="sortBy"
+      :sort-desc.sync="sortDesc"
+      :sort-direction="sortDirection"
+      stacked="md"
+      show-empty
+      small
+    >
 
-    <table class="table table-striped table-hover">
+      <template #cell(logopath)="row">
+        <b-img thumbnail fluid :src="row.value.logopath"></b-img>
+      </template>
+      <!-- <template #cell(logopath)="row">
+        {{ row.value['team name']}}   
+        <b-img thumbnail fluid :src="row.value['logo path']"></b-img>
+      </template> -->
+
+    </b-table>
+  </b-container>
+
+
+
+    <!-- <table class="table table-striped table-bordered table-sm">
       <thead>
         <tr>
           <th scope="col">Team Name</th>
           <th scope="col">Team Logo</th>
-          <th scope="col"></th>
-          <th scope="col"></th>
-          <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
@@ -42,7 +68,7 @@
         </tr>
 
       </tbody>
-    </table>
+    </table> -->
 
   </div>
 </template>
@@ -54,6 +80,7 @@ export default {
       return{
         perPage: 3,
         currentPage: 1,
+        logo:"logo path"
       }
     },
     props: {
@@ -65,7 +92,7 @@ export default {
   },
   computed:{
     rows() {
-        return this.teamResults.length
+        return this.teamResults.length;
       }
       ,
       fields(){
@@ -73,9 +100,10 @@ export default {
           {
             key: 'team name',
             label: 'Team Name',
+            sortable: true
           },
           {
-            key: 'logo path',
+            key: 'logopath',
             label: 'Team Logo',
             image: true
           }
@@ -93,4 +121,5 @@ export default {
 
 
 <style>
+
 </style>

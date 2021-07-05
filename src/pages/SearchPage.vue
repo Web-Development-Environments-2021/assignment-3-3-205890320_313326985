@@ -164,14 +164,6 @@ methods:{
       const { $dirty, $error } = this.$v[param];
       return $dirty ? !$error : null; 
   },
-  // emptyValuesOfHiddenBeforeFilter(){
-  //   if (this.searchByObject == "Teams"){
-  //       this.searchByObject= "";
-  //       this.filterByAttribue= "";
-  //       this.filterQueryByTeamName="TeamName";
-  //       this.filterQueryByPosId="1";
-  //   }
-  // },
   emptyValuesOfHiddenAfterFilter(){
     if (this.filterByAttribue == "none"){
         this.filterQueryByTeamName = "TeamName";
@@ -198,30 +190,36 @@ methods:{
   },
   async searchTeams(){
     try {
-        const res = await this.axios.get(
-          "http://localhost:3000/search/Teams",
-          {params:{
-            "query":this.searchQuery,
-            "sort":"none"
-          }}
-        );
+        // const res = await this.axios.get(
+        //   "http://localhost:3000/search/Teams",
+        //   {params:{
+        //     "query":this.searchQuery,
+        //     "sort":"none"
+        //   }}
+        // );
 
-    //     var not_real_res = {
-    //       data:[
-    //         {
-    // "team name": "København",
-    // "logo path": "https://cdn.sportmonks.com/images//soccer/teams/21/85.png"
-    //         },
-    //         {
-    // "team name": "Midtjylland",
-    // "logo path": "https://cdn.sportmonks.com/images//soccer/teams/11/939.png"
-    //         }
-    //          ]
-    //     };
+        var not_real_res = {
+          data:[
+            {
+    "team name": "København",
+    "logo path": "https://cdn.sportmonks.com/images//soccer/teams/21/85.png"
+            },
+            {
+    "team name": "Midtjylland",
+    "logo path": "https://cdn.sportmonks.com/images//soccer/teams/11/939.png"
+            }
+             ]
+        };
         
+        for(var i = 0; i < not_real_res.data.length; i++){
+            not_real_res.data[i].logopath = not_real_res.data[i]['logo path'];
+            delete not_real_res.data[i]['logo path'];
+        }
+
+        console.log(not_real_res);
         this.teamRes = [];
-        this.teamRes.push(...(res.data));
-        // this.teamRes.push(...(not_real_res.data));
+        // this.teamRes.push(...(res.data));
+        this.teamRes.push(...(not_real_res.data));
 
       } catch (error) {
         console.log("error in searching teams")
