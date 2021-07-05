@@ -89,7 +89,8 @@
   </div>
   <div class="container-results">
     <h2 class="subtitle">Results</h2>
-    <team-search-display v-if="searchFlag" :teamResults =teamRes></team-search-display>
+    <team-search-display v-if="teamFlag" :teamResults =teamRes></team-search-display>
+    <player-search-display v-if="playerFlag" :playerResults =playerRes></player-search-display>
   </div>
   </div>
 </template>
@@ -102,13 +103,13 @@ import {
   integer
 } from "vuelidate/lib/validators";
 
-// import PlayerSearchDisplay from "../components/PlayerSearchDisplay";
+import PlayerSearchDisplay from "../components/PlayerSearchDisplay";
 import TeamSearchDisplay from "../components/TeamSearchDisplay";
 
 export default {
  name: "SearchPage",
  components:{
-  //  PlayerSearchDisplay,
+   PlayerSearchDisplay,
    TeamSearchDisplay
  },
  data() {
@@ -120,7 +121,10 @@ export default {
       filterQueryByPosId:"1",
       searchingObjects:["Teams","Players"],
       filterAttributes:["Player's position","Team name","None"],
-      searchFlag:false
+      teamFlag:false,
+      playerFlag: false,
+      teamRes:[],
+      playerRes:[]
     };
 },
 validations:{
@@ -128,6 +132,12 @@ validations:{
     required,
     length: (u) => minLength(1)(u),
     alpha
+  },
+  searchByObject:{
+    required
+  },
+  filterByAttribue:{
+    required
   },
   filterQueryByTeamName:{
     required,
@@ -158,73 +168,56 @@ methods:{
     });
   },
   async searchTeams(){
-    try {
-      console.log("activated api call");
-        // const res = await this.axios.get(
-        //   "http://localhost:3000/search/Teams",
-        //   {params:{
-        //     "query":this.searchQuery,
-        //     "sort":"none"
-        //   }}
-        // );
-        // console.log(res);
+    // try {
+    //   console.log("activated api call");
+    //     const res = await this.axios.get(
+    //       "http://localhost:3000/search/Teams",
+    //       {params:{
+    //         "query":this.searchQuery,
+    //         "sort":"none"
+    //       }}
+    //     );
 
-        const not_real_res = {
-          data:[
-            {
-    "team name": "København",
-    "logo path": "https://cdn.sportmonks.com/images//soccer/teams/21/85.png"
-            },
-            {
-    "team name": "Midtjylland",
-    "logo path": "https://cdn.sportmonks.com/images//soccer/teams/11/939.png"
-            },
-            {
-    "team name": "AaB",
-    "logo path": "https://cdn.sportmonks.com/images//soccer/teams/28/1020.png"
-            },
-            {
-    "team name": "Randers",
-    "logo path": "https://cdn.sportmonks.com/images//soccer/teams/20/2356.png"
-            },
-            { 
-    "team name": "Nordsjælland",
-    "logo path": "https://cdn.sportmonks.com/images//soccer/teams/26/2394.png"
-            },
-            {
-    "team name": "AGF",
-    "logo path": "https://cdn.sportmonks.com/images//soccer/teams/25/2905.png"
-            }
-          ]
-        };
-        this.teamRes = [];
-        // this.teamRes.push(...(res.data));
-        this.teamRes.push(...(not_real_res.data));
+    // //     var not_real_res = {
+    // //       data:[
+    // //         {
+    // // "team name": "København",
+    // // "logo path": "https://cdn.sportmonks.com/images//soccer/teams/21/85.png"
+    // //         },
+    // //         {
+    // // "team name": "Midtjylland",
+    // // "logo path": "https://cdn.sportmonks.com/images//soccer/teams/11/939.png"
+    // //         }
+    // //          ]
+    // //     };
+        
+    //     this.teamRes = [];
+    //     this.teamRes.push(...(res.data));
+    //     // this.teamRes.push(...(not_real_res.data));
 
-      } catch (error) {
-        console.log("error in searching teams")
-        console.log(error);
-      }
+    //   } catch (error) {
+    //     console.log("error in searching teams")
+    //     console.log(error);
+    //   }
   },
   async searchPlayers(){
-       try {
-        const res = await this.axios.get(
-          "http://localhost:3000/search/Players",null,
-          {params:{
-            "query":searchQuery,
-            "sort":"none",
-            "filter":filterByAttribue,
-            "filter query":filterQuery
-          }}
+      //  try {
+      //   const res = await this.axios.get(
+      //     "http://localhost:3000/search/Players",
+      //     {params:{
+      //       "query":this.searchQuery,
+      //       "sort":"none",
+      //       "filter":this.filterByAttribue,
+      //       "filter query":this.filterQuery
+      //     }}
           
-        );
-        console.log(not_real_res);
-        this.teamRes = [];
-        this.teamRes.push(...(res.data));
-      } catch (error) {
-        console.log("error in searching players")
-        console.log(error);
-      }
+      //   );
+      //   this.playerRes = [];
+      //   this.playerRes.push(...(res.data));
+      // } catch (error) {
+      //   console.log("error in searching players")
+      //   console.log(error);
+      // }
   },
   async onSearch(){
 
@@ -241,13 +234,15 @@ methods:{
     }
 
     if(this.searchByObject == "Teams"){
+      this.playerFlag = false;
       await this.searchTeams();
-      this.searchFlag = true;
+      this.teamFlag = true;
       
     }
     else if(this.searchByObject == "Players"){
+      this.teamFlag = false;
       await this.searchPlayers();
-      this.searchFlag = true;
+      this.playerFlag = true;
     }
   }
 }

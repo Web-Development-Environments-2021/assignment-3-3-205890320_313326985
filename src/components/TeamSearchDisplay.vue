@@ -1,5 +1,30 @@
 <template >
   <div>
+    <!-- <b-pagination
+      v-model="currentPage"
+      :total-rows="rows"
+      :per-page="perPage"
+      aria-controls="my-table"
+    ></b-pagination> -->
+
+    <!-- <p class="mt-3">Current Page: {{ currentPage }}</p> -->
+
+    <!-- <b-table
+      id="my-table"
+      :items="teamResults"
+      :fields="fields"
+      :per-page="perPage"
+      :current-page="currentPage"
+      small
+    >
+    <template v-slot:cell(logo path)="data">
+   <img :src="data.item['logo path']" />          
+    </template>
+
+    </b-table> -->
+
+
+
     <table class="table table-striped table-hover">
       <thead>
         <tr>
@@ -13,10 +38,12 @@
       <tbody>
         <tr v-for="team in teamResults" :key="team['team name']">
           <th scope="row">{{team['team name']}}</th>
-          <td > <img :src="team['logo path']" height="100px" width="100px"><img/> </td>
+          <td > <img :src="team['logo path']" height="70px" width="70px"><img/> </td>
         </tr>
+
       </tbody>
     </table>
+
   </div>
 </template>
 
@@ -25,6 +52,8 @@ export default {
     name:"TeamSearchDisplay",
     data(){
       return{
+        perPage: 3,
+        currentPage: 1,
       }
     },
     props: {
@@ -34,6 +63,25 @@ export default {
       
     }
   },
+  computed:{
+    rows() {
+        return this.teamResults.length
+      }
+      ,
+      fields(){
+        return[
+          {
+            key: 'team name',
+            label: 'Team Name',
+          },
+          {
+            key: 'logo path',
+            label: 'Team Logo',
+            image: true
+          }
+        ]
+      }
+  },
   methods: {
   },
   async mounted(){
@@ -42,6 +90,7 @@ export default {
   
 };
 </script>
+
 
 <style>
 </style>
