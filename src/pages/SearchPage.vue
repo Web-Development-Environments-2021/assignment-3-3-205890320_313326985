@@ -56,7 +56,7 @@
           <br/>
     </div>
 
-    <div v-if="filterByAttribue != 'none' && filterByAttribue">
+    <div v-if="filterByAttribue != 'none' && filterByAttribue && searchByObject!='Teams'">
         <b-input-group prepend="Filter Query:" class="search-input">
 
           <div v-if="filterByAttribue === 'team name'">
@@ -166,12 +166,10 @@ methods:{
   },
   // emptyValuesOfHiddenBeforeFilter(){
   //   if (this.searchByObject == "Teams"){
-  //       this.filterQueryByTeamName = "TeamName";
-  //       this.filterQueryByPosId = "1";
-  //   }
-  //   else{
-  //       this.filterQueryByTeamName = "";
-  //       this.filterQueryByPosId = "";
+  //       this.searchByObject= "";
+  //       this.filterByAttribue= "";
+  //       this.filterQueryByTeamName="TeamName";
+  //       this.filterQueryByPosId="1";
   //   }
   // },
   emptyValuesOfHiddenAfterFilter(){
@@ -191,7 +189,6 @@ methods:{
   onReset(){
     this.searchQuery="";
     this.searchByObject= "";
-    this.filterByObject= "";
     this.filterByAttribue= "";
     this.filterQueryByTeamName="TeamName";
     this.filterQueryByPosId="1";
@@ -200,41 +197,38 @@ methods:{
     });
   },
   async searchTeams(){
-    console.log("search teams");
-    // try {
-    //   console.log("activated api call");
-    //     const res = await this.axios.get(
-    //       "http://localhost:3000/search/Teams",
-    //       {params:{
-    //         "query":this.searchQuery,
-    //         "sort":"none"
-    //       }}
-    //     );
+    try {
+        const res = await this.axios.get(
+          "http://localhost:3000/search/Teams",
+          {params:{
+            "query":this.searchQuery,
+            "sort":"none"
+          }}
+        );
 
-    // //     var not_real_res = {
-    // //       data:[
-    // //         {
-    // // "team name": "København",
-    // // "logo path": "https://cdn.sportmonks.com/images//soccer/teams/21/85.png"
-    // //         },
-    // //         {
-    // // "team name": "Midtjylland",
-    // // "logo path": "https://cdn.sportmonks.com/images//soccer/teams/11/939.png"
-    // //         }
-    // //          ]
-    // //     };
+    //     var not_real_res = {
+    //       data:[
+    //         {
+    // "team name": "København",
+    // "logo path": "https://cdn.sportmonks.com/images//soccer/teams/21/85.png"
+    //         },
+    //         {
+    // "team name": "Midtjylland",
+    // "logo path": "https://cdn.sportmonks.com/images//soccer/teams/11/939.png"
+    //         }
+    //          ]
+    //     };
         
-    //     this.teamRes = [];
-    //     this.teamRes.push(...(res.data));
-    //     // this.teamRes.push(...(not_real_res.data));
+        this.teamRes = [];
+        this.teamRes.push(...(res.data));
+        // this.teamRes.push(...(not_real_res.data));
 
-    //   } catch (error) {
-    //     console.log("error in searching teams")
-    //     console.log(error);
-    //   }
+      } catch (error) {
+        console.log("error in searching teams")
+        console.log(error);
+      }
   },
   async searchPlayers(){
-      console.log("search players");
       var filterQuery="";
       if(this.filterByAttribue == "team name"){
         filterQuery = this.filterQueryByTeamName;
