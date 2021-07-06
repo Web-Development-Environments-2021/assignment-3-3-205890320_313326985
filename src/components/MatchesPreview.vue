@@ -31,9 +31,57 @@
       </template>
 
       <template #cell(actions)="row">
-        <b-button :disabled="disableResults(row.item.match_id)" size="sm" @click="info(row.item, row.index, $event.target)" class="mr-1">
+        <b-button @click="showAddResult=true" :disabled="disableResults(row.item.match_id)" size="sm"  class="mr-1">
           add results
+         
         </b-button>
+         <b-modal
+            v-model="showAddResult"
+            title="Add results"
+            header-bg-variant="info"
+            header-text-variant="light"
+            hide-backdrop content-class="shadow"
+
+
+          >
+          <b-container fluid>
+            <b-row class="mb-1 text-center">
+              <b-col cols="3"></b-col>
+              <b-col><b>Goals Number</b></b-col>
+            </b-row>
+
+            <b-row class="mb-1">
+              <b-col cols="5">Local Team - {{row.item.local_team_name}} </b-col>
+              <b-col>
+                <b-form-select
+                  v-model="localGoals"
+                  :options="goals"
+                ></b-form-select>
+              </b-col>
+            </b-row>
+
+            <b-row class="mb-1">
+              <b-col cols="5">Visitor Team - {{row.item.visitor_team_name}} </b-col>
+              <b-col>
+                <b-form-select
+                  v-model="visitorGoals"
+                  :options="goals"
+                ></b-form-select>
+              </b-col>
+            </b-row>
+      </b-container>
+
+      <template #modal-footer>
+          <b-button 
+            @click="addResultToTable(row.item.match_id)"
+            class="float-right"
+          >
+            Update
+          </b-button>
+      </template>
+    </b-modal>
+
+
         <b-button size="sm" @click="row.toggleDetails" class="mr-1">
           {{ row.detailsShowing ? 'hide' : 'show' }} details
         </b-button>
@@ -99,6 +147,7 @@ export default {
   data(){
     return{
       items: [],
+
       fields: [
         {key: 'match_id', label: 'Id', sortable: true, sortDirection: 'desc'},
         {key: 'date_time', label: 'Date and Time', sortable: true},
@@ -123,7 +172,12 @@ export default {
         {key: 'firstname', label: 'First Name'},
         {key: 'lastname', label: 'Last Name'},
         {key: 'course', label: 'Course'},
-      ] 
+      ],
+      showAddResult: false,
+      goals: [0,1, 2, 3, 4, 5, 6, 7, 8],
+      localGoals: 0,
+      visitorGoals: 0
+
 
     }
   },
@@ -175,6 +229,24 @@ export default {
     },
     disableReferee(home_goals){
       return Number.isInteger(home_goals);
+    },
+    async addResultToTable(matchId){
+      console.log("response");
+      try {
+        this.axios.defaults.withCredentials = true;
+        const response = await this.axios.put(
+          "http://localhost:3000/UnionAgent/UpdateResultsMatch", {params:{match_id:matchId, home_goals: this.localGoals, away_goals: this.visitorGoals}}
+        );
+        this.axios.defaults.withCredentials = false;
+        this.localGoals = 0;
+        this.visitorGoals = 0;
+        this.showAddResult = false;
+
+
+      } catch (error) {
+        console.log("error in update results")
+        console.log(error);
+      }
     }
   },
   mounted(){
