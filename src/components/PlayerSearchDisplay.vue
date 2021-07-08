@@ -49,6 +49,16 @@
       small
     >
 
+
+
+      <template v-slot:cell(id)="row">
+      <!-- <router-link :to="`/player/${row.value}`">{{ row.value }}</router-link>      -->
+      <router-link :to="`/player/${row.value}`">{{ row.value }}</router-link>   
+      <!-- <a :href="`#/player/${row.value}`">{{ row.value }}</a> -->
+      </template>
+
+      <!-- <router-link :to="'player'" params:{playerId: 62571}>Places, but 101</router-link> -->
+
       <template v-slot:cell(image)="row">
         <img :src="row.value" height="70px" width="70px" />
       </template>
@@ -83,6 +93,10 @@ export default {
       ,
       fields(){
         return[
+          {
+            key:'id',
+            label:'Id'
+          },
           {
             key: 'name',
             label: 'Name',
