@@ -211,6 +211,7 @@ methods:{
              ]
         };
         
+        // transfers data key logo path, to without spaces form
         for(var i = 0; i < not_real_res.data.length; i++){
             not_real_res.data[i].logopath = not_real_res.data[i]['logo path'];
             delete not_real_res.data[i]['logo path'];
@@ -235,19 +236,28 @@ methods:{
         filterQuery = this.filterQueryByPosId;
       }
        try {
-        const res = await this.axios.get(
-          "http://localhost:3000/search/Players",
-          {params:{
-            "query":this.searchQuery,
-            "sort":"none",
-            "filter":this.filterByAttribue,
-            "filter query":filterQuery
-          }}
-          
-        );
-        console.log(res);
+        // const res = await this.axios.get(
+        //   "http://localhost:3000/search/Players",
+        //   {params:{
+        //     "query":this.searchQuery,
+        //     "sort":"none",
+        //     "filter":this.filterByAttribue,
+        //     "filter query":filterQuery
+        //   }}
+        // );
+        // console.log(res.data);    
+
+        var not_real_res = {
+          data:[
+            { "name": "David Nii Addy", "id": 62570, "image": "https://cdn.sportmonks.com/images/soccer/players/10/62570.png", "position": 2, "team_name": "Randers" },
+            { "name": "David Jean Nielsen", "id": 458696, "image": "https://cdn.sportmonks.com/images/soccer/placeholder.png", "position": 9, "team_name": "Vejle" }
+             ]
+        };
+    
+        
         this.playerRes = [];
-        this.playerRes.push(...(res.data));
+        // this.playerRes.push(...(res.data));
+        this.playerRes.push(...(not_real_res.data));
       } catch (error) {
         console.log("error in searching players")
         console.log(error);

@@ -9,20 +9,6 @@
 
     <p class="mt-3">Current Page: {{ currentPage }}</p>
 
-    <!-- <b-table
-      id="my-table"
-      :items="teamResults"
-      :fields="fields"
-      :per-page="perPage"
-      :current-page="currentPage"
-      small
-    >
-    <template v-slot:cell(logo path)="data">
-   <img :src="data.item['logo path']" />          
-    </template>
-
-    </b-table> -->
-
 
     <b-container fluid>
     <b-table 
@@ -42,7 +28,7 @@
     >
 
       <template v-slot:cell(logopath)="row">
-        <img :src="row.value"/>
+        <img :src="row.value" height="70px" width="70px" />
       </template>
       
 
