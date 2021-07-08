@@ -22,12 +22,6 @@ const routes = [
     name: "search",
     component: () => import("./pages/SearchPage")
   },
-  //TODO: maybe not relevant
-  {
-    path: "/player",
-    name: "player",
-    component: () => import("./pages/PlayerPage")
-  },
   {
     path: '/player/:id',
     component: () => import("./pages/PlayerPage")

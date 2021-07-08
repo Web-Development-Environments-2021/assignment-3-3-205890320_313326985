@@ -12,10 +12,8 @@
     </h3><h3>
         {{commonName}}
     </h3><h3>
-        {{position}}
-    </h3><h3>
         {{nationality}}
-    </h3><h3>
+    </h3 ><h3>
         {{birthDate}}
     </h3><h3>
         {{birthCountry}}
@@ -24,9 +22,9 @@
     </h3><h3>
         {{weight}}
     </h3>
-    <h3>
+    <!-- <h3>
         {{this.$route.params.id}}
-    </h3>
+    </h3> -->
 </div>
   
 </template>
@@ -55,7 +53,7 @@ export default {
           "http://localhost:3000/players/playerFullDetails/"+this.$route.params.id,
         );
 
-        console.log(res);
+        // console.log(res);
         this.playerData = res.data;
         this.name=this.playerData.name;
         this.image=this.playerData.image;
