@@ -211,10 +211,12 @@ methods:{
              ]
         };
         
-        // transfers data key logo path, to without spaces form
+        // transfers data key logo path and team name, to without spaces form
         for(var i = 0; i < not_real_res.data.length; i++){
             not_real_res.data[i].logopath = not_real_res.data[i]['logo path'];
             delete not_real_res.data[i]['logo path'];
+            not_real_res.data[i].teamname = not_real_res.data[i]['team name'];
+            delete not_real_res.data[i]['team name'];
         }
 
         console.log(not_real_res);

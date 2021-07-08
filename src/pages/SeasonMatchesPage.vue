@@ -33,6 +33,43 @@ export default {
       return{
         display_flag:true
       }
+    },
+    methods:{
+      async updatePastMatches(){
+      console.log("response");
+      try {
+        this.axios.defaults.withCredentials = true;
+        const response = await this.axios.get(
+          "http://localhost:3000/matches/pastMatches"
+        );
+        this.axios.defaults.withCredentials = false;
+        console.log(response);
+        const matches = response.data;
+        this.leagueMatches = [];
+        console.log(matches);
+        this.leagueMatches.push(...matches);
+        console.log(this.leagueMatches);
+      } catch (error) {
+        console.log("error in update matches")
+        console.log(error);
+      }
+    },
+    async updateFutureMatches(){
+      try {
+        this.axios.defaults.withCredentials = true;
+        const response = await this.axios.get(
+          "http://localhost:3000/matches/futureMatches"
+        );
+        this.axios.defaults.withCredentials = false;
+        const matches = response.data
+        this.leagueMatches = [];
+        this.leagueMatches.push(...matches);
+        console.log(this.leagueMatches);
+      } catch (error) {
+        console.log("error in update matches")
+        console.log(error);
+      }
+    },
     }
 };
 </script>
