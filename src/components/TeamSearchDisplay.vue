@@ -41,13 +41,10 @@
       small
     >
 
-      <template #cell(logopath)="row">
-        <b-img thumbnail fluid :src="row.value.logopath"></b-img>
+      <template v-slot:cell(logopath)="row">
+        <img :src="row.value"/>
       </template>
-      <!-- <template #cell(logopath)="row">
-        {{ row.value['team name']}}   
-        <b-img thumbnail fluid :src="row.value['logo path']"></b-img>
-      </template> -->
+      
 
     </b-table>
   </b-container>
@@ -105,6 +102,7 @@ export default {
           {
             key: 'logopath',
             label: 'Team Logo',
+            editable: true,
             image: true
           }
         ]
