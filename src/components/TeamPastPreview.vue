@@ -19,7 +19,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="match in pastLeagueMatches" :key="match.MatchDetails.match_id">
+        <tr v-for="match in arrCheck" :key="match.MatchDetails.match_id">
           <th scope="row">{{match.MatchDetails.match_id}}</th>
           <td> {{match.MatchDetails.date_time.slice(0,10)}} </td>
           <td> {{match.MatchDetails.date_time.slice(11,16)}} </td>
@@ -65,6 +65,12 @@ export default {
       pastLeagueMatches:[]
     }
   },
+  props:{
+    arrCheck:{
+      required: true,
+      type: Array
+    }
+  },
   methods: {
     async updateMatches(){
       console.log("response");
@@ -84,7 +90,7 @@ export default {
   },
   async mounted(){
     await this.updateMatches();
-    console.log("past matches preview mounted")
+    console.log("past matches preview mounted");
   }
 };
 </script>

@@ -31,7 +31,7 @@
         <img :src="row.value" height="70px" width="70px" />
       </template>
       
-      <template v-slot:cell(teamname)="row">
+      <template v-slot:cell(id)="row">
       <router-link :to="`/team/${row.value}`">{{ row.value }}</router-link>   
       </template>
 
@@ -83,6 +83,10 @@ export default {
       ,
       fields(){
         return[
+          {
+            key:'id',
+            label:'Id'
+          },
           {
             key: 'teamname',
             label: 'Team Name',

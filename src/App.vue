@@ -22,9 +22,6 @@
             UnionAgent
           </template>
           <b-dropdown-item href="#/UnionAgent/leagueManage">League Management</b-dropdown-item>
-          <!-- <b-dropdown-item href="#/addEventsLog">Add Events-Log to match</b-dropdown-item>
-          <b-dropdown-item href="#/updateMatchResults">Update match results </b-dropdown-item>
-          <b-dropdown-item href="#/updateMatchReferee">Update match referee</b-dropdown-item> -->
         </b-nav-item-dropdown>
 
         <b-nav-item-dropdown right>

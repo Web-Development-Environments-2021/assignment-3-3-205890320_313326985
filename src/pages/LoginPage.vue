@@ -90,6 +90,7 @@ export default {
     },
     async Login() {
       try {
+        
         this.axios.defaults.withCredentials = true;
         const response = await this.axios.post(
           "http://localhost:3000/Login",
@@ -99,26 +100,27 @@ export default {
           }
         );
         this.axios.defaults.withCredentials = false;
-        // this.$root.loggedIn = true;
+
         console.log(this.$root.store.login);
-        //TODO: row below was not in comment
-        // this.$root.store.login(this.form.username);
+
         this.$root.store.login({username:this.form.username,response:response.data});
-        //TODO: row below was not in comment
-        this.$router.push("/");
+
+        // Line below forward no matter where
+        // you want to go, to main page - after login
+
+        // this.$router.push("/");
       } catch (err) {
         console.log(err.response);
         this.form.submitError = err.response.data.message;
       }
     },
     onLogin() {
-      // console.log("login method called");
+      
       this.form.submitError = undefined;
       this.$v.form.$touch();
       if (this.$v.form.$anyError) {
         return;
       }
-      // console.log("login method go");
 
       this.Login();
     }

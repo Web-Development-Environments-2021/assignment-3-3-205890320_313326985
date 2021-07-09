@@ -201,10 +201,12 @@ methods:{
         var not_real_res = {
           data:[
             {
+    "id": 85,
     "team name": "København",
     "logo path": "https://cdn.sportmonks.com/images//soccer/teams/21/85.png"
             },
             {
+    "id": 939,
     "team name": "Midtjylland",
     "logo path": "https://cdn.sportmonks.com/images//soccer/teams/11/939.png"
             }
