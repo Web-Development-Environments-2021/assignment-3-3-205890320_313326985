@@ -47,9 +47,10 @@
 
 
 
-      <template v-slot:cell(id)="row">
-      <router-link :to="`/player/${row.value}`">{{ row.value }}</router-link>   
+      <template v-slot:cell(name)="row">
+      <router-link :to="`/player/${row.item.id}`">{{ row.value }}</router-link>   
       </template>
+
 
       <template v-slot:cell(image)="row">
         <img :src="row.value" height="70px" width="70px" />
@@ -85,10 +86,6 @@ export default {
       ,
       fields(){
         return[
-          {
-            key:'id',
-            label:'Id'
-          },
           {
             key: 'name',
             label: 'Name',
