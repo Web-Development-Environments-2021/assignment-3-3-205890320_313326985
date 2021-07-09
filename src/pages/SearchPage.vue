@@ -2,8 +2,7 @@
   <div class="search-page">
   <div class="container-search">
     <b-form @submit.prevent="onSearch" @reset.prevent="onReset">
-    <h1 class="title">Search Page</h1>
-    <h2 class="title">Search</h2>
+    <h1 class="title">Search</h1>
 
 
     <div class="search-input">
@@ -198,7 +197,7 @@ methods:{
         //     "sort":"none"
         //   }}
         // );
-
+        this.teamRes=[];
         var not_real_res = {
           data:[
             {
@@ -226,7 +225,7 @@ methods:{
         this.teamRes.push(...(not_real_res.data));
 
       } catch (error) {
-        console.log("error in searching teams")
+        console.log("error in searching teams");
         console.log(error);
       }
   },
@@ -238,6 +237,7 @@ methods:{
         this.filterQuery = this.filterQueryByPosId;
       }
        try {
+        
         // const res = await this.axios.get(
         //   "http://localhost:3000/search/Players",
         //   {params:{
@@ -247,7 +247,7 @@ methods:{
         //     "filter query":this.filterQuery
         //   }}
         // );
-
+        this.playerRes=[];
         var not_real_res = {
           data:[
             { "name": "David Nii Addy", "id": 62570, "image": "https://cdn.sportmonks.com/images/soccer/players/10/62570.png", "position": 2, "team_name": "Randers" },

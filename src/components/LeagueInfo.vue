@@ -68,7 +68,7 @@ export default {
 
         this.leagueName = leagueDetails.league_name || "None";
         this.season = leagueDetails.current_season_name || "None";
-        this.stage = leagueDetails.current_stage_name || "None";
+        this.stage = leagueDetails.current_stage_name || "-";
 
         this.next_match_planned = NextMatchPlanned || "No future matches"
 

@@ -67,9 +67,9 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   min-height: 100vh;
-  // background-image: url("./assets/abstract-football-soccer-backgrounds.jpg");
-  // width: 100%;
-  // height: 100%;
+//   background-image: url("./assets/abstract-football-soccer-backgrounds.jpg");
+//   width: 100%;
+//   height: 100%;
 }
 
 #nav {
