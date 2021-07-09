@@ -86,7 +86,8 @@ Vue.use(VueAxios, axios);
 Vue.config.productionTip = false;
 
 const shared_data = {
-  username: undefined,
+  username: localStorage?.username,
+  unionAgent: localStorage?.unionAgent,
   login(loginDetails) {
     let username = loginDetails.username;
     let unionAgent = loginDetails.response.union_agent;
