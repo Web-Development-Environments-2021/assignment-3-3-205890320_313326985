@@ -24,7 +24,7 @@
           <td> {{match.visitor_team_name}} </td>
           <td> {{match.venue_name}} </td>
           <td> {{match.referee_id}} </td>
-          <td> <button :disabled="FavorMatch(match.match_id)" @click="addMatchToFavorites(match.match_id)" type="button" class="btn btn-outline-secondary btn-sm">add to favorites</button> </td>
+          <td> <button v-if="$root.store.username" :disabled="FavorMatch(match.match_id)" @click="addMatchToFavorites(match.match_id)" type="button" class="btn btn-outline-secondary btn-sm">add to favorites</button> </td>
         </tr>
 
       </tbody>
@@ -34,27 +34,18 @@
 
 <script>
 export default {
+  props:{
+    futureLeagueMatches:{
+      required: true,
+      type: Array
+    }
+  },
   data(){
     return{
-      futureLeagueMatches:[],
       favMatches:[]
     }
   },
   methods: {
-    async updateMatches(){
-      try {
-        this.axios.defaults.withCredentials = true;
-        const response = await this.axios.get(
-          "http://localhost:3000/matches/futureMatches"
-        );
-        this.axios.defaults.withCredentials = false;
-        const matches = response.data
-        this.futureLeagueMatches.push(...matches);
-      } catch (error) {
-        console.log("error in update matches")
-        console.log(error);
-      }
-    },
     async getFavoriteMatches(){
       try {
         this.axios.defaults.withCredentials = true;
@@ -93,9 +84,7 @@ export default {
     }
   },
   async mounted(){
-    console.log("future matches preview mounted");
     await this.getFavoriteMatches();
-    await this.updateMatches();
   }
 
 };

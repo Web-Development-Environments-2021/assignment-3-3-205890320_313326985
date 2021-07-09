@@ -32,10 +32,7 @@ export default {
         required: true
       }
       
-  }, 
-  mounted(){
-    console.log("match event preview mounted")
-  } 
+  }
 };
 </script>
 

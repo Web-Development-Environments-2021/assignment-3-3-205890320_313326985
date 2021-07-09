@@ -19,7 +19,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="match in arrCheck" :key="match.MatchDetails.match_id">
+        <tr v-for="match in pastLeagueMatches" :key="match.MatchDetails.match_id">
           <th scope="row">{{match.MatchDetails.match_id}}</th>
           <td> {{match.MatchDetails.date_time.slice(0,10)}} </td>
           <td> {{match.MatchDetails.date_time.slice(11,16)}} </td>
@@ -60,37 +60,11 @@
 
 <script>
 export default {
-  data(){
-    return{
-      pastLeagueMatches:[]
-    }
-  },
   props:{
-    arrCheck:{
+    pastLeagueMatches:{
       required: true,
       type: Array
     }
-  },
-  methods: {
-    async updateMatches(){
-      console.log("response");
-      try {
-        this.axios.defaults.withCredentials = true;
-        const response = await this.axios.get(
-          "http://localhost:3000/matches/pastMatches"
-        );
-        this.axios.defaults.withCredentials = false;
-        const matches = response.data;
-        this.pastLeagueMatches.push(...matches);
-      } catch (error) {
-        console.log("error in update matches")
-        console.log(error);
-      }
-    },
-  },
-  async mounted(){
-    await this.updateMatches();
-    console.log("past matches preview mounted");
   }
 };
 </script>

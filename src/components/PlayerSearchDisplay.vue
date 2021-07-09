@@ -40,10 +40,6 @@
       :fields="fields"
       :current-page="currentPage"
       :per-page="perPage"
-      :filter-included-fields="filterOn"
-      :sort-by.sync="sortBy"
-      :sort-desc.sync="sortDesc"
-      :sort-direction="sortDirection"
       stacked="md"
       show-empty
       small

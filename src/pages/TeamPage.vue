@@ -9,11 +9,11 @@
         </button>
           <div id="past" class="match-prev" v-if="display_flag">
             <h2> Past Matches </h2>
-          <team-past-preview arrCheck="teamPastMatches"></team-past-preview >
+          <table-match-past-preview :pastLeagueMatches="teamPastMatches"></table-match-past-preview >
           </div>
           <div id="future" class="match-prev" v-if="!display_flag">
             <h2> Future Matches </h2>
-          <team-future-preview></team-future-preview >
+          <table-match-future-preview :futureLeagueMatches="teamFutureMatches"></table-match-future-preview >
           </div>
     </div>
 
@@ -27,7 +27,7 @@
 
 
     <div class="teamDetails">
-        <img :src="image" height="150px" width="150px">image of team<img/>       
+        <img :src="image" height="150px" width="150px"><img/>       
         <h1>
             team name : {{teamName}}
         </h1>
@@ -43,13 +43,13 @@
 </template>
 
 <script>
-import TeamPastPreview from "../components/TeamPastPreview.vue"
-import TeamFuturePreview from "../components/TeamFuturePreview.vue"
+import TableMatchPastPreview from "../components/TableMatchPastPreview.vue"
+import TableMatchFuturePreview from "../components/TableMatchFuturePreview.vue"
 import PlayerSearchDisplay from "../components/PlayerSearchDisplay.vue"
 export default {
     name:"PlayerPage",
     components:{
-        TeamPastPreview,TeamFuturePreview,PlayerSearchDisplay
+        TableMatchPastPreview,TableMatchFuturePreview,PlayerSearchDisplay
     },
     data(){
         return{

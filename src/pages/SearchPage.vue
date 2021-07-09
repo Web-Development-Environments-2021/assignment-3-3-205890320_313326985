@@ -91,14 +91,14 @@
         variant="primary"
         style="width:250px;"
         class="ml-5 w-25"
->Search</b-button>
+  >Search</b-button>
 
   </b-form>
   </div>
   <div class="container-results">
     <h2 class="subtitle">Results</h2>
-    <team-search-display v-if="teamFlag" :teamResults =teamRes></team-search-display>
-    <player-search-display v-if="playerFlag" :playerResults =playerRes></player-search-display>
+    <team-search-display v-if="teamFlag" :teamResults ="teamRes"></team-search-display>
+    <player-search-display v-if="playerFlag" :playerResults ="playerRes"></player-search-display>
   </div>
   </div>
 </template>
@@ -127,6 +127,7 @@ export default {
       filterByAttribue: "none",
       filterQueryByTeamName:"TeamName",
       filterQueryByPosId:"1",
+      filterQuery:"",
       searchingObjects:["Teams","Players"],
       filterAttributes:["player's position","team name","none"],
       teamFlag:false,
@@ -221,8 +222,6 @@ methods:{
             delete not_real_res.data[i]['team name'];
         }
 
-        console.log(not_real_res);
-        this.teamRes = [];
         // this.teamRes.push(...(res.data));
         this.teamRes.push(...(not_real_res.data));
 
@@ -232,12 +231,11 @@ methods:{
       }
   },
   async searchPlayers(){
-      var filterQuery="";
       if(this.filterByAttribue == "team name"){
-        filterQuery = this.filterQueryByTeamName;
+        this.filterQuery = this.filterQueryByTeamName;
       }
       else if(this.filterByAttribue == "player's position"){
-        filterQuery = this.filterQueryByPosId;
+        this.filterQuery = this.filterQueryByPosId;
       }
        try {
         // const res = await this.axios.get(
@@ -246,10 +244,9 @@ methods:{
         //     "query":this.searchQuery,
         //     "sort":"none",
         //     "filter":this.filterByAttribue,
-        //     "filter query":filterQuery
+        //     "filter query":this.filterQuery
         //   }}
         // );
-        // console.log(res.data);    
 
         var not_real_res = {
           data:[
@@ -257,9 +254,7 @@ methods:{
             { "name": "David Jean Nielsen", "id": 458696, "image": "https://cdn.sportmonks.com/images/soccer/placeholder.png", "position": 9, "team_name": "Vejle" }
              ]
         };
-    
         
-        this.playerRes = [];
         // this.playerRes.push(...(res.data));
         this.playerRes.push(...(not_real_res.data));
       } catch (error) {

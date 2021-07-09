@@ -1,25 +1,25 @@
 <template>
 <div>
   <div class="matches-preview" v-if="$root.store.username">
-  <favorite-matches-for-league-info></favorite-matches-for-league-info>
+  <favorite-matches :matches="favoriteMatches"></favorite-matches>
   </div>
-    <div class="league-preview">
-      <b-card
-      img-alt="Image"
-      tag="article"
-      style="max-width: 20rem;"
-      class="mb-2"
-    >
-      <b-card-title>{{leagueName}}</b-card-title>
-      <b-card-text>
-        Season: {{ season }}
-        <br/>
-        Stage: {{ stage }}
-        <br/>
-      </b-card-text>
-    </b-card>
-    </div>
-    <div class="next-match-preview">
+  <div class="league-preview">
+    <b-card
+    img-alt="Image"
+    tag="article"
+    style="max-width: 20rem;"
+    class="mb-2"
+  >
+    <b-card-title>{{leagueName}}</b-card-title>
+    <b-card-text>
+      Season: {{ season }}
+      <br/>
+      Stage: {{ stage }}
+      <br/>
+    </b-card-text>
+  </b-card>
+  </div>
+  <div class="next-match-preview">
     <div class="next-match-title">
       <b>Next match planned:</b>
     </div>
@@ -34,44 +34,40 @@
       <li> Venue Name: {{next_match_planned.venue_name}}</li>
       <li> Referee Id: {{next_match_planned.referee_id}}</li>
     </ul>
-    </div>
+  </div>
 </div>
 </template>
 
 <script>
-import FavoriteMatchesForLeagueInfo from "./FavoriteMatchesForLeagueInfo.vue";
+import FavoriteMatches from "./FavoriteMatches.vue";
 export default {
  name: "LeagueInfo",
  components: {
-    FavoriteMatchesForLeagueInfo
- },
- async mounted(){
-    console.log("mounted");
-    await this.updateLeagueDetailsAndNextMatchPlanned(); 
-    console.log("league details updated");
+    FavoriteMatches
  },
  data() {
     return {
-      leagueName:this.leagueName , 
-      season: this.season, 
-      stage: this.stage,
-      next_match_planned : this.next_match_planned
+      leagueName:"", 
+      season: "", 
+      stage: "",
+      next_match_planned : [],
+      favoriteMatches:[]
     };
   },
   methods: {
     async updateLeagueDetailsAndNextMatchPlanned(){
       try {
         this.axios.defaults.withCredentials = true;
-        const response = await this.axios.get(
+        var response = await this.axios.get(
           "http://localhost:3000/league/getDetails",
         );
         this.axios.defaults.withCredentials = false;
 
-        const leagueDetails = response.data.leaguePreview;
-        const NextMatchPlanned = leagueDetails.next_match_planned;
+        var leagueDetails = response.data.leaguePreview;
+        var NextMatchPlanned = leagueDetails.next_match_planned;
 
-        this.leagueName = leagueDetails.league_name;
-        this.season = leagueDetails.current_season_name;
+        this.leagueName = leagueDetails.league_name || "None";
+        this.season = leagueDetails.current_season_name || "None";
         this.stage = leagueDetails.current_stage_name || "None";
 
         this.next_match_planned = NextMatchPlanned || "No future matches"
@@ -80,9 +76,29 @@ export default {
         console.log("error in update league info")
         console.log(error);
       }
+    },
+    async updateFavoriteMatchesforLeagueInfo(){
+      try {
+        this.axios.defaults.withCredentials = true;
+        const response = await this.axios.get(
+          "http://localhost:3000/league/getDetails",
+        );
+        this.axios.defaults.withCredentials = false;
+        
+        var favMatches = response.data.favoriteMatches;
+
+        this.favoriteMatches.push(...favMatches)
+
+      } catch (error) {
+        console.log("error in update favorite matches for league info")
+        console.log(error);
+      }
     }
+  },
+  async mounted(){
+    await this.updateLeagueDetailsAndNextMatchPlanned();
+    await this.updateFavoriteMatchesforLeagueInfo();
   }
-  
 }
 </script>
 

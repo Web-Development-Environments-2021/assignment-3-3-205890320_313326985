@@ -56,10 +56,7 @@ export default {
         type: Number,
         required: true
       }
-  }, 
-  mounted(){
-    console.log("Match preview mounted")
-  } 
+  }
 };
 </script>
 

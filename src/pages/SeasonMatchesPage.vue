@@ -8,31 +8,63 @@
       </button>
         <div id="past" class="match-prev" v-if="display_flag">
           <h2> Past Matches </h2>
-        <season-past-preview></season-past-preview >
+        <table-match-past-preview :pastLeagueMatches="seasonPastMatches"></table-match-past-preview >
         </div>
         <div id="future" class="match-prev" v-if="!display_flag">
           <h2> Future Matches </h2>
-        <season-future-preview></season-future-preview >
+        <table-match-future-preview :futureLeagueMatches="seasonFutureMatches"></table-match-future-preview >
         </div>
     </div>
   </div>
 </template>
 
 <script>
-import SeasonPastPreview from "../components/SeasonPastPreview";
-import SeasonFuturePreview from "../components/SeasonFuturePreview";
+import TableMatchPastPreview from "../components/TableMatchPastPreview.vue"
+import TableMatchFuturePreview from "../components/TableMatchFuturePreview.vue"
 import LoginPage from "../pages/LoginPage";
 export default {
     components:
     {
-        SeasonPastPreview,
-        SeasonFuturePreview,
+        TableMatchPastPreview,
+        TableMatchFuturePreview,
         LoginPage
     },
     data(){
       return{
-        display_flag:true
+        display_flag:true,
+        seasonPastMatches:[],
+        seasonFutureMatches:[]
       }
+    },
+    methods:{
+      async updateFutureMatches(){
+      try {
+        this.axios.defaults.withCredentials = true;
+        const response = await this.axios.get(
+          "http://localhost:3000/matches/futureMatches"
+        );
+        this.axios.defaults.withCredentials = false;
+        const matches = response.data
+        this.seasonFutureMatches.push(...matches);
+      } catch (error) {
+        console.log("error in update matches")
+        console.log(error);
+      }
+    },
+    async updatePastMatches(){
+      try {
+        this.axios.defaults.withCredentials = true;
+        const response = await this.axios.get(
+          "http://localhost:3000/matches/pastMatches"
+        );
+        this.axios.defaults.withCredentials = false;
+        const matches = response.data;
+        this.seasonPastMatches.push(...matches);
+      } catch (error) {
+        console.log("error in update matches")
+        console.log(error);
+      }
+    },
     }
 };
 </script>

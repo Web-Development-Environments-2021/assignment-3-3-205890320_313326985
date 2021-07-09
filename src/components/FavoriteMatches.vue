@@ -23,31 +23,11 @@ export default {
   components: {
     FutureMatchPreview
   }, 
-  data() {
-    return {
-      matches:[]
-    };
-  },
-  methods: {
-    async updateFavoriteMatches(){
-      try {
-        this.axios.defaults.withCredentials = true;
-        const futureMatches = await this.axios.get(
-          "http://localhost:3000/users/favoriteMatches",
-        );
-        this.axios.defaults.withCredentials = false;
-        this.matches = [];
-        this.matches.push(...(futureMatches.data));
-        return this.matches;
-      } catch (error) {
-        console.log("error in update favorite matches")
-        console.log(error);
-      }
+  props: {
+    matches:{
+      required: true,
+      type: Array
     }
-  }, 
-  mounted(){
-    console.log("favorite games mounted");
-    this.updateFavoriteMatches(); 
   }
 };
 </script>
