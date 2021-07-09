@@ -31,12 +31,7 @@
         <img :src="row.value" height="70px" width="70px" />
       </template>
       
-      
-
-      
-
-
-
+  
     </b-table>
   </b-container>
 

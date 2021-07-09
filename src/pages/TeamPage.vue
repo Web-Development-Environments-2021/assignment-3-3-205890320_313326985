@@ -1,8 +1,17 @@
 <template>
 <div>
-    <div class="futureAndpastMatches">
-        <h1>
-            team matches
+    <div class="jumbotron">
+      <img id=#team-img :src="image" height="150px" width="150px"><img/> 
+    <h1 class="display-4">Team Name: {{teamName}}</h1>
+          
+    <hr class="my-4">
+    <h4>What can you see in this page:</h4>
+    <a class="btn btn-primary btn-lg"  id ="refmatches" href="#matches" role="button">{{teamName}}'s matches</a>
+    <a class="btn btn-primary btn-lg" id ="refplayers" href="#playersView" role="button">{{teamName}}'s players</a>
+    </div>
+    <div id="matches" class="futureAndpastMatches">
+        <h1 >
+            Team Matches
         </h1>
         <button class="btn  btn-lg btn-dark btn-outline-info" data-toggle="button" @click="display_flag=!display_flag">
           Change between Past and Future matches
@@ -17,17 +26,11 @@
           </div>
     </div>
 
-    <div class="teamDetails">
-        <img :src="image" height="150px" width="150px"><img/>       
-        <h1>
-            team name : {{teamName}}
-        </h1>
-        <div class="teamPlayers">
-        <h1>
-            players view
+    <div class="teamPlayers" id = "playersView">
+        <h1 >
+            Players View
         </h1>
         <player-search-display :playerResults ="players"></player-search-display>
-    </div>
     </div>
 </div>
   
@@ -395,12 +398,24 @@ export default {
 
 <style>
 .futureAndpastMatches{
-    float:right;
-    padding-right: 100px;
-}
-.teamDetails{
     float:left;
-    padding-left: 50px;
+    /* padding-right: 100px; */
 }
-
+.teamPlayers{
+    float:left;
+    width:100%
+    /* padding-left: 50px; */
+}
+.display-4{
+  float: left;
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+}
+.team-img{
+  float: left;
+}
+.teamPlayers{
+  width:100%
+}
 </style>
