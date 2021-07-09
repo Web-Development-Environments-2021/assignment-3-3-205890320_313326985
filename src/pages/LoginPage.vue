@@ -108,7 +108,7 @@ export default {
         // Line below forward no matter where
         // you want to go, to main page - after login
 
-        // this.$router.push("/");
+        this.$router.push("/");
       } catch (err) {
         console.log(err.response);
         this.form.submitError = err.response.data.message;

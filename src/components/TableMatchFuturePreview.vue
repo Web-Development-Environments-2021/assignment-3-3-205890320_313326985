@@ -38,27 +38,13 @@ export default {
     futureLeagueMatches:{
       required: true,
       type: Array
-    }
-  },
-  data(){
-    return{
-      favMatches:[]
+    },
+    favMatches:{
+      required: true,
+      type: Array
     }
   },
   methods: {
-    async getFavoriteMatches(){
-      try {
-        this.axios.defaults.withCredentials = true;
-        const futureMatches = await this.axios.get(
-          "http://localhost:3000/users/favoriteMatches",
-        );
-        this.axios.defaults.withCredentials = false;
-        this.favMatches.push(...(futureMatches.data));
-      } catch (error) {
-        console.log("error in update favorite matches")
-        console.log(error);
-      }
-    },
     async addMatchToFavorites(match_id){
       try {
         this.axios.defaults.withCredentials = true;
@@ -82,11 +68,7 @@ export default {
         return false;
       }
     }
-  },
-  async mounted(){
-    await this.getFavoriteMatches();
   }
-
 };
 </script>
 

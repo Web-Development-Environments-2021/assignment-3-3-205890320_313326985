@@ -12,7 +12,7 @@
         </div>
         <div id="future" class="match-prev" v-if="!display_flag">
           <h2> Future Matches </h2>
-        <table-match-future-preview :futureLeagueMatches="seasonFutureMatches"></table-match-future-preview >
+        <table-match-future-preview :futureLeagueMatches="seasonFutureMatches" :favMatches="favMatches"></table-match-future-preview>
         </div>
     </div>
   </div>
@@ -33,39 +33,61 @@ export default {
       return{
         display_flag:true,
         seasonPastMatches:[],
-        seasonFutureMatches:[]
+        seasonFutureMatches:[],
+        favMatches:[]
       }
     },
     methods:{
       async updateFutureMatches(){
-      try {
-        this.axios.defaults.withCredentials = true;
-        const response = await this.axios.get(
-          "http://localhost:3000/matches/futureMatches"
-        );
-        this.axios.defaults.withCredentials = false;
-        const matches = response.data
-        this.seasonFutureMatches.push(...matches);
-      } catch (error) {
-        console.log("error in update matches")
-        console.log(error);
+        try {
+
+          // first, load fav matches for adding button
+          await this.getFavoriteMatches();
+
+          this.axios.defaults.withCredentials = true;
+          const response = await this.axios.get(
+            "http://localhost:3000/matches/futureMatches"
+          );
+          this.axios.defaults.withCredentials = false;
+          const matches = response.data
+          this.seasonFutureMatches.push(...matches);
+        } catch (error) {
+          console.log("error in update matches")
+          console.log(error);
+        }
+      },
+      async getFavoriteMatches(){
+        try {
+          this.axios.defaults.withCredentials = true;
+          const futureMatches = await this.axios.get(
+            "http://localhost:3000/users/favoriteMatches",
+          );
+          this.axios.defaults.withCredentials = false;
+          this.favMatches.push(...(futureMatches.data));
+        } catch (error) {
+          console.log("error in update favorite matches")
+          console.log(error);
+        }
+      },
+      async updatePastMatches(){
+        try {
+          this.axios.defaults.withCredentials = true;
+          const response = await this.axios.get(
+            "http://localhost:3000/matches/pastMatches"
+          );
+          this.axios.defaults.withCredentials = false;
+          const matches = response.data;
+          this.seasonPastMatches.push(...matches);
+        } catch (error) {
+          console.log("error in update matches")
+          console.log(error);
+        }
       }
     },
-    async updatePastMatches(){
-      try {
-        this.axios.defaults.withCredentials = true;
-        const response = await this.axios.get(
-          "http://localhost:3000/matches/pastMatches"
-        );
-        this.axios.defaults.withCredentials = false;
-        const matches = response.data;
-        this.seasonPastMatches.push(...matches);
-      } catch (error) {
-        console.log("error in update matches")
-        console.log(error);
-      }
+    async mounted() {
+      await this.updatePastMatches();
+      await this.updateFutureMatches();
     },
-    }
 };
 </script>
 

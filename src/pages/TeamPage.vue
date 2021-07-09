@@ -13,7 +13,7 @@
           </div>
           <div id="future" class="match-prev" v-if="!display_flag">
             <h2> Future Matches </h2>
-          <table-match-future-preview :futureLeagueMatches="teamFutureMatches"></table-match-future-preview >
+          <table-match-future-preview :futureLeagueMatches="teamFutureMatches"  :favMatches="favMatches" ></table-match-future-preview >
           </div>
     </div>
 
@@ -58,30 +58,43 @@ export default {
             players:[],
             teamPastMatches:[],
             teamFutureMatches:[],
-            display_flag:true
+            display_flag:true,
+            favMatches:[]
         }
     },
     methods:{
         async getTeamData(){
-    try {
-        const res = await this.axios.get(
-          "http://localhost:3000/teams/teamFullDetails/"+this.$route.params.id,
-        );
+            try {
+            const res = await this.axios.get(
+              "http://localhost:3000/teams/teamFullDetails/"+this.$route.params.id,
+            );
+            await this.getFavoriteMatches();
+            this.TeamData = res.data;
+            this.teamName=this.TeamData['team name'];
+            this.image=this.TeamData['logo path'];
+            this.players=this.TeamData.players;
 
-        console.log(res);
-        this.TeamData = res.data;
-        this.teamName=this.TeamData['team name'];
-        this.image=this.TeamData['logo path'];
-        this.players=this.TeamData.players;
+            this.teamPastMatches=this.TeamData["team's past matches"];
+            this.teamFutureMatches=this.TeamData["team's future matches"];
 
-        this.teamPastMatches=this.TeamData["team's past matches"];
-        this.teamFutureMatches=this.TeamData["team's future matches"];
-
-      } catch (error) {
-        console.log("error in player page")
-        console.log(error);
-      }
-  },
+            } catch (error) {
+              console.log("error in player page")
+              console.log(error);
+            }
+        },
+        async getFavoriteMatches(){
+        try {
+          this.axios.defaults.withCredentials = true;
+          const futureMatches = await this.axios.get(
+            "http://localhost:3000/users/favoriteMatches",
+          );
+          this.axios.defaults.withCredentials = false;
+          this.favMatches.push(...(futureMatches.data));
+        } catch (error) {
+          console.log("error in update favorite matches")
+          console.log(error);
+        }
+      },
     },
     async mounted(){
         await this.getTeamData();
