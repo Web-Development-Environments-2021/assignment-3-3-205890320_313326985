@@ -50,6 +50,7 @@ export default {
           );
           this.axios.defaults.withCredentials = false;
           const matches = response.data
+          this.seasonFutureMatches=[];
           this.seasonFutureMatches.push(...matches);
         } catch (error) {
           console.log("error in update matches")
@@ -63,6 +64,7 @@ export default {
             "http://localhost:3000/users/favoriteMatches",
           );
           this.axios.defaults.withCredentials = false;
+          this.favMatches=[];
           this.favMatches.push(...(futureMatches.data));
         } catch (error) {
           console.log("error in update favorite matches")
@@ -77,6 +79,7 @@ export default {
           );
           this.axios.defaults.withCredentials = false;
           const matches = response.data;
+          this.seasonPastMatches=[];
           this.seasonPastMatches.push(...matches);
         } catch (error) {
           console.log("error in update matches")

@@ -1,6 +1,6 @@
 <template>
-<div>
-  <div class="matches-preview" v-if="$root.store.username">
+<div v-if="dataReady">
+  <div class="matches-preview" v-if="$root.store.username && this.checkIfConnected()">
   <favorite-matches :matches="favoriteMatches"></favorite-matches>
   </div>
   <div class="league-preview">
@@ -51,7 +51,10 @@ export default {
       season: "", 
       stage: "",
       next_match_planned : [],
-      favoriteMatches:[]
+      favoriteMatches:[],
+      dataReady: false,
+      connected: false,
+      gotIn: false
     };
   },
   methods: {
@@ -93,11 +96,22 @@ export default {
         console.log("error in update favorite matches for league info")
         console.log(error);
       }
+    },
+    async checkIfConnected(){
+      if(!(this.gotIn)){
+        this.gotIn = true;
+        if(this.$root.store.username && (!this.connected)){
+          await this.updateFavoriteMatchesforLeagueInfo();
+          this.connected = true;   
+          return true;
+        }
+        return false;     
+      }
     }
   },
   async mounted(){
     await this.updateLeagueDetailsAndNextMatchPlanned();
-    await this.updateFavoriteMatchesforLeagueInfo();
+    this.dataReady = true;
   }
 }
 </script>
@@ -108,7 +122,6 @@ export default {
 }
 
 .league-preview {
-  /* float:left; */
   display: inline-block;
   width: 250px;
   height: 200px;

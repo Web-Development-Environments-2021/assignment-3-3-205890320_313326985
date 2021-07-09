@@ -55,6 +55,9 @@ export default {
           }
         );
         this.axios.defaults.withCredentials = false;
+
+        await this.getFavoriteMatches();
+        
       } catch (error) {
         console.log("error in update favorite matches")
         console.log(error);
@@ -67,7 +70,21 @@ export default {
       else{
         return false;
       }
-    }
+    },
+    async getFavoriteMatches(){
+        try {
+          this.axios.defaults.withCredentials = true;
+          const futureMatches = await this.axios.get(
+            "http://localhost:3000/users/favoriteMatches",
+          );
+          this.axios.defaults.withCredentials = false;
+          this.favMatches=[];
+          this.favMatches.push(...(futureMatches.data));
+        } catch (error) {
+          console.log("error in update favorite matches")
+          console.log(error);
+        }
+      },
   }
 };
 </script>
