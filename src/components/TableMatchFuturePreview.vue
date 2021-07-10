@@ -87,9 +87,8 @@ export default {
           }
         );
         this.axios.defaults.withCredentials = false;
-
+      
         await this.getFavoriteMatches();
-        this.$refs.table.refresh();
         
       } catch (error) {
         console.log("error in update favorite matches")

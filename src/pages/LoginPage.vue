@@ -48,15 +48,6 @@
         <router-link to="register"> Register in here</router-link>
       </div>
     </b-form>
-    <!-- <b-alert
-      class="mt-2"
-      v-if="form.submitError"
-      variant="warning"
-      dismissible
-      show
-    >
-      Login failed: {{ form.submitError }}
-    </b-alert> -->
   </div>
 </template>
 
