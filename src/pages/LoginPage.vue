@@ -106,7 +106,7 @@ export default {
         this.$root.toast("Login", response.data.message, "success");
         this.$router.push("/");
       } catch (err) {
-        // sign us that action did not happend
+        // alert us that action did not happend
         this.$root.toast("Login", err.response.data, "danger");
         this.form.submitError = err.response.data.message;
       }

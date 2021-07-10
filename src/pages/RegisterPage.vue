@@ -159,6 +159,7 @@
         variant="primary"
         style="width:250px;"
         class="ml-5 w-75"
+        @click="checkIfSubmitOK()"
         >Register</b-button
       >
       <div class="mt-2">
@@ -166,15 +167,7 @@
         <router-link to="login"> Log in here</router-link>
       </div>
     </b-form>
-    <b-alert
-      class="mt-2"
-      v-if="form.submitError"
-      variant="warning"
-      dismissible
-      show
-    >
-      Register failed: {{ form.submitError }}
-    </b-alert>
+
   </div>
 </template>
 
@@ -247,6 +240,13 @@ export default {
     this.countries.push(...countries);
   },
   methods: {
+    checkIfSubmitOK(){
+      console.log(this.$v.$anyError)
+      if(this.$v.$anyError != false){
+        
+        this.$root.toast("Register", "Error in registration", "danger");
+      }
+    },
     validateState(param) {
       const { $dirty, $error } = this.$v.form[param];
       return $dirty ? !$error : null;
