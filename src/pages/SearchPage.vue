@@ -102,8 +102,18 @@
   </div>
   <div class="container-results">
     <h2 class="subtitle">Results</h2>
+    <div v-if="dataReady">
     <team-search-display v-if="teamFlag" :teamResults ="teamRes"></team-search-display>
     <player-search-display v-if="playerFlag" :playerResults ="playerRes"></player-search-display>
+    </div>
+    <div v-if="!dataReady && searchPressed">
+      <div class="box">
+      <div class="shadow"></div>
+      <div class="gravity">
+      <div class="ball"></div>
+    </div>
+</div>
+</div>
   </div>
   </div>
 </template>
@@ -127,6 +137,8 @@ export default {
  },
  data() {
     return {
+      dataReady: false,
+      searchPressed:false,
       searchQuery:"",
       searchByObject: "",
       filterByAttribue: "none",
@@ -196,40 +208,40 @@ methods:{
   },
   async searchTeams(){
     try {
-        // const res = await this.axios.get(
-        //   "http://localhost:3000/search/Teams",
-        //   {params:{
-        //     "query":this.searchQuery,
-        //     "sort":"none"
-        //   }}
-        // );
+      this.dataReady = false;
+        const res = await this.axios.get(
+          "http://localhost:3000/search/Teams",
+          {params:{
+            "query":this.searchQuery,
+            "sort":"none"
+          }}
+        );
         this.teamRes=[];
-        var not_real_res = {
-          data:[
-            {
-    "id": 85,
-    "team name": "København",
-    "logo path": "https://cdn.sportmonks.com/images//soccer/teams/21/85.png"
-            },
-            {
-    "id": 939,
-    "team name": "Midtjylland",
-    "logo path": "https://cdn.sportmonks.com/images//soccer/teams/11/939.png"
-            }
-             ]
-        };
+    //     var not_real_res = {
+    //       data:[
+    //         {
+    // "id": 85,
+    // "team name": "København",
+    // "logo path": "https://cdn.sportmonks.com/images//soccer/teams/21/85.png"
+    //         },
+    //         {
+    // "id": 939,
+    // "team name": "Midtjylland",
+    // "logo path": "https://cdn.sportmonks.com/images//soccer/teams/11/939.png"
+    //         }
+    //          ]
+    //     };
         
         // transfers data key logo path and team name, to without spaces form
-        for(var i = 0; i < not_real_res.data.length; i++){
-            not_real_res.data[i].logopath = not_real_res.data[i]['logo path'];
-            delete not_real_res.data[i]['logo path'];
-            not_real_res.data[i].teamname = not_real_res.data[i]['team name'];
-            delete not_real_res.data[i]['team name'];
+        for(var i = 0; i < res.data.length; i++){
+            res.data[i].logopath = res.data[i]['logo path'];
+            delete res.data[i]['logo path'];
+            res.data[i].teamname = res.data[i]['team name'];
+            delete res.data[i]['team name'];
         }
-
-        // this.teamRes.push(...(res.data));
-        this.teamRes.push(...(not_real_res.data));
-
+        this.teamRes.push(...(res.data));
+        // this.teamRes.push(...(not_real_res.data));
+        this.dataReady = true;
       } catch (error) {
         console.log("error in searching teams");
         console.log(error);
@@ -243,26 +255,27 @@ methods:{
         this.filterQuery = this.filterQueryByPosId;
       }
        try {
-        
-        // const res = await this.axios.get(
-        //   "http://localhost:3000/search/Players",
-        //   {params:{
-        //     "query":this.searchQuery,
-        //     "sort":"none",
-        //     "filter":this.filterByAttribue,
-        //     "filter query":this.filterQuery
-        //   }}
-        // );
+        this.dataReady = false;
+        const res = await this.axios.get(
+          "http://localhost:3000/search/Players",
+          {params:{
+            "query":this.searchQuery,
+            "sort":"none",
+            "filter":this.filterByAttribue,
+            "filter query":this.filterQuery
+          }}
+        );
         this.playerRes=[];
-        var not_real_res = {
-          data:[
-            { "name": "David Nii Addy", "id": 62570, "image": "https://cdn.sportmonks.com/images/soccer/players/10/62570.png", "position": 2, "team_name": "Randers" },
-            { "name": "David Jean Nielsen", "id": 458696, "image": "https://cdn.sportmonks.com/images/soccer/placeholder.png", "position": 9, "team_name": "Vejle" }
-             ]
-        };
+        // var not_real_res = {
+        //   data:[
+        //     { "name": "David Nii Addy", "id": 62570, "image": "https://cdn.sportmonks.com/images/soccer/players/10/62570.png", "position": 2, "team_name": "Randers" },
+        //     { "name": "David Jean Nielsen", "id": 458696, "image": "https://cdn.sportmonks.com/images/soccer/placeholder.png", "position": 9, "team_name": "Vejle" }
+        //      ]
+        // };
         
-        // this.playerRes.push(...(res.data));
-        this.playerRes.push(...(not_real_res.data));
+        this.playerRes.push(...(res.data));
+        // this.playerRes.push(...(not_real_res.data));
+        this.dataReady = true;
       } catch (error) {
         console.log("error in searching players")
         console.log(error);
@@ -284,6 +297,8 @@ methods:{
     ) {
         return;
     }
+
+    this.searchPressed=true;
 
     if(this.searchByObject == "Teams"){
       this.playerFlag = false;
@@ -316,10 +331,6 @@ methods:{
   padding-top: 30px;
 }
 
-#filterbutton{
-display: inline-block; 
-}
-
 .container-search{
   width: 40%;
   float: left;
@@ -329,4 +340,54 @@ display: inline-block;
   float: right;
 }
 
+
+
+
+
+.box {
+  margin: 0 auto;
+  padding-bottom: 50px;
+  width: 150px;
+  height: 245px;
+  position: relative;
+}
+.shadow {
+  position: absolute;
+  width: 100%;
+  height: 10px;
+  background-color: grey;
+  bottom: 0;
+  border-radius: 100%;
+  transform: scaleX(.8);
+  opacity: .6;
+  animation: shadowScale 1s linear infinite;
+}
+
+.gravity {
+  width: 40px;
+  height: 40px;
+  animation: bounce 1s cubic-bezier(0.68, 0.35, 0.29, 0.54) infinite;
+}
+.ball {
+  width: 150px;
+  height: 150px;
+  background-image: url('https://image.flaticon.com/icons/svg/33/33736.svg');
+  background-size: cover;
+  animation: roll .6s linear infinite;
+}
+
+@keyframes roll {
+  0% {}
+  100% { transform: rotate(360deg) }
+}
+@keyframes bounce {
+  0% {}
+  50% { transform: translateY(100px) }
+  100% {}
+}
+@keyframes shadowScale {
+  0% {}
+  50% { transform: scaleX(1); opacity: .8;}
+  100% {}
+}
 </style>

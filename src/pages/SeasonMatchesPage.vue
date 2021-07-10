@@ -1,16 +1,15 @@
 <template>
   <div class="container">
     <h1 class="title">Season Matches</h1>
-    <!-- <login-page v-if="!$root.store.username"></login-page> -->
     <div class="season-matches">
-      <button class="btn  btn-lg btn-dark btn-outline-info" data-toggle="button" @click="display_flag=!display_flag">
+      <button class="btn btn-lg btn-dark btn-outline-info" data-toggle="button" @click="display_flag=!display_flag">
         Change between Past and Future matches
       </button>
-        <div id="past" class="match-prev" v-if="display_flag">
+        <div id="past" class="match-prev" v-if="display_flag && pastReady">
           <h2> Past Matches </h2>
         <table-match-past-preview :pastLeagueMatches="seasonPastMatches"></table-match-past-preview >
         </div>
-        <div id="future" class="match-prev" v-if="!display_flag">
+        <div id="future" class="match-prev" v-if="!display_flag && futureReady">
           <h2> Future Matches </h2>
         <table-match-future-preview :futureLeagueMatches="seasonFutureMatches" :favMatches="favMatches"></table-match-future-preview>
         </div>
@@ -21,20 +20,20 @@
 <script>
 import TableMatchPastPreview from "../components/TableMatchPastPreview.vue"
 import TableMatchFuturePreview from "../components/TableMatchFuturePreview.vue"
-// import LoginPage from "../pages/LoginPage";
 export default {
     components:
     {
         TableMatchPastPreview,
         TableMatchFuturePreview
-        // LoginPage
     },
     data(){
       return{
         display_flag:true,
         seasonPastMatches:[],
         seasonFutureMatches:[],
-        favMatches:[]
+        favMatches:[],
+        futureReady: false,
+        pastReady: false
       }
     },
     methods:{
@@ -52,6 +51,8 @@ export default {
           const matches = response.data
           this.seasonFutureMatches=[];
           this.seasonFutureMatches.push(...matches);
+          
+          this.futureReady = true;
         } catch (error) {
           console.log("error in update matches")
           console.log(error);
@@ -81,6 +82,7 @@ export default {
           const matches = response.data;
           this.seasonPastMatches=[];
           this.seasonPastMatches.push(...matches);
+          this.pastReady = true;
         } catch (error) {
           console.log("error in update matches")
           console.log(error);
