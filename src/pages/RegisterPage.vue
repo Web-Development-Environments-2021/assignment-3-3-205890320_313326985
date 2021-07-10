@@ -286,13 +286,17 @@ export default {
             country: this.form.country,
             password: this.form.password,
             email: this.form.email,
-            image_url: this.form.image_url,
+            imageurl: this.form.imageurl,
           }
         );
         this.$router.push("/login");
+        this.$root.toast("Register", this.form.username+ " Registered successfully", "success");
+
       } catch (err) {
         console.log(err.response);
-        this.form.submitError = err.response.data.message;
+        this.form.submitError = err.response.data;
+        this.$root.toast("Register", err.response.data, "danger");
+
       }
     },
     onRegister() {
@@ -310,7 +314,8 @@ export default {
         country: null,
         password: "",
         confirmedPassword: "",
-        email: ""
+        email: "",
+        imageurl:""
       };
       this.$nextTick(() => {
         this.$v.$reset();
