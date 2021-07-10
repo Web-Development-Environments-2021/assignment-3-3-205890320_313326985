@@ -67,9 +67,9 @@
         <template #cell(date_and_time_happend)="row">
           {{ row.value.slice(0,10) }} {{ row.value.slice(11,16)}}
         </template>
-        <template #cell(event_id)="row">
+        <!-- <template #cell(event_id)="row">
           <b>{{ row.value }}</b>
-        </template>
+        </template> -->
       
         </b-table>
       </b-card-text>
@@ -98,7 +98,7 @@ export default {
         {key: 'actions', label: 'Actions' }        
       ],
       fieldsEvents:[
-        {key: 'event_id', label: 'Id'},
+        // {key: 'event_id', label: 'Id'},
         {key: 'date_and_time_happend', label: 'Date and Time'},
         {key: 'minute', label: 'Minute'},
         {key: 'type', label: 'Type'},

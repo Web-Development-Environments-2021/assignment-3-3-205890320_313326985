@@ -2,7 +2,7 @@
   <div class="search-page">
   <div class="container-search">
     <b-form @submit.prevent="onSearch" @reset.prevent="onReset">
-    <h1 class="title">Search</h1>
+    <h1 class="title" style="color:black;">Search</h1>
 
 
     <div class="search-input">
@@ -26,7 +26,7 @@
     </div>
     
     <div class="search-input">
-    <h3 class="title">Search for..</h3>
+    <h3 class="title" style="color:black;">Search for..</h3>
     <b-form-group id="searchByObject">
         <b-form-select v-model="$v.searchByObject.$model"
          :state="validateState('searchByObject')"
@@ -41,7 +41,7 @@
     </div>
 
     <div v-if="searchByObject === 'Players'" class="search-input">
-      <h3 class="title">Filter your search results?</h3>
+      <h3 class="title" style="color:black;">Filter your search results?</h3>
       <b-form-group id="filterByAttribue">
           <b-form-select v-model="$v.filterByAttribue.$model"
           :state="validateState('filterByAttribue')"
@@ -101,7 +101,7 @@
   </b-form>
   </div>
   <div class="container-results">
-    <h2 class="subtitle">Results</h2>
+    <h2 class="subtitle" style="color:black;">Results</h2>
     <div v-if="dataReady">
     <team-search-display v-if="teamFlag" :teamResults ="teamRes"></team-search-display>
     <player-search-display v-if="playerFlag" :playerResults ="playerRes"></player-search-display>
@@ -242,6 +242,25 @@ methods:{
         this.teamRes.push(...(res.data));
         // this.teamRes.push(...(not_real_res.data));
         this.dataReady = true;
+        this.teamFlag = true;
+        // sending all of the data,
+        // to be saved in local storage
+        this.$root.store.setSearchData(JSON.stringify({
+          dataReady: this.dataReady,
+          searchPressed:this.searchPressed,
+          searchQuery:this.searchQuery,
+          searchByObject: this.searchByObject,
+          filterByAttribue: this.filterByAttribue,
+          filterQueryByTeamName:this.filterQueryByTeamName,
+          filterQueryByPosId:this.filterQueryByPosId,
+          filterQuery:this.filterQuery,
+          searchingObjects:this.searchingObjects,
+          filterAttributes:this.filterAttributes,
+          teamFlag:this.teamFlag,
+          playerFlag: this.playerFlag,
+          teamRes:this.teamRes,
+          playerRes:this.playerRes
+        }));
       } catch (error) {
         console.log("error in searching teams");
         console.log(error);
@@ -276,6 +295,25 @@ methods:{
         this.playerRes.push(...(res.data));
         // this.playerRes.push(...(not_real_res.data));
         this.dataReady = true;
+        this.playerFlag = true;
+        // sending all of the data,
+        // to be saved in local storage
+        this.$root.store.setSearchData(JSON.stringify({
+          dataReady: this.dataReady,
+          searchPressed:this.searchPressed,
+          searchQuery:this.searchQuery,
+          searchByObject: this.searchByObject,
+          filterByAttribue: this.filterByAttribue,
+          filterQueryByTeamName:this.filterQueryByTeamName,
+          filterQueryByPosId:this.filterQueryByPosId,
+          filterQuery:this.filterQuery,
+          searchingObjects:this.searchingObjects,
+          filterAttributes:this.filterAttributes,
+          teamFlag:this.teamFlag,
+          playerFlag: this.playerFlag,
+          teamRes:this.teamRes,
+          playerRes:this.playerRes
+        }));
       } catch (error) {
         console.log("error in searching players")
         console.log(error);
@@ -303,15 +341,43 @@ methods:{
     if(this.searchByObject == "Teams"){
       this.playerFlag = false;
       await this.searchTeams();
-      this.teamFlag = true;
+      
       
     }
     else if(this.searchByObject == "Players"){
       this.teamFlag = false;
       await this.searchPlayers();
-      this.playerFlag = true;
+    }
+  },
+  getSearchData(){
+    var dataObj = JSON.parse(this.$root.store.searchObject);
+    this.dataReady = dataObj.dataReady;
+    this.searchPressed = dataObj.searchPressed;
+    this.searchQuery = dataObj.searchQuery;
+    this.searchByObject = dataObj.searchByObject;
+    this.filterByAttribue = dataObj.filterByAttribue;
+    this.filterQueryByTeamName = dataObj.filterQueryByTeamName;
+    this.filterQueryByPosId = dataObj.filterQueryByPosId;
+    this.filterQuery = dataObj.filterQuery;
+    this.searchingObjects = dataObj.searchingObjects;
+    this.filterAttributes = dataObj.filterAttributes;
+    this.teamFlag = dataObj.teamFlag;
+    this.playerFlag = dataObj.playerFlag;
+    this.teamRes = dataObj.teamRes;
+    this.playerRes = dataObj.playerRes;
+  },
+  isThereSavedData(){
+    if(this.$root.store.searchObject){
+      return true;
     }
   }
+},
+mounted() {  
+  this.$nextTick(function () {
+      if(this.isThereSavedData()){
+        this.getSearchData();
+      }
+  })
 }
 }
 </script>

@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1 class="title">Favorite Matches Page</h1>
+    <h1 class="title" style="color:black;">Favorite Matches Page</h1>
     <login-page v-if="!$root.store.username"></login-page>
     <favorite-matches v-else-if="$root.store.username && dataReady" :matches="favMatches"></favorite-matches>
     <div v-else>

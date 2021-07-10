@@ -1,17 +1,17 @@
 <template>
   <div class="container">
-    <h1 class="title">Season Matches</h1>
+    <h1 class="title" style="color:black;">Season Matches</h1>
     <div class="season-matches">
       <button class="btn btn-lg btn-dark btn-outline-info" data-toggle="button" @click="display_flag=!display_flag">
         Change between Past and Future matches
       </button>
       <div class="loader" v-if="(display_flag && !pastReady) || (!display_flag && !futureReady)"></div>
       <div id="past" class="match-prev" v-if="display_flag && pastReady">
-          <h2> Past Matches </h2>
+          <h2 style="color:black;"> Past Matches </h2>
         <table-match-past-preview :pastLeagueMatches="seasonPastMatches"></table-match-past-preview >
       </div>
       <div id="future" class="match-prev" v-if="!display_flag && futureReady">
-          <h2> Future Matches </h2>
+          <h2 style="color:black;"> Future Matches </h2>
         <table-match-future-preview :futureLeagueMatches="seasonFutureMatches" :favMatches="favMatches"></table-match-future-preview>
       </div>
         

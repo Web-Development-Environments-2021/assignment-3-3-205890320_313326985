@@ -67,9 +67,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   min-height: 100vh;
-  // background-image: url("./assets/home-1.jpg");
-  // width: 1500px;
-  // height: 800px;
+  background-image: url("./assets/home-1.jpg");
+  background-size: cover;
 }
 
 #nav {
