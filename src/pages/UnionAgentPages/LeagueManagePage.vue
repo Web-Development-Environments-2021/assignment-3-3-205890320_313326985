@@ -1,8 +1,13 @@
 <template>
     <div>
+      <br>
+      <h1 class="text-center">Matches</h1>
+      <br>
       <div v-if="$root.store.unionAgent">
         <matches-preview :matchesResults="matchesResults" :matchesEvents="matchesEvents"></matches-preview>
-        <b-button  :to="{name: 'addMatch'}" class="btn btn-secondary btn-lg" >Add New Match</b-button>
+        <div>
+        <b-button  :to="{name: 'addMatch'}" class="btn  btn-lg text-center" variant="outline-secondary" block pill >Add New Match</b-button>
+        </div>
       </div>
       <div v-else>
        <not-found-page></not-found-page> 

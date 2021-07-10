@@ -28,7 +28,6 @@
             ></b-form-select>
             <b-form-invalid-feedback :state="stateLocal">Please select team</b-form-invalid-feedback>
             <b-form-valid-feedback :state="stateLocal">ok</b-form-valid-feedback>
-            <div class="mt-3">Selected: <strong>{{ selectedLocal }}</strong></div>
         </b-form-group>
 
         <b-form-group
@@ -45,7 +44,6 @@
             ></b-form-select>
             <b-form-invalid-feedback :state="stateVisitor">Please select team</b-form-invalid-feedback>
             <b-form-valid-feedback :state="stateVisitor">ok</b-form-valid-feedback>
-            <div class="mt-3">Selected: <strong>{{ selectedVisitor }}</strong></div>
         </b-form-group>
 
 
@@ -63,7 +61,6 @@
             ></b-form-select>
             <b-form-invalid-feedback :state="stateVenue">Please select venue</b-form-invalid-feedback>
             <b-form-valid-feedback :state="stateVenue">ok</b-form-valid-feedback>
-            <div class="mt-3">Selected: <strong>{{ selectedVenue }}</strong></div>
         </b-form-group>
 
 
@@ -75,10 +72,9 @@
         >
 
             <b-form-radio-group v-model="selectedReferee" :options="referees" :state="stateReferee" name="radio-validation">
-              <b-form-invalid-feedback :state="stateReferee">Please select one</b-form-invalid-feedback>
+              <b-form-invalid-feedback :state="stateReferee">Please select one referee</b-form-invalid-feedback>
               <b-form-valid-feedback :state="stateReferee">ok</b-form-valid-feedback>
             </b-form-radio-group>
-            <div class="mt-3">Selected: <strong>{{ selectedReferee }}</strong></div>
 
         </b-form-group>
 
@@ -92,7 +88,6 @@
             <b-form-datepicker v-model="selectedDate" :min="min" :max="max" locale="en" :state="stateDate"></b-form-datepicker>
             <b-form-invalid-feedback :state="stateDate">Please select date</b-form-invalid-feedback>
             <b-form-valid-feedback :state="stateDate">ok</b-form-valid-feedback>
-            <div class="mt-3">Selected: <strong>{{ selectedDate }}</strong></div>
 
         </b-form-group>
 
@@ -105,14 +100,18 @@
             <b-form-timepicker v-model="selectedTime" locale="en" :state="stateTime"></b-form-timepicker>
             <b-form-invalid-feedback :state="stateTime">Please select time</b-form-invalid-feedback>
             <b-form-valid-feedback :state="stateTime">ok</b-form-valid-feedback>
-            <div class="mt-3">Selected: <strong>{{ selectedTime }}</strong></div>
 
         </b-form-group>
 
-
-        <b-button squared size="lg" :disabled="disableAddButton()" @click="insertTableMatch" >Add match</b-button>
-        <b-button squared size="lg"  :to="{name: 'leagueManage'}" >Return matches</b-button>
-
+        <b-row>
+            <b-col>
+                <b-button size="lg" :to="{name: 'leagueManage'}" ><b-icon icon="arrow-left-circle" aria-hidden="true"></b-icon> Back</b-button>
+            </b-col>
+            <b-col>
+                <b-button  class="float-right" variant="primary" squared size="lg" :disabled="disableAddButton()" @click="insertTableMatch" >Add match</b-button>
+            </b-col>
+        
+        </b-row>
         </b-form-group>
 
 
@@ -202,7 +201,9 @@ methods: {
             );
             this.axios.defaults.withCredentials = false;
 
-            console.log(response.data);
+            if(respone.status == 201){
+                this.$root.toast("Add match", "Match Added successfully", "success");
+            }
 
             this.matchInsert = ''
             this.$bvModal.msgBoxOk('ok', {
@@ -223,9 +224,10 @@ methods: {
 
 
         } catch (error) {
-          console.log("error in add matche")
-          console.log(error);
-
+            console.log("error in add matche")
+            console.log(error);
+            console.log(error.response);
+            this.$root.toast("Add match", error.response.data, "danger");
 
         }
     }

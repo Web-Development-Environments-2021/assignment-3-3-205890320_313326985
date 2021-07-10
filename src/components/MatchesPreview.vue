@@ -1,8 +1,7 @@
 <template >
 <div>
   <b-container fluid>
-    <h1>Matches</h1>
-    <b-table 
+    <b-table v-if="dataReady" 
       striped
       hover
       :items="items"
@@ -23,55 +22,13 @@
         {{ row.value[0].firstname}} {{ row.value[0].lastname}} 
       </template>
 
-      <template #cell(actions)="row">
-        <b-button @click="showRow(true, row.item)" :disabled="disableResults(row.item.match_id)" size="sm"  class="mr-1">
-          add results
-        </b-button>
+      <template #cell(actions1)="row">
+        <add-result-display :currentRow="row.item" :matchesResults="matchesResults" @result-updated="updated"> </add-result-display>
+      </template>
 
-          <b-modal
-            v-model="showAddResult"
-            title="Add results"
-            header-bg-variant="info"
-            header-text-variant="light"
-            hide-backdrop content-class="shadow"
-          >
-            <b-container fluid>
-              <b-row class="mb-1 text-center">
-                <b-col cols="3"></b-col>
-                <b-col><b>Goals Number</b></b-col>
-              </b-row>
+      <template #cell(actions2)="row">
 
-              <b-row class="mb-1">
-                <b-col cols="5">Local Team - {{currentRow.local_team_name}} </b-col>
-                <b-col>
-                  <b-form-select
-                    v-model="localGoals"
-                    :options="goals"
-                  ></b-form-select>
-                </b-col>
-              </b-row>
-
-              <b-row class="mb-1">
-                <b-col cols="5">Visitor Team - {{currentRow.visitor_team_name}} </b-col>
-                <b-col>
-                  <b-form-select
-                    v-model="visitorGoals"
-                    :options="goals"
-                  ></b-form-select>
-                </b-col>
-              </b-row>
-            </b-container>
-
-      
-            <template #modal-footer>
-                <b-button 
-                  @click="addResultToTable(currentRow.match_id)"
-                  class="float-right"
-                >
-                  Update
-                </b-button>
-            </template>
-          </b-modal>
+  
 
         <b-button size="sm" @click="row.toggleDetails" class="mr-1">
           {{ row.detailsShowing ? 'hide' : 'show' }} details
@@ -82,66 +39,8 @@
         <b-card>
           <b-row>
             <b-col>
-            <b-card 
-              header="Referee details"
-              class="mb-2"
-              align="center"
 
-            >
-            <b-card-text>
-              <b-table show-empty stacked :items="row.item.referee" :fields="fieldsReferee">
-              </b-table>
-            </b-card-text>
-
-            <b-button :disabled="disableReferee(row.item.home_goals)"  @click="info(row.item, row.index, $event.target)" class="mr-1">
-              update referee
-            </b-button>
-
-              <b-modal
-                v-model="showUpdateReferee"
-                title="Update Referee"
-                header-bg-variant="info"
-                header-text-variant="light"
-                hide-backdrop content-class="shadow"
-              >
-                <b-container fluid>
-                  <b-row class="mb-1 text-center">
-                    <b-col cols="3"></b-col>
-                    <b-col><b>Referees</b></b-col>
-                  </b-row>
-
-                  <b-row class="mb-1">
-                    <b-col cols="5">Local Team - {{currentRow.local_team_name}} </b-col>
-                    <b-col>
-                      <b-form-select
-                        v-model="localGoals"
-                        :options="goals"
-                      ></b-form-select>
-                    </b-col>
-                  </b-row>
-
-                  <b-row class="mb-1">
-                    <b-col cols="5">Visitor Team - {{currentRow.visitor_team_name}} </b-col>
-                    <b-col>
-                      <b-form-select
-                        v-model="visitorGoals"
-                        :options="goals"
-                      ></b-form-select>
-                    </b-col>
-                  </b-row>
-                </b-container>
-
-
-                <template #modal-footer>
-                    <b-button 
-                      @click="addResultToTable(currentRow.match_id)"
-                      class="float-right"
-                    >
-                      Update
-                    </b-button>
-                </template>
-              </b-modal>
-            </b-card>
+            <update-referee-display :currentRow="row.item" @referee-updated="updated"></update-referee-display>
 
           </b-col>
           <b-col>
@@ -163,9 +62,9 @@
           
           </b-table>
           </b-card-text>
-            <b-button :disabled="disableEvents(row.item.match_id, row.item.events)"  @click="info(row.item, row.index, $event.target)" class="mr-1">
-              add event log 
-            </b-button>
+
+          <add-event-log-display :matchesEvents="matchesEvents" :currentRow="row.item" @event-updated="updated"></add-event-log-display>
+
           </b-card>
           </b-col>
 
@@ -175,18 +74,30 @@
       </template>
     </b-table>
 
-    
+  
+
   </b-container>
+    <div class="text-center" v-if="!dataReady">
+      <b-spinner label="Spinning"></b-spinner>
+    </div>
+    <br>
 </div>
 </template>
 
 
 <script>
+import AddEventLogDisplay from './AddEventLogDisplay.vue';
+import AddResultDisplay from './AddResultDisplay.vue';
+import UpdateRefereeDisplay from './UpdateRefereeDisplay.vue';
 export default {
+    components: { 
+      AddResultDisplay,
+      UpdateRefereeDisplay,
+      AddEventLogDisplay
+  },
   data(){
     return{
       items: [],
-
       fields: [
         {key: 'match_id', label: 'Id', sortable: true, sortDirection: 'desc'},
         {key: 'date_time', label: 'Date and Time', sortable: true},
@@ -196,28 +107,18 @@ export default {
         {key: 'referee', label: 'Referee'},
         {key: 'home_goals', label: 'Local goals', class: 'text-center'},
         {key: 'away_goals', label: 'Visitor goals', class: 'text-center'},
-        {key: 'actions', label: 'Actions' }
+        {key: 'actions1', label: 'Actions' },
+        {key: 'actions2', label: ' '  }
         
       ],
       fieldsEvents:[
-        {key: 'event_id', label: 'Id'},
         {key: 'date_and_time_happend', label: 'Date and Time'},
         {key: 'minute', label: 'Minute'},
         {key: 'type', label: 'Type'},
         {key: 'description', label: 'Description'},
 
       ],
-      fieldsReferee:[
-        {key: 'firstname', label: 'First Name'},
-        {key: 'lastname', label: 'Last Name'},
-        {key: 'course', label: 'Course'},
-      ],
-      showAddResult: false,
-      currentRow: {'match_id': 'null','local_team_name': 'null', 'visitor_team_name':'null'},
-      goals: [0,1, 2, 3, 4, 5, 6, 7, 8],
-      localGoals: 0,
-      visitorGoals: 0
-
+      dataReady: false
 
     }
   },
@@ -235,6 +136,7 @@ export default {
     async updateMatches(){
       console.log("response");
       try {
+         this.dataReady = false;
         this.axios.defaults.withCredentials = true;
         const response = await this.axios.get(
           "http://localhost:3000/UnionAgent", {params:{sort: "none"}}
@@ -245,61 +147,22 @@ export default {
         console.log(matches);
         this.items.push(...matches);
         console.log(this.matches);
+        this.dataReady = true;
       } catch (error) {
         console.log("error in update matches")
         console.log(error);
       }
     },
-
-    disableResults(match_id){
-      if(this.matchesResults.find((element) => element.match_id == match_id)){
-        return false;
-      }
-      else{
-        return true;
-      }
-    },
-    disableEvents(match_id, event){
-      if(this.matchesEvents.find((element) => element.match_id == match_id) && event.length == 0){
-        return false;
-      }
-      else{
-        return true;
-      }
-    },
-    disableReferee(home_goals){
-      return Number.isInteger(home_goals);
-    },
-    showRow(bool, row){
-      this.showAddResult = bool;
-      this.currentRow = row;
-
-    },
-    async addResultToTable(matchId){
-      console.log("response");
-      try {
-        this.axios.defaults.withCredentials = true;
-        const response = await this.axios.put(
-          "http://localhost:3000/UnionAgent/UpdateResultsMatch", null,{params:{match_id: Number.parseInt(matchId), home_goals: Number.parseInt(this.localGoals), away_goals: Number.parseInt(this.visitorGoals)}}
-        );
-        this.axios.defaults.withCredentials = false;
-        console.log(response);
-        if(response.status == 201){
-          this.$root.toast("Add Results", "Results Added successfully", "success");
-          location.reload();
+    updated(e){
+      console.log(e);
+      console.log(this.items);
+      for(var i=0 ; i<this.items.length; i++){
+        if(this.items[i].match_id == e.match_id){
+          this.items[i] = e;
         }
-        this.localGoals = 0;
-        this.visitorGoals = 0;
-        this.showAddResult = false;
-
-
-      } catch (error) {
-        console.log("error in update results")
-        console.log(error);
-        this.$root.toast("Add Results", "Results Not Added", "danger");
-
       }
-    }
+      console.log(this.items);
+    },
   },
   mounted(){
     this.updateMatches();
@@ -310,5 +173,7 @@ export default {
 };
 </script>
 
-<style>
+<style >
+
+
 </style>

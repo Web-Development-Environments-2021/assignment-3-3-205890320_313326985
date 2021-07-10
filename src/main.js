@@ -30,7 +30,10 @@ import {
   FormRadioPlugin,
   FormDatepickerPlugin,
   FormTimepickerPlugin,
-  ModalPlugin 
+  ModalPlugin,
+  FormSpinbuttonPlugin,
+  IconsPlugin,
+  SpinnerPlugin
 } from "bootstrap-vue";
 [
   FormGroupPlugin,
@@ -50,7 +53,10 @@ import {
   FormRadioPlugin,
   FormDatepickerPlugin,
   FormTimepickerPlugin,
-  ModalPlugin 
+  ModalPlugin,
+  FormSpinbuttonPlugin,
+  IconsPlugin,
+  SpinnerPlugin
 ].forEach((x) => Vue.use(x));
 Vue.use(Vuelidate);
 
@@ -93,6 +99,7 @@ const shared_data = {
     let unionAgent = loginDetails.response.union_agent;
     localStorage.setItem("username", username);
     localStorage.setItem("unionAgent", unionAgent);
+
     this.unionAgent = unionAgent;
     this.username = username;
     console.log("login", this.username);
