@@ -3,7 +3,9 @@
 
 <div class="about-section">
   <h1>About Us Page</h1>
-  <p>Some text about who we are and what we do.</p>
+  <p>Some text about who we are and what we do.
+    https://web-development-environments-2021.github.io/Assignment2_205890320_313326985/
+  </p>
 </div>
 
 <h2 style="text-align:center">Our Team</h2>
