@@ -2,7 +2,7 @@
 <div>
 <div v-if="dataReady" class ="playerdata">
 
-    <h1 class="display-4" style="text-align:center;">Welcome to {{name}}'s Player Page</h1>
+    <h1 class="display-4" style="text-align:center; color:black;">Welcome to {{name}}'s Player Page</h1>
     <img id=#img style="margin-top:20px;" class="rounded border border-dark mx-auto d-block" :src="image" height="300px" width="300px"><img/> 
     <div id="info" class="border border-5" style=" background-image: linear-gradient(to right,#2980b9, #2c3e50);">
     <h3>
