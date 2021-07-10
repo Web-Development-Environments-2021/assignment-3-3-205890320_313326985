@@ -1,7 +1,13 @@
 <template>
     <div>
+      <div v-if="$root.store.unionAgent">
         <matches-preview :matchesResults="matchesResults" :matchesEvents="matchesEvents"></matches-preview>
-        <b-button :to="{name: 'addMatch'}" class="btn btn-secondary btn-lg" >Add New Match</b-button>
+        <b-button  :to="{name: 'addMatch'}" class="btn btn-secondary btn-lg" >Add New Match</b-button>
+      </div>
+      <div v-else>
+       <not-found-page></not-found-page> 
+      </div>
+      
 
     </div>
   
@@ -9,9 +15,11 @@
 
 <script>
 import MatchesPreview from "../../components/MatchesPreview.vue";
+import NotFoundPage from '../NotFoundPage.vue';
 export default {
   components: { 
-    MatchesPreview
+    MatchesPreview,
+    NotFoundPage
   },
     data() {
     return {
@@ -58,9 +66,12 @@ export default {
     }
   }, 
   mounted(){
-    console.log("league manage mounted");
-    this.updateMatchesResults();
-    this.updateMatchesEvents();
+    if(this.$root.store.unionAgent){
+      console.log("league manage mounted");
+      this.updateMatchesResults();
+      this.updateMatchesEvents();      
+    }
+
   }
 };
 

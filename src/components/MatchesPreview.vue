@@ -1,4 +1,5 @@
 <template >
+<div>
   <b-container fluid>
     <h1>Matches</h1>
     <b-table 
@@ -6,17 +7,9 @@
       hover
       :items="items"
       :fields="fields"
-      :current-page="currentPage"
-      :per-page="perPage"
-      :filter="filter"
-      :filter-included-fields="filterOn"
-      :sort-by.sync="sortBy"
-      :sort-desc.sync="sortDesc"
-      :sort-direction="sortDirection"
       stacked="md"
       show-empty
       small
-      @filtered="onFiltered"
     >
       <template #cell(match_id)="row">
         <b>{{ row.value }}</b>
@@ -31,56 +24,54 @@
       </template>
 
       <template #cell(actions)="row">
-        <b-button @click="showAddResult=true" :disabled="disableResults(row.item.match_id)" size="sm"  class="mr-1">
+        <b-button @click="showRow(true, row.item)" :disabled="disableResults(row.item.match_id)" size="sm"  class="mr-1">
           add results
-         
         </b-button>
-         <b-modal
+
+          <b-modal
             v-model="showAddResult"
             title="Add results"
             header-bg-variant="info"
             header-text-variant="light"
             hide-backdrop content-class="shadow"
-
-
           >
-          <b-container fluid>
-            <b-row class="mb-1 text-center">
-              <b-col cols="3"></b-col>
-              <b-col><b>Goals Number</b></b-col>
-            </b-row>
+            <b-container fluid>
+              <b-row class="mb-1 text-center">
+                <b-col cols="3"></b-col>
+                <b-col><b>Goals Number</b></b-col>
+              </b-row>
 
-            <b-row class="mb-1">
-              <b-col cols="5">Local Team - {{row.item.local_team_name}} </b-col>
-              <b-col>
-                <b-form-select
-                  v-model="localGoals"
-                  :options="goals"
-                ></b-form-select>
-              </b-col>
-            </b-row>
+              <b-row class="mb-1">
+                <b-col cols="5">Local Team - {{currentRow.local_team_name}} </b-col>
+                <b-col>
+                  <b-form-select
+                    v-model="localGoals"
+                    :options="goals"
+                  ></b-form-select>
+                </b-col>
+              </b-row>
 
-            <b-row class="mb-1">
-              <b-col cols="5">Visitor Team - {{row.item.visitor_team_name}} </b-col>
-              <b-col>
-                <b-form-select
-                  v-model="visitorGoals"
-                  :options="goals"
-                ></b-form-select>
-              </b-col>
-            </b-row>
-      </b-container>
+              <b-row class="mb-1">
+                <b-col cols="5">Visitor Team - {{currentRow.visitor_team_name}} </b-col>
+                <b-col>
+                  <b-form-select
+                    v-model="visitorGoals"
+                    :options="goals"
+                  ></b-form-select>
+                </b-col>
+              </b-row>
+            </b-container>
 
-      <template #modal-footer>
-          <b-button 
-            @click="addResultToTable(row.item.match_id)"
-            class="float-right"
-          >
-            Update
-          </b-button>
-      </template>
-    </b-modal>
-
+      
+            <template #modal-footer>
+                <b-button 
+                  @click="addResultToTable(currentRow.match_id)"
+                  class="float-right"
+                >
+                  Update
+                </b-button>
+            </template>
+          </b-modal>
 
         <b-button size="sm" @click="row.toggleDetails" class="mr-1">
           {{ row.detailsShowing ? 'hide' : 'show' }} details
@@ -105,6 +96,51 @@
             <b-button :disabled="disableReferee(row.item.home_goals)"  @click="info(row.item, row.index, $event.target)" class="mr-1">
               update referee
             </b-button>
+
+              <b-modal
+                v-model="showUpdateReferee"
+                title="Update Referee"
+                header-bg-variant="info"
+                header-text-variant="light"
+                hide-backdrop content-class="shadow"
+              >
+                <b-container fluid>
+                  <b-row class="mb-1 text-center">
+                    <b-col cols="3"></b-col>
+                    <b-col><b>Referees</b></b-col>
+                  </b-row>
+
+                  <b-row class="mb-1">
+                    <b-col cols="5">Local Team - {{currentRow.local_team_name}} </b-col>
+                    <b-col>
+                      <b-form-select
+                        v-model="localGoals"
+                        :options="goals"
+                      ></b-form-select>
+                    </b-col>
+                  </b-row>
+
+                  <b-row class="mb-1">
+                    <b-col cols="5">Visitor Team - {{currentRow.visitor_team_name}} </b-col>
+                    <b-col>
+                      <b-form-select
+                        v-model="visitorGoals"
+                        :options="goals"
+                      ></b-form-select>
+                    </b-col>
+                  </b-row>
+                </b-container>
+
+
+                <template #modal-footer>
+                    <b-button 
+                      @click="addResultToTable(currentRow.match_id)"
+                      class="float-right"
+                    >
+                      Update
+                    </b-button>
+                </template>
+              </b-modal>
             </b-card>
 
           </b-col>
@@ -138,7 +174,10 @@
         </b-card>
       </template>
     </b-table>
+
+    
   </b-container>
+</div>
 </template>
 
 
@@ -174,6 +213,7 @@ export default {
         {key: 'course', label: 'Course'},
       ],
       showAddResult: false,
+      currentRow: {'match_id': 'null','local_team_name': 'null', 'visitor_team_name':'null'},
       goals: [0,1, 2, 3, 4, 5, 6, 7, 8],
       localGoals: 0,
       visitorGoals: 0
@@ -230,14 +270,24 @@ export default {
     disableReferee(home_goals){
       return Number.isInteger(home_goals);
     },
+    showRow(bool, row){
+      this.showAddResult = bool;
+      this.currentRow = row;
+
+    },
     async addResultToTable(matchId){
       console.log("response");
       try {
         this.axios.defaults.withCredentials = true;
         const response = await this.axios.put(
-          "http://localhost:3000/UnionAgent/UpdateResultsMatch", {params:{match_id:matchId, home_goals: this.localGoals, away_goals: this.visitorGoals}}
+          "http://localhost:3000/UnionAgent/UpdateResultsMatch", null,{params:{match_id: Number.parseInt(matchId), home_goals: Number.parseInt(this.localGoals), away_goals: Number.parseInt(this.visitorGoals)}}
         );
         this.axios.defaults.withCredentials = false;
+        console.log(response);
+        if(response.status == 201){
+          this.$root.toast("Add Results", "Results Added successfully", "success");
+          location.reload();
+        }
         this.localGoals = 0;
         this.visitorGoals = 0;
         this.showAddResult = false;
@@ -246,6 +296,8 @@ export default {
       } catch (error) {
         console.log("error in update results")
         console.log(error);
+        this.$root.toast("Add Results", "Results Not Added", "danger");
+
       }
     }
   },
