@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class=".container-fluid">
     <b-navbar toggleable="lg" type="dark" variant="info">
       <b-navbar-brand :to="{ name: 'main' }">Superliga System</b-navbar-brand>
       <b-collapse id="nav-collapse" is-nav>
@@ -55,12 +55,6 @@ export default {
       });
     }
   }
-  // mounted(){
-  //   window.onbeforeunload = function (e) {
-  //         var storage = window.localStorage;
-  //         storage.clear()
-  //     }
-  // }
 };
 </script>
 
@@ -73,9 +67,9 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   min-height: 100vh;
-//   background-image: url("./assets/abstract-football-soccer-backgrounds.jpg");
-//   width: 100%;
-//   height: 100%;
+  // background-image: url("./assets/home-1.jpg");
+  // width: 1500px;
+  // height: 800px;
 }
 
 #nav {

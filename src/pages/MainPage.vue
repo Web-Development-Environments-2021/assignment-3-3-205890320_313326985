@@ -1,11 +1,17 @@
 <template>
+<div>
   <div class="container">
+    
     <div class="login">
     <login-page v-if="!$root.store.username"></login-page>
     </div>
     <div>
     <league-info></league-info>
     </div>
+  </div>
+
+
+  
   </div>
 </template>
 

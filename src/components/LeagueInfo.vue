@@ -1,37 +1,31 @@
 <template>
 <div v-if="dataReady">
   <div class="matches-preview" v-if="$root.store.username && this.checkIfConnected()">
-  <h2> Your Favorite Matches: </h2>
+  <h1 class="w3-xxlarge w3-text-black" style="padding-bottom: 25px;"><b>Your Favorite Matches</b></h1>
   <favorite-matches :matches="favoriteMatches"></favorite-matches>
   </div>
   <div class="not-connected-league-data">
-  <div class="league-preview">
-    <b-card
-    img-alt="Image"
-    tag="article"
-    style="max-width: 20rem;"
-    class="mb-2"
-  >
-    <b-card-title>{{leagueName}}</b-card-title>
-    <b-card-text>
-      Season: {{ season }}
-      <br/>
-      Stage: {{ stage }}
-      <br/>
-    </b-card-text>
-  </b-card>
+  <div class="league-previeww">
+   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+      <div class="w3-display-top w3-margin-top w3-left">
+        <h1 class="w3-xxlarge w3-text-white" style="padding-bottom: 25px;"><span class="w3-padding w3-black w3-opacity-min"><b>{{leagueName}}</b></span></h1>
+        <h1 class="w3-xxlarge w3-text-black" style="padding-bottom: 25px;"><b>{{ season }}</b></h1>
+        <h1 class="w3-xxlarge w3-text-black" style="padding-bottom: 25px;"><b>{{ stage }}</b></h1>
+      </div>
   </div>
-  <div class="next-match-preview">
+  <div class="next-match-preview w3-padding w3-black w3-opacity-min">
     <div class="next-match-title">
     <b>Next match planned:</b>
     <br/>
     <b style="color:rgb(111, 197, 157);"> {{ next_match_planned.local_team_name }} - {{ next_match_planned.visitor_team_name }} </b>
 
     </div>
-    <ul class="next-match-content">
-      <li> Date And Time: {{ next_match_planned.date_time }}</li>
-      <li> Venue Name: {{next_match_planned.venue_name}}</li>
-    </ul>
+    <br>
+    <div class="next-match-content" style="text-align: center;">
+      <b> {{ next_match_planned.date_time }}</b>
+      <br>
+      <b> {{next_match_planned.venue_name}}</b>
+    </div>
   </div>
   </div>
 
@@ -72,7 +66,7 @@ export default {
 
         this.leagueName = leagueDetails.league_name || "None";
         this.season = leagueDetails.current_season_name || "None";
-        this.stage = leagueDetails.current_stage_name || "-";
+        this.stage = leagueDetails.current_stage_name || "No Stages At This Time";
 
         this.next_match_planned = NextMatchPlanned || "No future matches"
 

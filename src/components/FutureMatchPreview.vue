@@ -1,5 +1,5 @@
 <template>
-  <div class="match-preview">
+  <div class="match-preview w3-padding w3-black w3-opacity-min">
     <div class="match-title">
       <b> {{ local_team_name }} - {{ visitor_team_name }} </b>
     </div>
