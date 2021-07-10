@@ -30,7 +30,8 @@
 
 
     <template #cell(actions)="row">
-      <button v-if="$root.store.username" :disabled="FavorMatch(row.item.match_id)" @click="addMatchToFavorites(match.match_id)" type="button" class="btn btn-outline-secondary btn-sm">add to favorites</button>
+      <!-- {{row.item.match_id}} -->
+      <b-button v-if="$root.store.username" :disabled="FavorMatch(row.item.match_id)" @click="addMatchToFavorites(row.item.match_id)" size="sm" class="mr-1"  type="button" >add to favorites</b-button>
       </template>
 
 
@@ -89,6 +90,7 @@ export default {
         this.axios.defaults.withCredentials = false;
 
         await this.getFavoriteMatches();
+        this.$refs.table.refresh();
         
       } catch (error) {
         console.log("error in update favorite matches")
