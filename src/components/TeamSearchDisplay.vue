@@ -37,21 +37,6 @@
 
 
 
-    <!-- <table class="table table-striped table-bordered table-sm">
-      <thead>
-        <tr>
-          <th scope="col">Team Name</th>
-          <th scope="col">Team Logo</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="team in teamResults" :key="team['team name']">
-          <th scope="row">{{team['team name']}}</th>
-          <td > <img :src="team['logo path']" height="70px" width="70px"><img/> </td>
-        </tr>
-
-      </tbody>
-    </table> -->
 
   </div>
 </template>
@@ -62,8 +47,7 @@ export default {
     data(){
       return{
         perPage: 3,
-        currentPage: 1,
-        logo:"logo path"
+        currentPage: 1
       }
     },
     props: {
@@ -95,6 +79,23 @@ export default {
       }
   }
 };
+
+
+    // <!-- <table class="table table-striped table-bordered table-sm">
+    //   <thead>
+    //     <tr>
+    //       <th scope="col">Team Name</th>
+    //       <th scope="col">Team Logo</th>
+    //     </tr>
+    //   </thead>
+    //   <tbody>
+    //     <tr v-for="team in teamResults" :key="team['team name']">
+    //       <th scope="row">{{team['team name']}}</th>
+    //       <td > <img :src="team['logo path']" height="70px" width="70px"><img/> </td>
+    //     </tr>
+
+    //   </tbody>
+    // </table> -->
 </script>
 
 

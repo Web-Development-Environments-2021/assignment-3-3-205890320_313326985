@@ -1,6 +1,6 @@
 <template >
   <div>
-    <table class="table table-striped table-hover">
+    <!-- <table class="table table-striped table-hover">
       <thead>
         <tr>
           <th scope="col">#MatchId </th>
@@ -54,12 +54,120 @@
           </td>
         </tr>
       </tbody>
-    </table>
+    </table> -->
+
+    <b-pagination
+      v-model="currentPage"
+      :total-rows="rows"
+      :per-page="perPage"
+      aria-controls="my-table"
+    ></b-pagination>
+
+    <p class="mt-3">Current Page: {{ currentPage }}</p>
+
+    <b-container fluid>
+    <b-table 
+      striped
+      hover
+      :items="pastLeagueMatches"
+      :fields="fields"
+      :current-page="currentPage"
+      :per-page="perPage"
+      stacked="md"
+      show-empty
+      small
+    >
+     <template #cell(match_id)="row">
+        <b>{{ row.item.MatchDetails.match_id }}</b>
+      </template>
+
+      <template #cell(date_time)="row">
+        {{ (row.item.MatchDetails.date_time.replace('T',' ').replace('Z',' ')).substr(0,16) }}
+      </template>
+
+      <template #cell(local_team_name)="row">
+        <b>{{ row.item.MatchDetails.local_team_name }}</b>
+      </template>
+
+      <template #cell(visitor_team_name)="row">
+        <b>{{ row.item.MatchDetails.visitor_team_name }}</b>
+      </template>
+
+      <template #cell(venue_name)="row">
+        <b>{{ row.item.MatchDetails.venue_name }}</b>
+      </template>
+
+      <template #cell(home_goals)="row">
+        <b>{{ row.item.MatchDetails.home_goals }}</b>
+      </template>
+
+      <template #cell(away_goals)="row">
+        <b>{{ row.item.MatchDetails.away_goals }}</b>
+      </template>
+
+      <template #cell(actions)="row">
+    <b-button size="sm" @click="row.toggleDetails" class="mr-1">
+          {{ row.detailsShowing ? 'hide' : 'show' }} details
+    </b-button>
+      </template>
+      <template #row-details="row">
+        <b-card 
+          header="Events details"
+          class="mb-2"
+          align="center"
+        >
+      <b-card-text>
+        <b-table show-empty  
+         :items="row.item.MatchEvents" :fields="fieldsEvents">
+        <template #cell(date_and_time_happend)="row">
+          {{ row.value.slice(0,10) }} {{ row.value.slice(11,16)}}
+        </template>
+        <template #cell(event_id)="row">
+          <b>{{ row.value }}</b>
+        </template>
+      
+        </b-table>
+      </b-card-text>
+          </b-card>
+      </template>
+
+          </b-table>
+  </b-container>
+
   </div>
 </template>
 
 <script>
 export default {
+  data(){
+    return{
+      items: [],
+      fields: [
+        {key: 'match_id', label: '#MatchId'},
+        {key: 'date_time', label: 'Date and Time'},
+        {key: 'local_team_name', label: 'Local team'},
+        {key: 'visitor_team_name', label: 'Visitor team'},
+        {key: 'venue_name', label: 'Venue'},
+        {key: 'home_goals', label: 'Local goals', class: 'text-center'},
+        {key: 'away_goals', label: 'Visitor goals', class: 'text-center'},
+        {key: 'actions', label: 'Actions' }        
+      ],
+      fieldsEvents:[
+        {key: 'event_id', label: 'Id'},
+        {key: 'date_and_time_happend', label: 'Date and Time'},
+        {key: 'minute', label: 'Minute'},
+        {key: 'type', label: 'Type'},
+        {key: 'description', label: 'Description'}
+      ],
+      perPage: 3,
+      currentPage: 1
+    }
+  },
+  computed:{
+    rows() {
+        return this.pastLeagueMatches.length;
+      }
+  },
   props:{
     pastLeagueMatches:{
       required: true,
