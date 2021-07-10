@@ -390,4 +390,7 @@ methods:{
   50% { transform: scaleX(1); opacity: .8;}
   100% {}
 }
+.fixed-bottom{
+  padding-bottom: 150px;
+}
 </style>
