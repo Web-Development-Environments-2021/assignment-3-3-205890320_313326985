@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="background-color: rgb(255,255,255,1);">
       <br>
       <h1 class="text-center">Matches</h1>
       <br>
