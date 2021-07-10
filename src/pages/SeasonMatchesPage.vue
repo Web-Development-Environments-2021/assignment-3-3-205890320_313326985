@@ -5,14 +5,16 @@
       <button class="btn btn-lg btn-dark btn-outline-info" data-toggle="button" @click="display_flag=!display_flag">
         Change between Past and Future matches
       </button>
-        <div id="past" class="match-prev" v-if="display_flag && pastReady">
+      <div class="loader" v-if="(display_flag && !pastReady) || (!display_flag && !futureReady)"></div>
+      <div id="past" class="match-prev" v-if="display_flag && pastReady">
           <h2> Past Matches </h2>
         <table-match-past-preview :pastLeagueMatches="seasonPastMatches"></table-match-past-preview >
-        </div>
-        <div id="future" class="match-prev" v-if="!display_flag && futureReady">
+      </div>
+      <div id="future" class="match-prev" v-if="!display_flag && futureReady">
           <h2> Future Matches </h2>
         <table-match-future-preview :futureLeagueMatches="seasonFutureMatches" :favMatches="favMatches"></table-match-future-preview>
-        </div>
+      </div>
+        
     </div>
   </div>
 </template>
@@ -97,5 +99,26 @@ export default {
 </script>
 
 <style>
+.loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  margin:auto;
+  padding-top: 100px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
 
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 </style>
