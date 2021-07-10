@@ -100,7 +100,7 @@
 
   </b-form>
   </div>
-  <div class="container-results">
+  <div class="container-results" style="background-color: rgb(0,139,139,.5);">
     <h2 class="subtitle" style="color:black;">Results</h2>
     <div v-if="dataReady">
     <team-search-display v-if="teamFlag" :teamResults ="teamRes"></team-search-display>

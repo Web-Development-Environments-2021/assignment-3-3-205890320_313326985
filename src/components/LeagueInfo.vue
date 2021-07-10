@@ -240,7 +240,7 @@ export default {
 
 textarea {
   font-size: 24px;
-  border:10px solid black;
+  border:10px solid rgb(0, 0, 0);
   padding: 2rem 1rem;
   min-height: 3em;
   resize: both;

@@ -1,14 +1,14 @@
 <template >
   <div>
     
-    <b-pagination
+    <b-pagination 
       v-model="currentPage"
       :total-rows="rows"
       :per-page="perPage"
       aria-controls="my-table"
     ></b-pagination>
 
-    <p class="mt-3">Current Page: {{ currentPage }}</p>
+    <p class="mt-3" >Current Page: {{ currentPage }}</p>
 
     <b-container fluid>
     <b-table 
@@ -67,9 +67,6 @@
         <template #cell(date_and_time_happend)="row">
           {{ row.value.slice(0,10) }} {{ row.value.slice(11,16)}}
         </template>
-        <!-- <template #cell(event_id)="row">
-          <b>{{ row.value }}</b>
-        </template> -->
       
         </b-table>
       </b-card-text>

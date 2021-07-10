@@ -1,8 +1,12 @@
 <template>
-  <div class="container">
-    <h1 class="title" style="color:black;">Favorite Matches Page</h1>
+  <div class="container" >
+    
     <login-page v-if="!$root.store.username"></login-page>
-    <favorite-matches v-else-if="$root.store.username && dataReady" :matches="favMatches"></favorite-matches>
+    <div v-else-if="$root.store.username && dataReady">
+    <h1 class="title" style="color:black;">Favorite Matches Page</h1>
+    <favorite-matches  :matches="favMatches">
+    </favorite-matches>
+    </div>
     <div v-else>
       <div class="box">
       <div class="shadow"></div>

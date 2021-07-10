@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" style="background-color: rgb(0,139,139,.9);">
     <h1 class="title" style="color:black;">Season Matches</h1>
     <div class="season-matches">
       <button class="btn btn-lg btn-dark btn-outline-info" data-toggle="button" @click="display_flag=!display_flag">
