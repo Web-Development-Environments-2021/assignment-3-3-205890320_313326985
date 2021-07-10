@@ -17,7 +17,7 @@
         </b-navbar-nav>
 
         <b-navbar-nav class="ml-auto" v-else>
-        <b-nav-item-dropdown right v-if="$root.store.unionAgent">
+        <b-nav-item-dropdown right v-if="$root.store.unionAgent == true">
           <template #button-content>
             UnionAgent
           </template>

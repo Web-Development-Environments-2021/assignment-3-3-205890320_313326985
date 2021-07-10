@@ -1,5 +1,5 @@
 <template>
-  <div class="search-page">
+  <div class="search-page" style="background-color: rgb(255,255,255,.8);">
   <div class="container-search">
     <b-form @submit.prevent="onSearch" @reset.prevent="onReset">
     <h1 class="title" style="color:black;">Search</h1>
@@ -100,7 +100,7 @@
 
   </b-form>
   </div>
-  <div class="container-results" style="background-color: rgb(0,139,139,.5);">
+  <div class="container-results" >
     <h2 class="subtitle" style="color:black;">Results</h2>
     <div v-if="dataReady">
     <team-search-display v-if="teamFlag" :teamResults ="teamRes"></team-search-display>

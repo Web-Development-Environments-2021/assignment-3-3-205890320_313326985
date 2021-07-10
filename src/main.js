@@ -100,11 +100,11 @@ const shared_data = {
     let unionAgent = loginDetails.response.union_agent;
     localStorage.setItem("username", username);
     localStorage.setItem("unionAgent", unionAgent);
-    if(unionAgent == 1){
+    if(unionAgent == true){
       this.unionAgent = unionAgent;
     }
     else{
-      this.unionAgent = undefined;
+      this.unionAgent = false;
     }
 
     this.unionAgent = unionAgent;

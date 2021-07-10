@@ -4,7 +4,14 @@
 <div class="about-section">
   <h1>About Us Page</h1>
   <p>Some text about who we are and what we do.
-    https://web-development-environments-2021.github.io/Assignment2_205890320_313326985/
+    <br>
+    Assignment 2 - HTML 5 : <span style="color:black;">https://web-development-environments-2021.github.io/Assignment2_205890320_313326985/</span>
+    <br>
+    Assignment 3.1 - Create Api Document : <span style="color:black;">https://github.com/Web-Development-Environments-2021/assignment-3-1-205890320_313326985</span>
+    <br>
+    Assignment 3.2 - Create Server-Side : <span style="color:black;">https://github.com/Web-Development-Environments-2021/assignment-3-2-205890320_313326985</span>
+    <br>
+    Assignment 3.3 - Create Client-Side : <span style="color:black;">https://github.com/Web-Development-Environments-2021/assignment-3-3-205890320_313326985</span>
   </p>
 </div>
 
