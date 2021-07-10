@@ -94,7 +94,8 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped
+>
 #info{
     margin: auto;
     width: 50%;

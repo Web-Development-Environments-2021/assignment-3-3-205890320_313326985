@@ -78,7 +78,8 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped
+>
 body {
   font-family: Arial, Helvetica, sans-serif;
   margin: 0;

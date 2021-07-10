@@ -134,9 +134,8 @@ export default {
   },
   methods: {
     async updateMatches(){
-      console.log("response");
       try {
-         this.dataReady = false;
+        //  this.dataReady = false;
         this.axios.defaults.withCredentials = true;
         const response = await this.axios.get(
           "http://localhost:3000/UnionAgent", {params:{sort: "none"}}
@@ -146,7 +145,7 @@ export default {
         this.items = [];
         console.log(matches);
         this.items.push(...matches);
-        console.log(this.matches);
+        // console.log(this.matches);
         this.dataReady = true;
       } catch (error) {
         console.log("error in update matches")
@@ -173,7 +172,8 @@ export default {
 };
 </script>
 
-<style >
+<style lang="scss" scoped
+>
 
 
 </style>

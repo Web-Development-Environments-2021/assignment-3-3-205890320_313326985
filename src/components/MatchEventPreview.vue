@@ -36,7 +36,8 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped
+>
 .matchEvent-preview {
   display: inline-block;
   width: 250px;

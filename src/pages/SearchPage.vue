@@ -382,7 +382,8 @@ mounted() {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped
+>
 
 .search-input {
   margin-left: 20px; 

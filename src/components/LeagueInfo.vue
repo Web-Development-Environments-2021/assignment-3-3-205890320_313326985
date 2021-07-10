@@ -132,7 +132,8 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped
+>
 .matches-preview{
   float:right;
   width: 50%;

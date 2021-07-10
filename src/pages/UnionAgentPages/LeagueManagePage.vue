@@ -34,7 +34,6 @@ export default {
   },
   methods: {
     async updateMatchesResults(){
-      console.log("response");
       try {
         this.axios.defaults.withCredentials = true;
         const response = await this.axios.get(
@@ -52,7 +51,6 @@ export default {
       }
     },
     async updateMatchesEvents(){
-      console.log("response");
       try {
         this.axios.defaults.withCredentials = true;
         const response = await this.axios.get(
@@ -82,6 +80,7 @@ export default {
 
 </script>
 
-<style>
+<style lang="scss" scoped
+>
 
 </style>

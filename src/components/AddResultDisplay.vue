@@ -1,6 +1,6 @@
 <template>
 <div>
-        <b-button :disabled="disableResults(currentRow.match_id)" @click="showAddResult=!showAddResult" size="sm"  class="mr-1">
+        <b-button :disabled="disableResults(currentRow.match_id)" @click="changeFunc()" size="sm"  class="mr-1">
           add results
         </b-button>
 
@@ -111,12 +111,19 @@ export default {
             else{
               return true;
             }
+        },
+        changeFunc(){
+          console.log(this.showAddResult);
+          this.showAddResult=(!this.showAddResult);
+          console.log(this.showAddResult);
+
         }
 
     }
 }
 </script>
 
-<style>
+<style lang="scss" scoped
+>
 
 </style>

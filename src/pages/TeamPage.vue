@@ -404,7 +404,8 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped
+>
 .futureAndpastMatches{
     float:left;
 }

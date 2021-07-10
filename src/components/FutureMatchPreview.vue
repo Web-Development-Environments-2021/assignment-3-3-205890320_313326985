@@ -30,11 +30,11 @@ export default {
         required: true
       },
       local_team_id: {
-        type: String,
+        type: Number,
         required: true
       },
       visitor_team_id: {
-        type: String,
+        type: Number,
         required: true
       },
       venue_name: {
@@ -45,7 +45,8 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped
+>
 .match-preview {
   display: inline-block;
   width: 315px;
