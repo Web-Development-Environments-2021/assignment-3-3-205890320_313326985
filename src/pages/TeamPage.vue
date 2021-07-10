@@ -2,7 +2,7 @@
 <div style="color:black;">
     <div class="jumbotron">
       <img id=#team-img :src="image" height="150px" width="150px"><img/> 
-    <h1 class="display-4" >Welcome to {{teamName}} Team Page</h1>
+    <h1 class="display-4" style="color:black;">Welcome to {{teamName}} Team Page</h1>
           
     <hr class="my-4">
     <h4>What can you see in this page:</h4>

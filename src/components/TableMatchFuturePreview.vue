@@ -29,6 +29,14 @@
       </template>
 
 
+    <template #cell(local_team_name)="row">
+        <router-link :to="`/team/${row.item.local_team_id}`">{{ row.item.local_team_name }}</router-link>   
+      </template>
+
+      <template #cell(visitor_team_name)="row">
+        <router-link :to="`/team/${row.item.visitor_team_id}`">{{ row.item.visitor_team_name }}</router-link>   
+      </template>
+
     <template #cell(actions)="row">
       <b-button v-if="$root.store.username" :disabled="FavorMatch(row.item.match_id)" @click="addMatchToFavorites(row.item.match_id)" size="sm" class="mr-1"  type="button" >add to favorites</b-button>
       </template>

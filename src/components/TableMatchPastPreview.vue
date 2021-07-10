@@ -31,11 +31,11 @@
       </template>
 
       <template #cell(local_team_name)="row">
-        <b>{{ row.item.MatchDetails.local_team_name }}</b>
+        <router-link :to="`/team/${row.item.MatchDetails.local_team_id}`">{{ row.item.MatchDetails.local_team_name }}</router-link>   
       </template>
 
       <template #cell(visitor_team_name)="row">
-        <b>{{ row.item.MatchDetails.visitor_team_name }}</b>
+        <router-link :to="`/team/${row.item.MatchDetails.visitor_team_id}`">{{ row.item.MatchDetails.visitor_team_name }}</router-link>   
       </template>
 
       <template #cell(venue_name)="row">
