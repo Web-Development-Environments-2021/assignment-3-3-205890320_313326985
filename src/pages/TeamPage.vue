@@ -11,7 +11,7 @@
     <a class="btn btn-primary btn-lg"  id ="refmatches" @click="scrollMeTo('matches')" role="button">{{teamName}}'s matches</a>
     <a class="btn btn-primary btn-lg" id ="refplayers" @click="scrollMeTo('playersView')" role="button">{{teamName}}'s players</a>
     </div>
-    <div id="matches" class="futureAndpastMatches" ref="matches">
+    <div id="matches" class="futureAndpastMatches" ref="matches" style="background-color: rgb(255,255,255,.8);">
         <h1 >
             Team Matches
         </h1>
