@@ -1,7 +1,8 @@
 <template>
   <div class="match-preview w3-padding w3-black w3-opacity-min">
     <div class="match-title">
-      <b> {{ local_team_name }} - {{ visitor_team_name }} </b>
+       
+      <b> <router-link :to="`/team/${local_team_id}`">{{ local_team_name }}</router-link> - <router-link :to="`/team/${visitor_team_id}`">{{ visitor_team_name }}</router-link>   </b>
     </div>
     <br>
     <div class="match-content" style="text-align: center;">
@@ -25,6 +26,14 @@ export default {
         required: true
       },
       visitor_team_name: {
+        type: String,
+        required: true
+      },
+      local_team_id: {
+        type: String,
+        required: true
+      },
+      visitor_team_id: {
         type: String,
         required: true
       },

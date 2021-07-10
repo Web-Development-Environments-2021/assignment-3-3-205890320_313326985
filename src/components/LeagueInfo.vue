@@ -26,8 +26,7 @@
     <div class="next-match-title">
     <b>Next match planned:</b>
     <br/>
-    <b style="color:rgb(111, 197, 157);"> {{ next_match_planned.local_team_name }} - {{ next_match_planned.visitor_team_name }} </b>
-
+    <b style="color:rgb(111, 197, 157);"> <router-link :to="`/team/${next_match_planned.local_team_id}`">{{ next_match_planned.local_team_name }}</router-link> - <router-link :to="`/team/${next_match_planned.visitor_team_id}`">{{ next_match_planned.visitor_team_name }}</router-link>   </b>
     </div>
     <br>
     <div class="next-match-content" style="text-align: center;">
