@@ -1,27 +1,6 @@
 <template >
   <div>
 
-    <!-- <table class="table table-striped table-bordered table-sm">
-      <thead>
-        <tr>
-          <th scope="col">Name</th>
-          <th scope="col">Image</th>
-          <th scope="col">Team</th>
-          <th scope="col">Position</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="player in playerResults" :key="player.name">
-          <th scope="row">{{player.name}}</th>
-          <td> <img :src="player.image" height="70px" width="70px"><img/> </td>
-          <td> {{player.team_name}}</td>
-          <td> {{player.position}}</td>
-          
-        </tr>
-
-      </tbody>
-    </table> -->
-
     <b-pagination
       v-model="currentPage"
       :total-rows="rows"
@@ -44,8 +23,6 @@
       show-empty
       small
     >
-
-
 
       <template v-slot:cell(name)="row">
       <router-link :to="`/player/${row.item.id}`">{{ row.value }}</router-link>   
@@ -115,6 +92,26 @@ export default {
   },
   
 };
+// <!-- <table class="table table-striped table-bordered table-sm">
+//       <thead>
+//         <tr>
+//           <th scope="col">Name</th>
+//           <th scope="col">Image</th>
+//           <th scope="col">Team</th>
+//           <th scope="col">Position</th>
+//         </tr>
+//       </thead>
+//       <tbody>
+//         <tr v-for="player in playerResults" :key="player.name">
+//           <th scope="row">{{player.name}}</th>
+//           <td> <img :src="player.image" height="70px" width="70px"><img/> </td>
+//           <td> {{player.team_name}}</td>
+//           <td> {{player.position}}</td>
+          
+//         </tr>
+
+//       </tbody>
+//     </table> -->
 </script>
 
 

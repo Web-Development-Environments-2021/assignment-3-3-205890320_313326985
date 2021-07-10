@@ -1,9 +1,10 @@
 <template>
   <div>
-    <future-match-preview
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <future-match-preview class="w3-padding w3-black w3-opacity-min"
       v-for="m in matches"
         :match_id="m[0].match_id"
-        :date_time="(m[0].date_time.replace('T',' ').replace('Z',' ')).substr(0,19)" 
+        :date_time="(m[0].date_time.replace('T',' ').replace('Z',' ')).substr(0,16)" 
         :local_team_id="m[0].local_team_id"
         :local_team_name="m[0].local_team_name"
         :visitor_team_id="m[0].visitor_team_id"

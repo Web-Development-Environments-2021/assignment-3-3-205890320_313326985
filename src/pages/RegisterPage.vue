@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" style="background-color: rgb(255,255,255,.8);">
     <h1 class="title">Register</h1>
     <b-form @submit.prevent="onRegister" @reset.prevent="onReset">
       <b-form-group
@@ -94,9 +94,19 @@
           For that, your password should be also:
         </b-form-text>
         <b-form-invalid-feedback
-          v-if="$v.form.password.required && !$v.form.password.length"
+          v-if="!$v.form.password.length"
         >
           Have length between 5-10 characters long
+        </b-form-invalid-feedback>
+        <b-form-invalid-feedback
+          v-if="!$v.form.password.mustHaveOneSpecialChar"
+        >
+          Have at least one special char 
+        </b-form-invalid-feedback>
+        <b-form-invalid-feedback
+          v-if="!$v.form.password.mustHaveOneNumber"
+        >
+          Have at least one number
         </b-form-invalid-feedback>
       </b-form-group>
 
@@ -143,12 +153,28 @@
         Email is invalid</b-form-invalid-feedback>
       </b-form-group>
 
+      <b-form-group
+        id="input-group-imageurl"
+        label-cols-sm="3"
+        label="Image URL:"
+        label-for="imageurl"
+      >
+        <b-form-input
+          id="imageurl"
+          v-model="$v.form.imageurl.$model"
+          type="text"
+          :state="validateState('imageurl')"
+        ></b-form-input>
+        
+      </b-form-group>
+
       <b-button type="reset" variant="danger">Reset</b-button>
       <b-button
         type="submit"
         variant="primary"
         style="width:250px;"
         class="ml-5 w-75"
+        @click="checkIfSubmitOK()"
         >Register</b-button
       >
       <div class="mt-2">
@@ -156,15 +182,7 @@
         <router-link to="login"> Log in here</router-link>
       </div>
     </b-form>
-    <b-alert
-      class="mt-2"
-      v-if="form.submitError"
-      variant="warning"
-      dismissible
-      show
-    >
-      Register failed: {{ form.submitError }}
-    </b-alert>
+
   </div>
 </template>
 
@@ -176,8 +194,17 @@ import {
   maxLength,
   alpha,
   sameAs,
-  email
+  email,
+  helpers
 } from "vuelidate/lib/validators";
+const mustHaveOneSpecialChar = (value) => /[#?!@$%^&*-]/.test(value)
+const mustHaveOneNumber = (value) => /[0-9]/.test(value)
+
+import { isWebUri } from 'valid-url'
+const url = helpers.withParams(
+  { type: 'url' },
+  (value) => !helpers.req(value) || !!isWebUri(value)
+)
 
 export default {
   name: "Register", 
@@ -191,6 +218,7 @@ export default {
         password: "",
         confirmedPassword: "",
         email: "",
+        imageurl:"",
         submitError: undefined
       },
       countries: [{ value: null, text: "", disabled: true }],
@@ -216,7 +244,9 @@ export default {
       },
       password: {
         required,
-        length: (p) => minLength(5)(p) && maxLength(10)(p)
+        length: (p) => minLength(5)(p) && maxLength(10)(p),
+        mustHaveOneSpecialChar,
+        mustHaveOneNumber
       },
       confirmedPassword: {
         required,
@@ -225,6 +255,9 @@ export default {
       email:{
         required,
         email
+      },
+      imageurl:{
+        url
       }
     }
   },
@@ -232,6 +265,12 @@ export default {
     this.countries.push(...countries);
   },
   methods: {
+    checkIfSubmitOK(){
+      if(this.$v.$anyError != false){
+        
+        this.$root.toast("Register", "Error in registration", "danger");
+      }
+    },
     validateState(param) {
       const { $dirty, $error } = this.$v.form[param];
       return $dirty ? !$error : null;
@@ -247,13 +286,17 @@ export default {
             country: this.form.country,
             password: this.form.password,
             email: this.form.email,
-            image_url: this.form.image_url,
+            imageurl: this.form.imageurl,
           }
         );
         this.$router.push("/login");
+        this.$root.toast("Register", this.form.username+ " Registered successfully", "success");
+
       } catch (err) {
         console.log(err.response);
-        this.form.submitError = err.response.data.message;
+        this.form.submitError = err.response.data;
+        this.$root.toast("Register", err.response.data, "danger");
+
       }
     },
     onRegister() {
@@ -271,7 +314,8 @@ export default {
         country: null,
         password: "",
         confirmedPassword: "",
-        email: ""
+        email: "",
+        imageurl:""
       };
       this.$nextTick(() => {
         this.$v.$reset();

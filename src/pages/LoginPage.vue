@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container" style="background-color: rgb(255,255,255,.8);">
     <h1 class="title">Login</h1>
     <b-form @submit.prevent="onLogin">
       <b-form-group
@@ -48,15 +48,6 @@
         <router-link to="register"> Register in here</router-link>
       </div>
     </b-form>
-    <b-alert
-      class="mt-2"
-      v-if="form.submitError"
-      variant="warning"
-      dismissible
-      show
-    >
-      Login failed: {{ form.submitError }}
-    </b-alert>
   </div>
 </template>
 
@@ -90,7 +81,6 @@ export default {
     },
     async Login() {
       try {
-        
         this.axios.defaults.withCredentials = true;
         const response = await this.axios.post(
           "http://localhost:3000/Login",
@@ -100,17 +90,15 @@ export default {
           }
         );
         this.axios.defaults.withCredentials = false;
-
-        console.log(this.$root.store.login);
+        console.log(response);
 
         this.$root.store.login({username:this.form.username,response:response.data});
 
-        // Line below forward no matter where
-        // you want to go, to main page - after login
-
+        this.$root.toast("Login", response.data.message, "success");
         this.$router.push("/");
       } catch (err) {
-        console.log(err.response);
+        // alert us that action did not happend
+        this.$root.toast("Login", err.response.data, "danger");
         this.form.submitError = err.response.data.message;
       }
     },

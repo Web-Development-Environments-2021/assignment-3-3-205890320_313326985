@@ -94,6 +94,7 @@ Vue.config.productionTip = false;
 const shared_data = {
   username: localStorage?.username,
   unionAgent: localStorage?.unionAgent,
+  searchObject: sessionStorage?.searchObject,
   login(loginDetails) {
     let username = loginDetails.username;
     let unionAgent = loginDetails.response.union_agent;
@@ -122,13 +123,19 @@ const shared_data = {
       axios.defaults.withCredentials = false;
       localStorage.removeItem("username");
       localStorage.removeItem("unionAgent");
+      sessionStorage.removeItem("searchObject");
       this.username = undefined;
       this.unionAgent = undefined;
+      this.searchObject= undefined;
     }
     catch (error) {
     console.log("error in update log out")
     console.log(error);
     }
+  },
+  setSearchData(searchDet){
+    this.searchObject=searchDet;
+    sessionStorage.setItem("searchObject", this.searchObject);
   }
 };
 console.log(shared_data);
