@@ -3,10 +3,12 @@
     <div class="match-title">
       <b> {{ local_team_name }} - {{ visitor_team_name }} </b>
     </div>
-    <ul class="match-content">
-      <li> Date And Time: {{ date_time }}</li>
-      <li> Venue Name: {{venue_name}}</li>
-    </ul>
+    <br>
+    <div class="match-content" style="text-align: center;">
+      <b>{{date_time}}</b>
+      <br>
+      <b>{{venue_name}}</b>
+    </div>
   </div>
 </template>
 

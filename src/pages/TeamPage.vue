@@ -2,14 +2,16 @@
 <div>
     <div class="jumbotron">
       <img id=#team-img :src="image" height="150px" width="150px"><img/> 
-    <h1 class="display-4">Team Name: {{teamName}}</h1>
+    <h1 class="display-4">Welcome to {{teamName}} Team Page</h1>
           
     <hr class="my-4">
     <h4>What can you see in this page:</h4>
-    <a class="btn btn-primary btn-lg"  id ="refmatches" href="#matches" role="button">{{teamName}}'s matches</a>
-    <a class="btn btn-primary btn-lg" id ="refplayers" href="#playersView" role="button">{{teamName}}'s players</a>
+    
+
+    <a class="btn btn-primary btn-lg"  id ="refmatches" @click="scrollMeTo('matches')" role="button">{{teamName}}'s matches</a>
+    <a class="btn btn-primary btn-lg" id ="refplayers" @click="scrollMeTo('playersView')" role="button">{{teamName}}'s players</a>
     </div>
-    <div id="matches" class="futureAndpastMatches">
+    <div id="matches" class="futureAndpastMatches" ref="matches">
         <h1 >
             Team Matches
         </h1>
@@ -26,7 +28,7 @@
           </div>
     </div>
 
-    <div class="teamPlayers" id = "playersView">
+    <div class="teamPlayers" id = "playersView" ref="playersView">
         <h1 >
             Players View
         </h1>
@@ -57,6 +59,11 @@ export default {
         }
     },
     methods:{
+        scrollMeTo(refName) {
+          var element = this.$refs[refName];
+          var top = element.offsetTop;
+          window.scrollTo(0, top);
+        },
         async getTeamData(){
             try {
             // const res = await this.axios.get(

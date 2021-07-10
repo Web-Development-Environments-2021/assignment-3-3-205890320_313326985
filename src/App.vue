@@ -55,6 +55,12 @@ export default {
       });
     }
   }
+  // mounted(){
+  //   window.onbeforeunload = function (e) {
+  //         var storage = window.localStorage;
+  //         storage.clear()
+  //     }
+  // }
 };
 </script>
 

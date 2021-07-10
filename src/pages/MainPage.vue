@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-    <h1 class="title">Home Page</h1>
     <div class="login">
     <login-page v-if="!$root.store.username"></login-page>
     </div>
