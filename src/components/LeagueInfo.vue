@@ -1,8 +1,10 @@
 <template>
 <div v-if="dataReady">
   <div class="matches-preview" v-if="$root.store.username && this.checkIfConnected()">
+  <h2> Your Favorite Matches: </h2>
   <favorite-matches :matches="favoriteMatches"></favorite-matches>
   </div>
+  <div class="not-connected-league-data">
   <div class="league-preview">
     <b-card
     img-alt="Image"
@@ -21,20 +23,19 @@
   </div>
   <div class="next-match-preview">
     <div class="next-match-title">
-      <b>Next match planned:</b>
+    <b>Next match planned:</b>
+    <br/>
+    <b style="color:rgb(111, 197, 157);"> {{ next_match_planned.local_team_name }} - {{ next_match_planned.visitor_team_name }} </b>
+
     </div>
     <ul class="next-match-content">
-      <li> Match Id: {{next_match_planned.match_id}}</li>
       <li> Date And Time: {{ next_match_planned.date_time }}</li>
-      <li> Local Team Id: {{ next_match_planned.local_team_id }}</li>
-      <li> Local Team Name: {{ next_match_planned.local_team_name }}</li>
-      <li> Visitor Team Id: {{ next_match_planned.visitor_team_id }}</li>
-      <li> Visitor Team Name: {{ next_match_planned.visitor_team_name }}</li>
-      <li> Venue Id: {{next_match_planned.venue_id}}</li>
       <li> Venue Name: {{next_match_planned.venue_name}}</li>
-      <li> Referee Id: {{next_match_planned.referee_id}}</li>
     </ul>
   </div>
+  </div>
+
+
 </div>
 </template>
 
@@ -110,6 +111,10 @@ export default {
     }
   },
   async mounted(){
+    if(this.$root.store.username){
+      this.connected = true;
+      await this.updateFavoriteMatchesforLeagueInfo();
+    }
     await this.updateLeagueDetailsAndNextMatchPlanned();
     this.dataReady = true;
   }
@@ -119,13 +124,17 @@ export default {
 <style>
 .matches-preview{
   float:right;
+  width: 50%;
+}
+.not-connected-league-data{
+  float:left;
+  width: 50%;
 }
 
 .league-preview {
-  display: inline-block;
+  float:left;
   width: 250px;
   height: 200px;
-  position: relative;
   margin: 10px 10px;
   border-style: solid;
   border-radius: 10px;
@@ -145,10 +154,9 @@ export default {
 }
 
 .next-match-preview {
-  display: inline-block;
-  width: 250px;
-  height: 300px;
-  position: relative;
+  width: 315px;
+  height: 150px;
+  float:left;
   margin: 10px 10px;
   border-style: solid;
   border-radius: 10px;

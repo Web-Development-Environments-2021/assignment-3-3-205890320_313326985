@@ -1,6 +1,6 @@
 <template>
   <div class="match-preview">
-    <div :title="match_id" class="match-title">
+    <div class="match-title">
       <b> {{ local_team_name }} - {{ visitor_team_name }} </b>
     </div>
     <ul class="match-content">
@@ -37,7 +37,7 @@ export default {
 <style>
 .match-preview {
   display: inline-block;
-  width: 250px;
+  width: 315px;
   height: 150px;
   position: relative;
   margin: 10px 10px;

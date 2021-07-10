@@ -1,8 +1,8 @@
 <template>
   <div class="container">
     <h1 class="title">Season Matches</h1>
-    <login-page v-if="!$root.store.username"></login-page>
-    <div class="season-matches" v-else>
+    <!-- <login-page v-if="!$root.store.username"></login-page> -->
+    <div class="season-matches">
       <button class="btn  btn-lg btn-dark btn-outline-info" data-toggle="button" @click="display_flag=!display_flag">
         Change between Past and Future matches
       </button>
@@ -21,13 +21,13 @@
 <script>
 import TableMatchPastPreview from "../components/TableMatchPastPreview.vue"
 import TableMatchFuturePreview from "../components/TableMatchFuturePreview.vue"
-import LoginPage from "../pages/LoginPage";
+// import LoginPage from "../pages/LoginPage";
 export default {
     components:
     {
         TableMatchPastPreview,
-        TableMatchFuturePreview,
-        LoginPage
+        TableMatchFuturePreview
+        // LoginPage
     },
     data(){
       return{
