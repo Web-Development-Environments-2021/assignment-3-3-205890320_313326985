@@ -30,7 +30,6 @@
 
 
     <template #cell(actions)="row">
-      <!-- {{row.item.match_id}} -->
       <b-button v-if="$root.store.username" :disabled="FavorMatch(row.item.match_id)" @click="addMatchToFavorites(row.item.match_id)" size="sm" class="mr-1"  type="button" >add to favorites</b-button>
       </template>
 
