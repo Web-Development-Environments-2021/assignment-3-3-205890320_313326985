@@ -84,13 +84,19 @@
     </div>
 
 
-  <b-button id="reset" type="reset" variant="danger">Reset</b-button>
-  <b-button
+  
+  <div class="fixed-bottom">
+
+    <b-button id="reset" type="reset" variant="danger">Reset</b-button>
+    <b-button
         type="submit"
         variant="primary"
         style="width:250px;"
         class="ml-5 w-25"
-  >Search</b-button>
+    >Search</b-button>
+    
+  </div>
+  
 
   </b-form>
   </div>
