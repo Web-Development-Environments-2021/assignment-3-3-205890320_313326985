@@ -153,6 +153,21 @@
         Email is invalid</b-form-invalid-feedback>
       </b-form-group>
 
+      <b-form-group
+        id="input-group-imageurl"
+        label-cols-sm="3"
+        label="Image URL:"
+        label-for="imageurl"
+      >
+        <b-form-input
+          id="imageurl"
+          v-model="$v.form.imageurl.$model"
+          type="text"
+          :state="validateState('imageurl')"
+        ></b-form-input>
+        
+      </b-form-group>
+
       <b-button type="reset" variant="danger">Reset</b-button>
       <b-button
         type="submit"
@@ -179,11 +194,17 @@ import {
   maxLength,
   alpha,
   sameAs,
-  email
+  email,
+  helpers
 } from "vuelidate/lib/validators";
 const mustHaveOneSpecialChar = (value) => /[#?!@$%^&*-]/.test(value)
 const mustHaveOneNumber = (value) => /[0-9]/.test(value)
 
+import { isWebUri } from 'valid-url'
+const url = helpers.withParams(
+  { type: 'url' },
+  (value) => !helpers.req(value) || !!isWebUri(value)
+)
 
 export default {
   name: "Register", 
@@ -197,6 +218,7 @@ export default {
         password: "",
         confirmedPassword: "",
         email: "",
+        imageurl:"",
         submitError: undefined
       },
       countries: [{ value: null, text: "", disabled: true }],
@@ -233,6 +255,9 @@ export default {
       email:{
         required,
         email
+      },
+      imageurl:{
+        url
       }
     }
   },
@@ -241,7 +266,6 @@ export default {
   },
   methods: {
     checkIfSubmitOK(){
-      console.log(this.$v.$anyError)
       if(this.$v.$anyError != false){
         
         this.$root.toast("Register", "Error in registration", "danger");
