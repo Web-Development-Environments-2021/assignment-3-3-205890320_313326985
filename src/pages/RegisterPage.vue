@@ -94,9 +94,19 @@
           For that, your password should be also:
         </b-form-text>
         <b-form-invalid-feedback
-          v-if="$v.form.password.required && !$v.form.password.length"
+          v-if="!$v.form.password.length"
         >
           Have length between 5-10 characters long
+        </b-form-invalid-feedback>
+        <b-form-invalid-feedback
+          v-if="!$v.form.password.mustHaveOneSpecialChar"
+        >
+          Have at least one special char 
+        </b-form-invalid-feedback>
+        <b-form-invalid-feedback
+          v-if="!$v.form.password.mustHaveOneNumber"
+        >
+          Have at least one number
         </b-form-invalid-feedback>
       </b-form-group>
 
@@ -178,6 +188,9 @@ import {
   sameAs,
   email
 } from "vuelidate/lib/validators";
+const mustHaveOneSpecialChar = (value) => /[#?!@$%^&*-]/.test(value)
+const mustHaveOneNumber = (value) => /[0-9]/.test(value)
+
 
 export default {
   name: "Register", 
@@ -216,7 +229,9 @@ export default {
       },
       password: {
         required,
-        length: (p) => minLength(5)(p) && maxLength(10)(p)
+        length: (p) => minLength(5)(p) && maxLength(10)(p),
+        mustHaveOneSpecialChar,
+        mustHaveOneNumber
       },
       confirmedPassword: {
         required,
