@@ -2,16 +2,47 @@
   <body>
 
 <div class="about-section">
-  <h1>About Us Page</h1>
-  <p>Some text about who we are and what we do.
+  <h1>About Us</h1>
+  <p><b>Our projects:</b>
     <br>
-    Assignment 2 - HTML 5 : <span style="color:black;">https://web-development-environments-2021.github.io/Assignment2_205890320_313326985/</span>
     <br>
-    Assignment 3.1 - Create Api Document : <span style="color:black;">https://github.com/Web-Development-Environments-2021/assignment-3-1-205890320_313326985</span>
+    <a href="https://web-development-environments-2021.github.io/Assignment2_205890320_313326985/">
+    Assignment 2 - HTML 5
+    </a>
     <br>
-    Assignment 3.2 - Create Server-Side : <span style="color:black;">https://github.com/Web-Development-Environments-2021/assignment-3-2-205890320_313326985</span>
+    <a href="https://github.com/Web-Development-Environments-2021/assignment-3-1-205890320_313326985">
+    Assignment 3.1 - Create Api Document
+    </a>
     <br>
-    Assignment 3.3 - Create Client-Side : <span style="color:black;">https://github.com/Web-Development-Environments-2021/assignment-3-3-205890320_313326985</span>
+    <a href="https://github.com/Web-Development-Environments-2021/assignment-3-2-205890320_313326985">
+    Assignment 3.2 - Create Server-Side
+    </a>
+    <br>
+    <a href="https://github.com/Web-Development-Environments-2021/assignment-3-3-205890320_313326985">
+    Assignment 3.3 - Create Client-Side
+    </a>
+  </p>
+  <br>
+  <br>
+  <p>
+    <b>This project was divided into three stages:</b>
+    <br>
+    <br>
+  <a>
+    - Writing an API document for the characterization document
+  </a>
+  <br>
+  <a>
+    - Backend implementation of the project 
+  </a>
+  <br>
+    <a>
+    (the server was implemented using node.js + express.js and the database was implemented using azure sql and in addition there was use of an external API)
+  </a>
+  <br>
+  <a>
+    - Frontend implementation (client side implemented using vue.js)
+  </a>
   </p>
 </div>
 
@@ -22,9 +53,7 @@
       <img src="../assets/liad.jpeg" style="width:50%">
       <div class="container">
         <h2>Liad Nachshon</h2>
-        <p>Some text that describes me lorem ipsum ipsum lorem.</p>
         <p>liadnach@post.bgu.ac.il </p>
-        <p><button class="button">Contact</button></p>
       </div>
     </div>
   </div>
@@ -34,9 +63,7 @@
       <img src="../assets/shahar.jpg" style="width:33.3%">
       <div class="container">
         <h2>Shahar Shcheranski</h2>
-        <p>Some text that describes me lorem ipsum ipsum lorem.</p>
         <p>shcheran@post.bgu.ac.il </p>
-        <p><button class="button">Contact</button></p>
       </div>
     </div>
   </div>
